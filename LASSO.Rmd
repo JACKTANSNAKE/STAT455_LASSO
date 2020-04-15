@@ -4,3 +4,36 @@ author: "JACKTANSNAKE"
 date: "2020/4/15"
 output: html_document
 ---
+# Motivation:
+
+
+# Definition:
+Ridge Regression:
+$$
+\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\} \ \ \ (1)
+$$
+Which is the same as:
+$$
+\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
+\text{subject to} \sum_{j = 1}^{p}\beta_j^2 \leq t
+$$
+where there is a one-to-one corresondence between the parameters $\lambda$ and $t$.
+Lasso Regression:
+$$
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
+$$
+Which is the same as:
+$$
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
+\text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
+$$
+# The penalty term
+
+
+# How does the shrinkage work
+
+
+# How does the shrinkage work in a Matrix perspective
+
+
+# Generalization of shrinkage methods from Bayes perspective
