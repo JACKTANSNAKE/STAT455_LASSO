@@ -4,6 +4,11 @@ author: "JACKTANSNAKE"
 date: "2020/4/15"
 output: html_document
 ---
+```{r}
+library(ggplot2)
+library(tidyverse)
+```
+
 # Motivation:
 
 
@@ -31,6 +36,16 @@ $$
 
 
 # How does the shrinkage work
+Now suppose that we have a dataset with 2 features. We first train a liner model for the data, and suppose $\beta_1$ and $\beta_2$ are the coefficients for the two features. Thus by the definition of the ridge regression constraint, we have:
+$$
+\beta_1^2 + \beta_2^2 \leq t
+$$
+Similarly, for the Lasso regression contraint, we have:
+$$
+\rvert\beta_1\rvert + \rvert\beta_2\rvert \leq t
+$$
+
+![](2dimConstraint.png)
 
 
 # How does the shrinkage work in a Matrix perspective
