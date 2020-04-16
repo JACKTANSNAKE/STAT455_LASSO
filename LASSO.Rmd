@@ -17,18 +17,17 @@ library(dplyr)
 The ordinary least squared model 
 $$Y = \beta_0+\beta_1X_1+\beta_2X_2+...+\beta_nX_n+\epsilon_i$$
 is the mostly commonly used method to describe the relationship between the response variable Y and a set of variables X. However, the OLS model is not perfect and it faces two major criticism. First, the OLS model usually has low prediction accuracy because it often has large variance and low bias. The second weakness is efficient interpretation. If we have a dataset with large number of predictors, we would usually choose a small subset of predictors which are strongly associated with the response variable; thus, it seems to be a loss that we still include the weak predictors in our model. However, the linear regression model is easy to regress and interpret; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation.
->>>>>>> fab45dea57c884db03c0ea0a8f2773b5a36517b2
 
 There are several solutions proposed by the statisticians. The first method is subset selection which is a discrete selection process. Assuming that we have p predictors, and we would build $2^p$ models to find the most predictive models within all possible combinations. However, if we have a dataset with only 10 predictors, we would have to construct 1024 models. Therefore, the subset selection is computationally inefficient. The second method is shrinkage, including ridge and lasso regression. This approach shrinks the coefficients towards zero which is a continuous selection process. The continuous selection process is less variable than the subset selection because subset selection can yield a different model if there is a small change in the dataset. Therefore, we want to use the coefficients shrinkage method to find the best model under the concept of linear regression. In the following sections, we would discuss the definition, application, Bayesian interpretation, and limitations for both ridge and lasso regression. 
 
 
 
-#Definition:
-Recall that the ordinary least squared model estimates coefficients with the goal of minimizing the sum of the squared residuals:
+# Definition:
+Recall that the ordinary least squares model estimates coefficients with the goal of minimizing the sum of the squared residuals:
 $$RSS = \sum_{i=1}^n (y_i - \beta_0-\sum_{j=1}^p\beta_jx_{ij})^2$$
 Since the shrinkage approach takes into account of variable selection, the ridge regression estimates the coefficients that minimizes the combination of RSS and sum of the squared coefficients: 
 
-##Ridge Regression:
+## Ridge Regression:
 $$
 \hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\} \ \ \ (1)
 $$
@@ -39,9 +38,43 @@ $$
 $$
 where there is a one-to-one corresondence between the parameters $\lambda$ and $t$. 
 
-$\lambda$ is the tuning parameter, and $\lambda\sum_{j = 1}^{p}\beta_j^2$ is the skrinkage penalty. If $\lambda$ is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if $\lambda$ is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if $\lambda$ approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application. 
+$\lambda$ is the tuning parameter, and $\lambda\sum_{j = 1}^{p}\beta_j^2$ is the skrinkage penalty. If $\lambda$ is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if $\lambda$ is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if $\lambda$ approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application.
 
-##Lasso Regression:
+# How does the shrinkage work
+Recall from Linear Algebra that if we want to solve for $Ax = b$
+Let's consider a very simple model: $y = \beta x + \epsilon$, with an L2(ridge regression) penalty on $\hat\beta$ and a least-squares loss function on $\hat{\epsilon}$. We can then expand the expression for sum of squares residual to be minimized as:
+$$
+\hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\}
+$$
+Which if we transform into a Matrix form, gives:
+$$
+\hat{\epsilon} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + \lambda\hat{\beta}^2\}
+$$
+Which we can further expand into:
+$$
+\hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + \lambda\hat{\beta}^2\}
+$$
+Now if we take the derivative w.r.t $\hat\beta$ and set equal to 0, we can calculate the the estimator for ridge regression coefficients $\hat\beta$:
+$$
+-2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda\hat{\beta} =_{set} 0
+$$
+Where we can obtain:
+$$
+\hat{\beta} = \frac{\vec{y}^T\vec{x}}{\vec{x}^T\vec{x} + \lambda}
+$$
+
+Note that here we are using an univariate example(1-dimensional y and 1-dimensional x), in a more complicated case, we calculate the sum of squares residual in the same manner:
+$$
+RSS(\lambda) = (\boldsymbol{y} - \boldsymbol{X}\beta)^T(\boldsymbol{y} - \boldsymbol{X}\beta) + \lambda\beta^T\beta
+$$
+Where we can get:
+$$
+\hat{\beta} = \frac{\boldsymbol{X}^T\boldsymbol{y}}{\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}}
+$$
+Which is very similar to the result from the univariate example.
+Now, as we have mentioned above, $\lambda$ is the tuning parameter, which shrinks the coefficients more if it gets larger, thus shrinkage. However, as $\lambda$ grows too large, 
+
+## Lasso Regression:
 Lasso regression is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient: 
 $$
 \hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
