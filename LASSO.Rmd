@@ -175,6 +175,9 @@ $$p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\
 ## Choice between Ridge and Lasso
 ## Choice of optimal tuning parameter
 
+
+
+
 ```{r}
 # Load the data
 bf <- read.csv("http://www.macalester.edu/~ajohns24/data/bodyfatsub.csv")
@@ -188,8 +191,24 @@ bf_train <- training(bf_split)
 bf_test <- testing(bf_split)
 ```
 
+# OLS
 
+```{r}
+set.seed(455)
+bf_ols <- train(
+  BodyFat ~ .,
+  data = bf_train, 
+  method = "lm",
+  trControl = trainControl(method = "cv", 
+                           number = 5), 
+  na.action = na.omit
+)
 
+coefficients(bf_ols$finalModel)
+
+bf_ols$results$RMSE
+```
+# LASSO
 ```{r}
 set.seed(455)
 bf_lasso <- train(
@@ -206,8 +225,6 @@ bf_lasso <- train(
 bf_lasso$bestTune$lambda
 ```
 
-
-
 ```{r}
 set.seed(455)
 bf_lasso_best <- train(
@@ -221,9 +238,12 @@ bf_lasso_best <- train(
   na.action = na.omit
 )
 
+coefficients(bf_lasso_best$finalModel)
+
 bf_lasso_best$results$RMSE
 ```
 
+# RIDGE
 
 ```{r}
 set.seed(455)
@@ -254,13 +274,7 @@ bf_ridge_best <- train(
   na.action = na.omit
 )
 
+coefficients(bf_ridge_best$finalModel)
+
 bf_ridge_best$results$RMSE
 ```
-
-
-
-
-
-
-
-
