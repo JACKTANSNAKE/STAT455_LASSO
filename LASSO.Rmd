@@ -33,12 +33,12 @@ $$
 \hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
 \text{subject to} \sum_{j = 1}^{p}\beta_j^2 \leq t
 $$
-where there is a one-to-one corresondence between the parameters $\lambda$ and $t$.
+where there is a one-to-one corresondence between the parameters $\lambda$ and $t$. 
 
-
-
+$\lambda$ is the tuning parameter, and $\lambda\sum_{j = 1}^{p}\beta_j^2$ is the skrinkage penalty. If $\lambda$ is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if $\lambda$ is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if $\lambda$ approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application. 
 
 ##Lasso Regression:
+Lasso regression is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient: 
 $$
 \hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
 $$
@@ -48,9 +48,11 @@ $$
 \text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
 $$
 
+We notice that the lasso model uses $l_1$ norm rather than the $l_2$ norm, and this approach enables the coefficients to reach zero while the ridge regression fails. The coefficients can be zero in lasso model, thus it can help us select variables which are the non-zero predictors. We would discuss this in the next part when we compare ridge with lasso in details. 
 
 
-# How does the shrinkage work
+##Comparison between Ridge and Lasso Model
+### How does the shrinkage work
 Now suppose that we have a dataset with 2 features. We first train a liner model for the data, and suppose $\beta_1$ and $\beta_2$ are the coefficients for the two features. Thus by the definition of the ridge regression constraint, we have:
 $$
 \beta_1^2 + \beta_2^2 \leq t
@@ -63,17 +65,23 @@ $$
 ![](2dimConstraint.png)
 
 
-# How does the shrinkage work in a Matrix perspective
+### How does the shrinkage work in a Matrix perspective
+
 
 
 
 # Generalization of shrinkage methods from Bayes perspective
+Bayesian estimation assumes the coefficients have prior distribution, $p(\beta)$, where $\beta =(\beta_0,\beta_1...\beta_p)^T$. The likelihood of data is $f(Y\rvert X,\beta)$, where $X = (X_1...X_p)$. Therefore, we can derive the formula for posterior distribution of $\beta$:
+$$p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\beta)p(\beta)$$
 
 
 
 
 
 
+# Applications of Ridge and Lasso
+## Choice between Ridge and Lasso
+## Choice of optimal tuning parameter
 
 
 
