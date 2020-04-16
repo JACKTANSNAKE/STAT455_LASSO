@@ -50,10 +50,10 @@ $$
 x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
 $$
 Then we have come up with a least squares solution for x in $Ax = b$.
-
 We will use a very similar approach to show how the shrinkage work for ridge regression.
 
-Let's consider a very simple model: $y = \beta x + \epsilon$, with an L2(ridge regression) penalty on $\hat\beta$ and a least-squares loss function on $\hat{\epsilon}$. We can then expand the expression for sum of squares residual to be minimized as:
+### Univariate example
+Let's consider a very simple model: $y = \beta x + \epsilon$, with an L2(ridge regression) penalty on $\hat\beta$ and a least-squares loss function on $\hat{\epsilon}$. We can then expand the expression for sum of squared residuals to be minimized as:
 $$
 \hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\}
 $$
@@ -73,7 +73,7 @@ Where we can obtain:
 $$
 \hat{\beta} = \vec{y}^T\vec{x}{(\vec{x}^T\vec{x} + \lambda)}^{-1}
 $$
-
+### Higher dimension ridge regression
 Note that here we are using an univariate example(1-dimensional y and 1-dimensional x), in a more complicated case, we calculate the sum of squares residual in the same manner:
 $$
 RSS(\lambda) = (\boldsymbol{y} - \boldsymbol{X}\beta)^T(\boldsymbol{y} - \boldsymbol{X}\beta) + \lambda\beta^T\beta
@@ -98,9 +98,52 @@ $$
 
 We notice that the lasso model uses $l_1$ norm rather than the $l_2$ norm, and this approach enables the coefficients to reach zero while the ridge regression fails. The coefficients can be zero in lasso model, thus it can help us select variables which are the non-zero predictors. We would discuss this in the next part when we compare ridge with lasso in details. 
 
+# How does the variable selection work
+Again, just as we discussed how shrinkage worked, we'll use the univariate model to illustrate.
 
-##Comparison between Ridge and Lasso Model
-### How does the shrinkage work
+### univariate example
+Again we have a simple model: $y = \beta x + \epsilon$, with an L2 penalty(Lasso regression) on $\hat\beta$ and a least squares loss function on $\hat\epsilon$. We can then expand the expression for sum of squared residuals to be minimized as:
+$$
+\hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\}
+$$
+For convenience, we will now substitute $2\lambda^* = \lambda$, since $2\lambda^* = \lambda$ has a one-to-one relationship, this change does not affect the result. We can then rewrite $\hat\epsilon$ in the matrix form:
+$$
+\hat{\epsilon} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + 2\lambda^*\rvert\hat{\beta}\rvert\}
+$$
+Which we can further expand into:
+$$
+\hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\rvert\hat{\beta}\rvert\}
+$$
+Unlike the ridge regression case where we can take a derivative directly and set it equal to zero so that we can minimize the residual, here we have a $\rvert\hat{\beta}\rvert$ term which makes such procedure painful. Thus, we will instead compare different cases w.r.t. $\hat\beta$.
+  + Case1: $\hat\beta \geq 0$, $\rvert\hat{\beta}\rvert = \hat{\beta}$
+    - Since we are assuming that $\hat\beta \geq 0$, it is the same as assuming $\vec{y}^T\vec{x} \geq 0$(x's and y's have a positive relationship).
+    - In this case, we can rewrite the above expression as:
+$$
+\hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\hat{\beta}\}
+$$
+    - Then we can take the derivative w.r.t. $\hat\beta$ and set it equal to zero:
+$$
+-2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^* =_{set} 0
+$$
+    - Where we can obtain a solution for $\hat\beta$:
+$$
+\hat\beta = (\vec{y}^T\vec{x} - \lambda^*)(\vec{x}^T\vec{x})^{-1}
+$$
+    - Obviously by increasing $\lambda^*$, we can eventually achieve $\hat\beta = 0$ at $\lambda^* = \vec{y}^T\vec{x}$. However, it is tricky to think about what happens when we increase $\lambda^*$ once $\vec{y}^T\vec{x} = 0$. The thing is that increasing $\lambda^*$ at this point will not drive $\hat{\beta}$ negative, because once the estimator $\hat\beta$ becomes negative, the derivative of the penalty term estimator becomes:
+$$
+-2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^* =_{set} 0
+$$
+    - where the flip in the sign of $\lambda^*$ is due to the absolute value function before taking the derivative. Thus, we have a new solution for $\hat\beta$:
+$$
+\hat\beta = (\vec{y}^T\vec{x} + \lambda^*)(\vec{x}^T\vec{x})^{-1}
+$$
+    - This solution, however, is inconsistent with our premises $\hat\beta < 0$, since we have assumed that the least squares solution is greater than or equal to zero($\vec{y}^T\vec{x} \geq 0$), and $\lambda^* \geq 0$. For this solution, the sum of squared residual does not have an minimum anymore. Thus, we will just stick at $\hat\beta = 0$, even if $\lambda^* > \vec{y}^T\vec{x}$.
+  + Intuitively, when we assume that the least squares solution is negative with $\hat\beta < 0$, the logic is the same that we stick with $\hat\beta = 0$ once it reaches zero.
+Note that so far we've only talked about a univariate Lasso example. When having a dataset that has multiple dimensions, as we keep increasing the value of $\lambda$(or $\lambda^*$), some of the features or variables will be zeroed out just as $\hat\beta$ shown above while some other features are shrinked toward zero but not yet reduced to zero. Therefore, the Lasso does variable selection in this manner, by shrinking some of the coefficients to zero while some non-zero.  
+
+
+## Comparison between Ridge and Lasso Model
+### Shrinkage explaination from geometric perspective
 Now suppose that we have a dataset with 2 features. We first train a liner model for the data, and suppose $\beta_1$ and $\beta_2$ are the coefficients for the two features. Thus by the definition of the ridge regression constraint, we have:
 $$
 \beta_1^2 + \beta_2^2 \leq t
