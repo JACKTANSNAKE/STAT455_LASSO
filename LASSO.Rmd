@@ -11,6 +11,8 @@ output: html_document
 library(ggplot2)
 library(tidyverse)
 library(dplyr)
+library(rsample) #for splitting data
+library(caret)
 ```
 
 # Introduction:
@@ -173,16 +175,87 @@ $$p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\
 ## Choice between Ridge and Lasso
 ## Choice of optimal tuning parameter
 
+```{r}
+# Load the data
+bf <- read.csv("http://www.macalester.edu/~ajohns24/data/bodyfatsub.csv")
+
+# Process the data
+bf_sub <- bf %>% select(-c(Density, HeightFt))
+
+set.seed(455)
+bf_split <- initial_split(bf_sub, prop = .7)
+bf_train <- training(bf_split)
+bf_test <- testing(bf_split)
+```
 
 
 
+```{r}
+set.seed(455)
+bf_lasso <- train(
+  BodyFat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 5),
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 10^seq(-3, -1, length = 20)),
+  na.action = na.omit
+)
+
+bf_lasso$bestTune$lambda
+```
 
 
 
+```{r}
+set.seed(455)
+bf_lasso_best <- train(
+  BodyFat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 5),
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 0.01),
+  na.action = na.omit
+)
+
+bf_lasso_best$results$RMSE
+```
 
 
+```{r}
+set.seed(455)
+bf_ridge <- train(
+  BodyFat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 5),
+  tuneGrid = data.frame(alpha = 0, 
+                        lambda = 10^seq(-3, -1, length = 20)),
+  na.action = na.omit
+)
 
+bf_ridge$bestTune$lambda
+```
 
+```{r}
+set.seed(455)
+bf_ridge_best <- train(
+  BodyFat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 5),
+  tuneGrid = data.frame(alpha = 0, 
+                        lambda = 0.01),
+  na.action = na.omit
+)
+
+bf_ridge_best$results$RMSE
+```
 
 
 
