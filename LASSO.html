@@ -402,7 +402,13 @@ library(tidyverse)</code></pre>
 </div>
 <div id="how-does-the-shrinkage-work" class="section level1">
 <h1>How does the shrinkage work</h1>
-<p>Recall from Linear Algebra that if we want to solve for <span class="math inline">\(Ax = b\)</span> Let’s consider a very simple model: <span class="math inline">\(y = \beta x + \epsilon\)</span>, with an L2(ridge regression) penalty on <span class="math inline">\(\hat\beta\)</span> and a least-squares loss function on <span class="math inline">\(\hat{\epsilon}\)</span>. We can then expand the expression for sum of squares residual to be minimized as: <span class="math display">\[
+<p>Recall from Linear Algebra that if we want to solve for <span class="math inline">\(\boldsymbol{A}x = b\)</span>, we can do: <span class="math display">\[
+\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Ty
+\]</span> We then take the inverse of <span class="math inline">\(\boldsymbol{A}^T\boldsymbol{A}\)</span> from the LHS, and divide both sides by the inverse: <span class="math display">\[
+x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
+\]</span> Then we have come up with a least squares solution for x in <span class="math inline">\(Ax = b\)</span>.</p>
+<p>We will use a very similar approach to show how the shrinkage work for ridge regression.</p>
+<p>Let’s consider a very simple model: <span class="math inline">\(y = \beta x + \epsilon\)</span>, with an L2(ridge regression) penalty on <span class="math inline">\(\hat\beta\)</span> and a least-squares loss function on <span class="math inline">\(\hat{\epsilon}\)</span>. We can then expand the expression for sum of squares residual to be minimized as: <span class="math display">\[
 \hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\}
 \]</span> Which if we transform into a Matrix form, gives: <span class="math display">\[
 \hat{\epsilon} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + \lambda\hat{\beta}^2\}
@@ -411,12 +417,12 @@ library(tidyverse)</code></pre>
 \]</span> Now if we take the derivative w.r.t <span class="math inline">\(\hat\beta\)</span> and set equal to 0, we can calculate the the estimator for ridge regression coefficients <span class="math inline">\(\hat\beta\)</span>: <span class="math display">\[
 -2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda\hat{\beta} =_{set} 0
 \]</span> Where we can obtain: <span class="math display">\[
-\hat{\beta} = \frac{\vec{y}^T\vec{x}}{\vec{x}^T\vec{x} + \lambda}
+\hat{\beta} = \vec{y}^T\vec{x}{(\vec{x}^T\vec{x} + \lambda)}^{-1}
 \]</span></p>
 <p>Note that here we are using an univariate example(1-dimensional y and 1-dimensional x), in a more complicated case, we calculate the sum of squares residual in the same manner: <span class="math display">\[
 RSS(\lambda) = (\boldsymbol{y} - \boldsymbol{X}\beta)^T(\boldsymbol{y} - \boldsymbol{X}\beta) + \lambda\beta^T\beta
 \]</span> Where we can get: <span class="math display">\[
-\hat{\beta} = \frac{\boldsymbol{X}^T\boldsymbol{y}}{\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}}
+\hat{\beta} = \boldsymbol{X}^T\boldsymbol{y}{(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I})}^{-1}
 \]</span> Which is very similar to the result from the univariate example. Now, as we have mentioned above, <span class="math inline">\(\lambda\)</span> is the tuning parameter, which shrinks the coefficients more if it gets larger, thus shrinkage. However, as <span class="math inline">\(\lambda\)</span> grows too large,</p>
 <div id="lasso-regression" class="section level2">
 <h2>Lasso Regression:</h2>

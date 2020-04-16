@@ -41,7 +41,18 @@ where there is a one-to-one corresondence between the parameters $\lambda$ and $
 $\lambda$ is the tuning parameter, and $\lambda\sum_{j = 1}^{p}\beta_j^2$ is the skrinkage penalty. If $\lambda$ is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if $\lambda$ is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if $\lambda$ approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application.
 
 # How does the shrinkage work
-Recall from Linear Algebra that if we want to solve for $Ax = b$
+Recall from Linear Algebra that if we want to solve for $\boldsymbol{A}x = b$, we can do:
+$$
+\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Ty
+$$
+We then take the inverse of $\boldsymbol{A}^T\boldsymbol{A}$ from the LHS, and divide both sides by the inverse:
+$$
+x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
+$$
+Then we have come up with a least squares solution for x in $Ax = b$.
+
+We will use a very similar approach to show how the shrinkage work for ridge regression.
+
 Let's consider a very simple model: $y = \beta x + \epsilon$, with an L2(ridge regression) penalty on $\hat\beta$ and a least-squares loss function on $\hat{\epsilon}$. We can then expand the expression for sum of squares residual to be minimized as:
 $$
 \hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\}
@@ -60,7 +71,7 @@ $$
 $$
 Where we can obtain:
 $$
-\hat{\beta} = \frac{\vec{y}^T\vec{x}}{\vec{x}^T\vec{x} + \lambda}
+\hat{\beta} = \vec{y}^T\vec{x}{(\vec{x}^T\vec{x} + \lambda)}^{-1}
 $$
 
 Note that here we are using an univariate example(1-dimensional y and 1-dimensional x), in a more complicated case, we calculate the sum of squares residual in the same manner:
@@ -69,7 +80,7 @@ RSS(\lambda) = (\boldsymbol{y} - \boldsymbol{X}\beta)^T(\boldsymbol{y} - \boldsy
 $$
 Where we can get:
 $$
-\hat{\beta} = \frac{\boldsymbol{X}^T\boldsymbol{y}}{\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}}
+\hat{\beta} = \boldsymbol{X}^T\boldsymbol{y}{(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I})}^{-1}
 $$
 Which is very similar to the result from the univariate example.
 Now, as we have mentioned above, $\lambda$ is the tuning parameter, which shrinks the coefficients more if it gets larger, thus shrinkage. However, as $\lambda$ grows too large, 
