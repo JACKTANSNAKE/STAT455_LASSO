@@ -4,15 +4,18 @@ author: "JACKTANSNAKE"
 date: "2020/4/15"
 output: html_document
 ---
-<<<<<<< HEAD
+
 # Motivation:
-=======
-```{r}
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
 library(ggplot2)
 library(tidyverse)
 library(dplyr)
 library(rsample) #for splitting data
 library(caret)
+library(ISLR)
+library(glmnet)
+library(coefplot)
 ```
 
 # Introduction:
@@ -175,18 +178,17 @@ $$p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\
 ## Choice between Ridge and Lasso
 ## Choice of optimal tuning parameter
 
-
-
+# Cross validation
+> Cross validation randomly divides the data set into ten folds and in each fold the data is divided into ten groups, nine training groups to which models will be fitted and one testing group to test the model.
 
 ```{r}
 # Load the data
-bf <- read.csv("http://www.macalester.edu/~ajohns24/data/bodyfatsub.csv")
-
-# Process the data
-bf_sub <- bf %>% select(-c(Density, HeightFt))
+# Highly correlated
+# Numerical
+bf<-read.csv("bodyfat.csv")
 
 set.seed(455)
-bf_split <- initial_split(bf_sub, prop = .7)
+bf_split <- initial_split(bf%>%select(-Density), prop = .7)
 bf_train <- training(bf_split)
 bf_test <- testing(bf_split)
 ```
@@ -196,11 +198,11 @@ bf_test <- testing(bf_split)
 ```{r}
 set.seed(455)
 bf_ols <- train(
-  BodyFat ~ .,
+  bodyfat ~ .,
   data = bf_train, 
   method = "lm",
   trControl = trainControl(method = "cv", 
-                           number = 5), 
+                           number = 10), 
   na.action = na.omit
 )
 
@@ -208,73 +210,227 @@ coefficients(bf_ols$finalModel)
 
 bf_ols$results$RMSE
 ```
-# LASSO
-```{r}
-set.seed(455)
-bf_lasso <- train(
-  BodyFat ~ .,
-  data = bf_train, 
-  method = "glmnet",
-  trControl = trainControl(method = "cv", 
-                           number = 5),
-  tuneGrid = data.frame(alpha = 1, 
-                        lambda = 10^seq(-3, -1, length = 20)),
-  na.action = na.omit
-)
-
-bf_lasso$bestTune$lambda
-```
-
-```{r}
-set.seed(455)
-bf_lasso_best <- train(
-  BodyFat ~ .,
-  data = bf_train, 
-  method = "glmnet",
-  trControl = trainControl(method = "cv", 
-                           number = 5),
-  tuneGrid = data.frame(alpha = 1, 
-                        lambda = 0.01),
-  na.action = na.omit
-)
-
-coefficients(bf_lasso_best$finalModel)
-
-bf_lasso_best$results$RMSE
-```
 
 # RIDGE
 
 ```{r}
 set.seed(455)
 bf_ridge <- train(
-  BodyFat ~ .,
+  bodyfat ~ .,
   data = bf_train, 
   method = "glmnet",
   trControl = trainControl(method = "cv", 
-                           number = 5),
+                           number = 10),
   tuneGrid = data.frame(alpha = 0, 
-                        lambda = 10^seq(-3, -1, length = 20)),
+                        lambda = 10^seq(-3,0, length = 100)),
   na.action = na.omit
 )
 
+bf_ridge%>%
+  ggplot(aes(x=lambda,y=RMSE))+
+  geom_point(size = .5, alpha = .5)
+
 bf_ridge$bestTune$lambda
+
+plot(bf_ridge$finalModel,xvar="lambda",label=TRUE)
 ```
 
 ```{r}
 set.seed(455)
 bf_ridge_best <- train(
-  BodyFat ~ .,
+  bodyfat ~ .,
   data = bf_train, 
   method = "glmnet",
   trControl = trainControl(method = "cv", 
-                           number = 5),
+                           number = 10),
   tuneGrid = data.frame(alpha = 0, 
-                        lambda = 0.01),
+                        lambda = 0.6135907),
   na.action = na.omit
 )
 
-coefficients(bf_ridge_best$finalModel)
-
 bf_ridge_best$results$RMSE
 ```
+
+# LASSO
+
+```{r}
+set.seed(455)
+bf_lasso <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 10),
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 10^seq(-3, -1, length = 100)),
+  na.action = na.omit
+)
+
+bf_lasso%>%
+  ggplot(aes(x=lambda,y=RMSE))+
+  geom_point(size = .5, alpha = .5)
+
+bf_lasso$bestTune$lambda
+
+plot(bf_lasso$finalModel,xvar='lambda',label=TRUE)
+```
+
+```{r}
+set.seed(455)
+bf_lasso_best <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 10),
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 0.05214008),
+  na.action = na.omit
+)
+
+bf_lasso_best$results$RMSE
+```
+
+```{r}
+bf_test%>%
+  mutate(pred_bf = predict(bf_ols, newdata = bf_test)) %>% 
+  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
+
+bf_test%>%
+  mutate(pred_bf = predict(bf_ridge_best, newdata = bf_test)) %>% 
+  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
+
+bf_test%>%
+  mutate(pred_bf = predict(bf_lasso_best, newdata = bf_test)) %>% 
+  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
+```
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
+# Load the data
+# Not highly correlated
+# Numerical+categorial
+cars<- read_csv("https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv")
+
+set.seed(455)
+cars_split <- initial_split(cars%>%select(-`Model Index`, -Model), prop = .7)
+cars_train <- training(cars_split)
+cars_test <- testing(cars_split)
+```
+
+# OLS
+
+```{r}
+set.seed(455)
+cars_ols <- train(
+  MPG ~ .,
+  data = cars_train, 
+  method = "lm",
+  trControl = trainControl(method = "cv", 
+                           number = 10), 
+  na.action = na.omit
+)
+
+coefficients(cars_ols$finalModel)
+
+cars_ols$results$RMSE
+```
+
+# RIDGE
+
+```{r}
+set.seed(455)
+cars_ridge <- train(
+  MPG ~ .,
+  data = cars_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 10),
+  tuneGrid = data.frame(alpha = 0, 
+                        lambda = 10^seq(-3,0, length = 100)),
+  na.action = na.omit
+)
+
+cars_ridge%>%
+  ggplot(aes(x=lambda,y=RMSE))+
+  geom_point(size = .5, alpha = .5)
+
+cars_ridge$bestTune$lambda
+
+plot(cars_ridge$finalModel,xvar="lambda",label=TRUE)
+```
+
+```{r}
+set.seed(455)
+cars_ridge_best <- train(
+  MPG ~ .,
+  data = cars_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 10),
+  tuneGrid = data.frame(alpha = 0, 
+                        lambda = 0.3764936),
+  na.action = na.omit
+)
+
+cars_ridge_best$results$RMSE
+```
+
+# LASSO
+
+```{r}
+set.seed(455)
+cars_lasso <- train(
+  MPG ~ .,
+  data = cars_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 10),
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 10^seq(-3, -2, length = 100)),
+  na.action = na.omit
+)
+
+cars_lasso%>%
+  ggplot(aes(x=lambda,y=RMSE))+
+  geom_point(size = .5, alpha = .5)
+
+cars_lasso$bestTune$lambda
+
+plot(cars_lasso$finalModel,xvar='lambda',label=TRUE)
+```
+
+```{r}
+set.seed(455)
+cars_lasso_best <- train(
+  MPG ~ .,
+  data = cars_train, 
+  method = "glmnet",
+  trControl = trainControl(method = "cv", 
+                           number = 10),
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 0.009545485),
+  na.action = na.omit
+)
+
+cars_lasso_best$results$RMSE
+```
+
+```{r}
+cars_test%>%
+  mutate(pred_mpg = predict(cars_ols, newdata = cars_test)) %>% 
+  summarize(RMSE = sqrt(mean((MPG - pred_mpg)^2)))
+
+cars_test%>%
+  mutate(pred_mpg = predict(cars_ridge_best, newdata = cars_test)) %>% 
+  summarize(RMSE = sqrt(mean((MPG - pred_mpg)^2)))
+
+cars_test%>%
+  mutate(pred_mpg = predict(cars_lasso_best, newdata = cars_test)) %>% 
+  summarize(RMSE = sqrt(mean((MPG - pred_mpg)^2)))
+```
+
+# Data Summary
+
+![](Summary.PNG)
+
+> From the summary table above, we can see that for the highly corrlated numerical dataset bodyfat, lasso gives the smallest training RMSE while ridge gives the smallest testing RMSE. For the less correlated dataset cars with categorical variables included, lasso always gives the smallest RMSE.
