@@ -197,6 +197,112 @@ bf_train <- training(bf_split)
 bf_test <- testing(bf_split)
 ```
 
+## WITHOUT CV
+
+# OLS
+
+```{r}
+set.seed(455)
+bf_ols <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "lm",
+  na.action = na.omit
+)
+
+coefficients(bf_ols$finalModel)
+
+bf_ols$results$RMSE
+```
+
+# RIDGE
+
+```{r}
+set.seed(455)
+bf_ridge <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  tuneGrid = data.frame(alpha = 0, 
+                        lambda = 10^seq(-3,0, length = 100)),
+  na.action = na.omit
+)
+
+bf_ridge%>%
+  ggplot(aes(x=lambda,y=RMSE))+
+  geom_point(size = .5, alpha = .5)
+
+bf_ridge$bestTune$lambda
+
+plot(bf_ridge$finalModel,xvar="lambda",label=TRUE)
+```
+
+```{r}
+set.seed(455)
+bf_ridge_best <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  tuneGrid = data.frame(alpha = 0, 
+                        lambda = 0.6135907),
+  na.action = na.omit
+)
+
+bf_ridge_best$results$RMSE
+```
+
+# LASSO
+
+```{r}
+set.seed(455)
+bf_lasso <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 10^seq(-3, -1, length = 100)),
+  na.action = na.omit
+)
+
+bf_lasso%>%
+  ggplot(aes(x=lambda,y=RMSE))+
+  geom_point(size = .5, alpha = .5)
+
+bf_lasso$bestTune$lambda
+
+plot(bf_lasso$finalModel,xvar='lambda',label=TRUE)
+```
+
+```{r}
+set.seed(455)
+bf_lasso_best <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 0.05214008),
+  na.action = na.omit
+)
+
+bf_lasso_best$results$RMSE
+```
+
+```{r}
+bf_test%>%
+  mutate(pred_bf = predict(bf_ols, newdata = bf_test)) %>% 
+  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
+
+bf_test%>%
+  mutate(pred_bf = predict(bf_ridge_best, newdata = bf_test)) %>% 
+  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
+
+bf_test%>%
+  mutate(pred_bf = predict(bf_lasso_best, newdata = bf_test)) %>% 
+  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
+```
+
+## WITH CV
+
 # OLS
 
 ```{r}
@@ -438,3 +544,27 @@ cars_test%>%
 ![](Summary.PNG)
 
 > From the summary table above, we can see that for the highly corrlated numerical dataset bodyfat, lasso gives the smallest training RMSE while ridge gives the smallest testing RMSE. For the less correlated dataset cars with categorical variables included, lasso always gives the smallest RMSE.
+
+
+# Bayesian Interpretation
+
+We can show that $\hat{\boldsymbol\beta}_{LASSO}$ has a Bayesian interpretation. In particular, we can show that is a Bayes estimator for $\boldsymbol\beta$ assuming a multivariate Normal likelihood for $\mathbf{y}$:
+$$\mathbf{y} \mid \boldsymbol\beta, \sigma^2 \sim N(\mathbf{X}\boldsymbol\beta, \sigma^2\mathbf{I}),$$
+and an independent double exponential (aka Laplace) prior for $\boldsymbol\beta$: 
+$$f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)$$
+
+## Posterior
+
+The posterior distribution for $\boldsymbol\beta$ (assuming $\sigma^2 = 1$ for simplicity): 
+
+$$g(\boldsymbol\beta \mid y) \propto f(y \mid \boldsymbol\beta, \sigma^2) f(\boldsymbol\beta)$$
+$$= f(y \mid \boldsymbol\beta) \prod_{i=1}^p f(\beta_j), \quad \text{by independence assumption}$$
+
+$$=(2\pi)^{-n/2}\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \left(\frac{\lambda}{2}\right)^p \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)$$
+
+$$\propto ...$$
+
+
+## Posterior Mode
+
+Maximize the posterior distribution, or minimize the -log posterior
