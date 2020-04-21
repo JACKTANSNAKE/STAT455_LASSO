@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Chapter 5 Lasso | index" />
+<meta property="og:title" content="8.3 Maximize the posterior distribution | index" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="Chapter 5 Lasso | index">
+<meta name="description" content="8.3 Maximize the posterior distribution | index">
 
-<title>Chapter 5 Lasso | index</title>
+<title>8.3 Maximize the posterior distribution | index</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -95,23 +95,17 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="lasso" class="section level1">
-<h1><span class="header-section-number">Chapter 5</span> Lasso</h1>
-<p>Lasso regression is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient:
-<span class="math display">\[
-\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
-\]</span>
-Which is the same as:
-<span class="math display">\[
-\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
-\text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
-\]</span></p>
-<p>We notice that the lasso model uses <span class="math inline">\(l_1\)</span> norm rather than the <span class="math inline">\(l_2\)</span> norm, and this approach enables the coefficients to reach zero while the ridge regression fails. The coefficients can be zero in lasso model, thus it can help us select variables which are the non-zero predictors. We would discuss this in the next part when we compare ridge with lasso in details.</p>
+<div id="maximize-the-posterior-distribution" class="section level2">
+<h2><span class="header-section-number">8.3</span> Maximize the posterior distribution</h2>
+<p><span class="math display">\[\frac{d}{d\boldsymbol\beta}=\]</span>
+## Minimize the -log posterior</p>
+<p><span class="math display">\[\text{-log posterior: }\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|\\
+\frac{d}{d\boldsymbol\beta}=\]</span></p>
 
 </div>
+<!-- </div> -->
 <p style="text-align: center;">
-<a href="4-how-ridge-works.html"><button class="btn btn-default">Previous</button></a>
-<a href="6-how-lasso-works.html"><button class="btn btn-default">Next</button></a>
+<a href="8-2-bayesian-interpretation.html"><button class="btn btn-default">Previous</button></a>
 </p>
 </div>
 </div>
