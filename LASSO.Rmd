@@ -2,7 +2,9 @@
 title: "LASSO"
 author: "JACKTANSNAKE"
 date: "2020/4/15"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 # Motivation:
@@ -20,10 +22,10 @@ library(coefplot)
 
 # Introduction:
 The ordinary least squared model 
-$$Y = \beta_0+\beta_1X_1+\beta_2X_2+...+\beta_nX_n+\epsilon_i$$
-is the mostly commonly used method to describe the relationship between the response variable Y and a set of variables X. However, the OLS model is not perfect and it faces two major criticism. First, the OLS model usually has low prediction accuracy because it often has large variance and low bias. The second weakness is efficient interpretation. If we have a dataset with large number of predictors, we would usually choose a small subset of predictors which are strongly associated with the response variable; thus, it seems to be a loss that we still include the weak predictors in our model. However, the linear regression model is easy to regress and interpret; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation.
+$$Y = \beta_0+\beta_1X_1+\beta_2X_2+...+\beta_pX_p+\epsilon$$
+is the mostly commonly used method to describe the relationship between the response variable Y and a set of variables X. However, the OLS model is not perfect and it faces two major criticism. First, the OLS model usually has low prediction accuracy because it often has large variance and low bias. The second weakness is efficient interpretation. If we have a dataset with large number of predictors, we would usually choose a small subset of predictors which are strongly associated with the response variable; thus, it seems to be a loss that we still include the weak predictors in our model. However, the linear regression model is easy to regress and interpret; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation. Another important motivation to modify OLS is that OLS does not work (it doesn't have a unique solution) when there are more predictors than observations (p > n).
 
-There are several solutions proposed by the statisticians. The first method is subset selection which is a discrete selection process. Assuming that we have p predictors, and we would build $2^p$ models to find the most predictive models within all possible combinations. However, if we have a dataset with only 10 predictors, we would have to construct 1024 models. Therefore, the subset selection is computationally inefficient. The second method is shrinkage, including ridge and lasso regression. This approach shrinks the coefficients towards zero which is a continuous selection process. The continuous selection process is less variable than the subset selection because subset selection can yield a different model if there is a small change in the dataset. Therefore, we want to use the coefficients shrinkage method to find the best model under the concept of linear regression. In the following sections, we would discuss the definition, application, Bayesian interpretation, and limitations for both ridge and lasso regression. 
+There are several solutions proposed by the statisticians. The first method is subset selection which is a discrete selection process. Assuming that we have p predictors, and we would build $2^p$ models to find the most predictive models within all possible combinations. However, if we have a dataset with only 10 predictors, we would have to construct 1024 models. Therefore, the subset selection is computationally inefficient. The second method is shrinkage, including ridge and lasso regression. This approach shrinks the coefficients towards zero which is a continuous selection process. The continuous selection process is less variable than the subset selection because subset selection can yield a different model if there is a small change in the dataset. Therefore, we want to use the coefficients shrinkage method to find the best model under the concept of linear regression. (One important drawback of LASSO and ridge is that it's very hard/impossible to do proper inference such as getting confidence intervals and p-values and only get estimates.) In the following sections, we would discuss the definition, application, Bayesian interpretation, and limitations for both ridge and lasso regression. 
 
 
 
@@ -50,12 +52,13 @@ Recall from Linear Algebra that if we want to solve for $\boldsymbol{A}x = b$, w
 $$
 \boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Ty
 $$
-We then take the inverse of $\boldsymbol{A}^T\boldsymbol{A}$ from the LHS, and divide both sides by the inverse:
+We then take the inverse of $\boldsymbol{A}^T\boldsymbol{A}$ from the LHS, and multiply both sides by the inverse:
 $$
 x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
 $$
 Then we have come up with a least squares solution for x in $Ax = b$.
 We will use a very similar approach to show how the shrinkage work for ridge regression.
+From here, then, we get that $\hat\beta_{OLS} = (X^T X)^{-1} X^T y$
 
 ### Univariate example
 Let's consider a very simple model: $y = \beta x + \epsilon$, with an L2(ridge regression) penalty on $\hat\beta$ and a least-squares loss function on $\hat{\epsilon}$. We can then expand the expression for sum of squared residuals to be minimized as:
@@ -86,10 +89,10 @@ RSS(\lambda) = (\boldsymbol{y} - \boldsymbol{X}\beta)^T(\boldsymbol{y} - \boldsy
 $$
 Where we can get:
 $$
-\hat{\beta} = \boldsymbol{X}^T\boldsymbol{y}{(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I})}^{-1}
+\hat{\beta} = {(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I})}^{-1}\boldsymbol{X}^T\boldsymbol{y}
 $$
 Which is very similar to the result from the univariate example.
-Now, as we have mentioned above, $\lambda$ is the tuning parameter, which shrinks the coefficients more if it gets larger, thus shrinkage. However, as $\lambda$ grows too large, 
+Now, as we have mentioned above, $\lambda$ is the tuning parameter, which shrinks the coefficients more if it gets larger, thus shrinkage. We can see from this formula that increasing lambda will decrease $\hat{beta}$.However, as $\lambda$ grows too large, 
 
 ## Lasso Regression:
 Lasso regression is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient: 
@@ -102,6 +105,7 @@ $$
 \text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
 $$
 
+Norm definition:>>>
 We notice that the lasso model uses $l_1$ norm rather than the $l_2$ norm, and this approach enables the coefficients to reach zero while the ridge regression fails. The coefficients can be zero in lasso model, thus it can help us select variables which are the non-zero predictors. We would discuss this in the next part when we compare ridge with lasso in details. 
 
 # How does the variable selection work
@@ -164,16 +168,6 @@ Thus, if we plot the two constraints in a 2-dimensional coordinate system, we ha
 Note that the red contours are the vector space for the coefficient estimator $\hat\beta$. Originally, the constraint and the vector space are separate; as we increase the constraint limit $t$, eventually the two constraints will hit the vector space, and thus achieving optimization for both the ridge regression model and the Lasso regression model. Since the 2-dimensional Lasso constraint has corners(diamond shape), if the constraint hit the vector space on one such corner, one of the two features gets dropped and shrinked to zero. In higher dimensional spaces, the diamond shape becomes rhomboid where there are more corners and more possibility for dropping one or more variables. In contrast, the constraint for ridge regression is a circle, where all points on or within the circle resemble a linear combination of the two features. Thus, technically speaking, when the ridge regression constraint hit the vector space and achieve optimization, one variable could be shrunk very close to zero while the other remain slightly shrunk, it is impossible for ridge regression to achieve variable selection in reality. Similarly, in higher dimensional space, the constraint for ridge regression becomes a shpere and the situation is very similar to what we have in the two dimensional space.
 
 
-
-# Generalization of shrinkage methods from Bayes perspective
-Bayesian estimation assumes the coefficients have prior distribution, $p(\beta)$, where $\beta =(\beta_0,\beta_1...\beta_p)^T$. The likelihood of data is $f(Y\rvert X,\beta)$, where $X = (X_1...X_p)$. Therefore, we can derive the formula for posterior distribution of $\beta$:
-$$p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\beta)p(\beta)$$
-
-
-
-
-
-
 # Applications of Ridge and Lasso
 ## Choice between Ridge and Lasso
 ## Choice of optimal tuning parameter
@@ -192,6 +186,112 @@ bf_split <- initial_split(bf%>%select(-Density), prop = .7)
 bf_train <- training(bf_split)
 bf_test <- testing(bf_split)
 ```
+
+## WITHOUT CV
+
+# OLS
+
+```{r}
+set.seed(455)
+bf_ols <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "lm",
+  na.action = na.omit
+)
+
+coefficients(bf_ols$finalModel)
+
+bf_ols$results$RMSE
+```
+
+# RIDGE
+
+```{r}
+set.seed(455)
+bf_ridge <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  tuneGrid = data.frame(alpha = 0, 
+                        lambda = 10^seq(-3,0, length = 100)),
+  na.action = na.omit
+)
+
+bf_ridge%>%
+  ggplot(aes(x=lambda,y=RMSE))+
+  geom_point(size = .5, alpha = .5)
+
+bf_ridge$bestTune$lambda
+
+plot(bf_ridge$finalModel,xvar="lambda",label=TRUE)
+```
+
+```{r}
+set.seed(455)
+bf_ridge_best <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  tuneGrid = data.frame(alpha = 0, 
+                        lambda = 0.6135907),
+  na.action = na.omit
+)
+
+bf_ridge_best$results$RMSE
+```
+
+# LASSO
+
+```{r}
+set.seed(455)
+bf_lasso <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 10^seq(-3, -1, length = 100)),
+  na.action = na.omit
+)
+
+bf_lasso%>%
+  ggplot(aes(x=lambda,y=RMSE))+
+  geom_point(size = .5, alpha = .5)
+
+bf_lasso$bestTune$lambda
+
+plot(bf_lasso$finalModel,xvar='lambda',label=TRUE)
+```
+
+```{r}
+set.seed(455)
+bf_lasso_best <- train(
+  bodyfat ~ .,
+  data = bf_train, 
+  method = "glmnet",
+  tuneGrid = data.frame(alpha = 1, 
+                        lambda = 0.05214008),
+  na.action = na.omit
+)
+
+bf_lasso_best$results$RMSE
+```
+
+```{r}
+bf_test%>%
+  mutate(pred_bf = predict(bf_ols, newdata = bf_test)) %>% 
+  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
+
+bf_test%>%
+  mutate(pred_bf = predict(bf_ridge_best, newdata = bf_test)) %>% 
+  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
+
+bf_test%>%
+  mutate(pred_bf = predict(bf_lasso_best, newdata = bf_test)) %>% 
+  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
+```
+
+## WITH CV
 
 # OLS
 
@@ -434,3 +534,38 @@ cars_test%>%
 ![](Summary.PNG)
 
 > From the summary table above, we can see that for the highly corrlated numerical dataset bodyfat, lasso gives the smallest training RMSE while ridge gives the smallest testing RMSE. For the less correlated dataset cars with categorical variables included, lasso always gives the smallest RMSE.
+
+# Generalization of shrinkage methods from Bayes perspective
+Bayesian estimation assumes the coefficients have prior distribution, $p(\beta)$, where $\beta =(\beta_0,\beta_1...\beta_p)^T$. The likelihood of data is $f(Y\rvert X,\beta)$, where $X = (X_1...X_p)$. Therefore, we can derive the formula for posterior distribution of $\beta$:
+$$p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\beta)p(\beta)$$
+
+# Bayesian Interpretation
+
+We can show that $\hat{\boldsymbol\beta}_{LASSO}$ has a Bayesian interpretation. In particular, we can show that is a Bayes estimator for $\boldsymbol\beta$ assuming a multivariate Normal likelihood for $\mathbf{y}$:
+$$f(y\mid \boldsymbol\beta, \sigma^2)\sim N(\mathbf{X}\boldsymbol\beta, \sigma^2\mathbf{I}),$$
+and an independent double exponential (aka Laplace) prior for $\boldsymbol\beta$: 
+$$f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)$$
+
+## Posterior
+
+The posterior distribution for $\boldsymbol\beta$ (assuming $\sigma^2 = 1$ for simplicity): 
+
+$$\begin{aligned}
+g(\boldsymbol\beta \mid y)&\propto f(y \mid \boldsymbol\beta, \sigma^2) f(\boldsymbol\beta)\\
+&= f(y \mid \boldsymbol\beta) \prod_{i=1}^p f(\beta_j)\text{, by independence assumption}\\
+&=(2\pi)^{-n/2}\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \left(\frac{\lambda}{2}\right)^p \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&\propto\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&=\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)
+\end{aligned}$$
+
+## Posterior Mode
+
+Maximize the posterior distribution, or minimize the -log posterior
+
+# Maximize the posterior distribution
+
+$$\frac{d}{d\boldsymbol\beta}=$$
+# Minimize the -log posterior
+
+$$\text{-log posterior: }\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|\\
+\frac{d}{d\boldsymbol\beta}=$$
