@@ -1,0 +1,7 @@
+book_filename: "Shrinkage Methods"
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: True
+rmd_files: ["index.Rmd", "01_Motivation.Rmd", "02_Ridge_Regression.Rmd", "03_How_Ridge_Works.Rmd", 
+            "04_Lasso.Rmd", "05_How_Lasso_Works.Rmd", "06_A_Real_Example.Rmd", "07_Bayesian_Lasso.Rmd"]

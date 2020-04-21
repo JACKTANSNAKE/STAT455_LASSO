@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Lasso | index</title>
+  <meta name="description" content="Chapter 5 Lasso | index" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Lasso | index" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Lasso | index" />
+  
+  
+  
+
+
+
+<meta name="date" content="2020-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="how-ridge-works.html"/>
+<link rel="next" href="how-lasso-works.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> index</a></li>
+<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a></li>
+<li class="chapter" data-level="3" data-path="ridge-regression.html"><a href="ridge-regression.html"><i class="fa fa-check"></i><b>3</b> Ridge Regression</a><ul>
+<li class="chapter" data-level="3.1" data-path="ridge-regression.html"><a href="ridge-regression.html#definition"><i class="fa fa-check"></i><b>3.1</b> Definition</a></li>
+<li class="chapter" data-level="3.2" data-path="ridge-regression.html"><a href="ridge-regression.html#ridge-regression-1"><i class="fa fa-check"></i><b>3.2</b> Ridge Regression:</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="how-ridge-works.html"><a href="how-ridge-works.html"><i class="fa fa-check"></i><b>4</b> How Ridge Works</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="how-ridge-works.html"><a href="how-ridge-works.html#univariate-example"><i class="fa fa-check"></i><b>4.0.1</b> Univariate example</a></li>
+<li class="chapter" data-level="4.0.2" data-path="how-ridge-works.html"><a href="how-ridge-works.html#higher-dimension-ridge-regression"><i class="fa fa-check"></i><b>4.0.2</b> Higher dimension ridge regression</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>5</b> Lasso</a></li>
+<li class="chapter" data-level="6" data-path="how-lasso-works.html"><a href="how-lasso-works.html"><i class="fa fa-check"></i><b>6</b> How Lasso Works</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="how-lasso-works.html"><a href="how-lasso-works.html#univariate-example-1"><i class="fa fa-check"></i><b>6.0.1</b> univariate example</a></li>
+<li class="chapter" data-level="6.0.2" data-path="how-lasso-works.html"><a href="how-lasso-works.html#shrinkage-explaination-from-geometric-perspective"><i class="fa fa-check"></i><b>6.0.2</b> Shrinkage explaination from geometric perspective</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="a-real-example.html"><a href="a-real-example.html"><i class="fa fa-check"></i><b>7</b> A Real Example</a></li>
+<li class="chapter" data-level="8" data-path="bayesian-lasso.html"><a href="bayesian-lasso.html"><i class="fa fa-check"></i><b>8</b> Bayesian Lasso</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">index</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lasso" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Lasso</h1>
+<p>Lasso regression is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient:
+<span class="math display">\[
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
+\]</span>
+Which is the same as:
+<span class="math display">\[
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
+\text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
+\]</span></p>
+<p>We notice that the lasso model uses <span class="math inline">\(l_1\)</span> norm rather than the <span class="math inline">\(l_2\)</span> norm, and this approach enables the coefficients to reach zero while the ridge regression fails. The coefficients can be zero in lasso model, thus it can help us select variables which are the non-zero predictors. We would discuss this in the next part when we compare ridge with lasso in details.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="how-ridge-works.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-lasso-works.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

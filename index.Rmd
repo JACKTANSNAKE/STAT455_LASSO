@@ -1,0 +1,16 @@
+---
+title: "index"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: 
+  bookdown::pdf_book: default
+  bookdown::gitbook: default
+documentclass: book
+---
+# index
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'caret', 'rsample', 'ISLR', 'glmnet', 'coefplot'
+), 'packages.bib')
+```

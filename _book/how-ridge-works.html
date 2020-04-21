@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 How Ridge Works | index</title>
+  <meta name="description" content="Chapter 4 How Ridge Works | index" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 How Ridge Works | index" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 How Ridge Works | index" />
+  
+  
+  
+
+
+
+<meta name="date" content="2020-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ridge-regression.html"/>
+<link rel="next" href="lasso.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> index</a></li>
+<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a></li>
+<li class="chapter" data-level="3" data-path="ridge-regression.html"><a href="ridge-regression.html"><i class="fa fa-check"></i><b>3</b> Ridge Regression</a><ul>
+<li class="chapter" data-level="3.1" data-path="ridge-regression.html"><a href="ridge-regression.html#definition"><i class="fa fa-check"></i><b>3.1</b> Definition</a></li>
+<li class="chapter" data-level="3.2" data-path="ridge-regression.html"><a href="ridge-regression.html#ridge-regression-1"><i class="fa fa-check"></i><b>3.2</b> Ridge Regression:</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="how-ridge-works.html"><a href="how-ridge-works.html"><i class="fa fa-check"></i><b>4</b> How Ridge Works</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="how-ridge-works.html"><a href="how-ridge-works.html#univariate-example"><i class="fa fa-check"></i><b>4.0.1</b> Univariate example</a></li>
+<li class="chapter" data-level="4.0.2" data-path="how-ridge-works.html"><a href="how-ridge-works.html#higher-dimension-ridge-regression"><i class="fa fa-check"></i><b>4.0.2</b> Higher dimension ridge regression</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>5</b> Lasso</a></li>
+<li class="chapter" data-level="6" data-path="how-lasso-works.html"><a href="how-lasso-works.html"><i class="fa fa-check"></i><b>6</b> How Lasso Works</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="how-lasso-works.html"><a href="how-lasso-works.html#univariate-example-1"><i class="fa fa-check"></i><b>6.0.1</b> univariate example</a></li>
+<li class="chapter" data-level="6.0.2" data-path="how-lasso-works.html"><a href="how-lasso-works.html#shrinkage-explaination-from-geometric-perspective"><i class="fa fa-check"></i><b>6.0.2</b> Shrinkage explaination from geometric perspective</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="a-real-example.html"><a href="a-real-example.html"><i class="fa fa-check"></i><b>7</b> A Real Example</a></li>
+<li class="chapter" data-level="8" data-path="bayesian-lasso.html"><a href="bayesian-lasso.html"><i class="fa fa-check"></i><b>8</b> Bayesian Lasso</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">index</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="how-ridge-works" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> How Ridge Works</h1>
+<p>Recall from Linear Algebra that if we want to solve for <span class="math inline">\(\boldsymbol{A}x = b\)</span>, we can do:
+<span class="math display">\[
+\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Ty
+\]</span>
+We then take the inverse of <span class="math inline">\(\boldsymbol{A}^T\boldsymbol{A}\)</span> from the LHS, and divide both sides by the inverse:
+<span class="math display">\[
+x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
+\]</span>
+Then we have come up with a least squares solution for x in <span class="math inline">\(Ax = b\)</span>.
+We will use a very similar approach to show how the shrinkage work for ridge regression.</p>
+<div id="univariate-example" class="section level3">
+<h3><span class="header-section-number">4.0.1</span> Univariate example</h3>
+<p>Let’s consider a very simple model: <span class="math inline">\(y = \beta x + \epsilon\)</span>, with an L2(ridge regression) penalty on <span class="math inline">\(\hat\beta\)</span> and a least-squares loss function on <span class="math inline">\(\hat{\epsilon}\)</span>. We can then expand the expression for sum of squared residuals to be minimized as:
+<span class="math display">\[
+\hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\}
+\]</span>
+Which if we transform into a Matrix form, gives:
+<span class="math display">\[
+\hat{\epsilon} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + \lambda\hat{\beta}^2\}
+\]</span>
+Which we can further expand into:
+<span class="math display">\[
+\hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + \lambda\hat{\beta}^2\}
+\]</span>
+Now if we take the derivative w.r.t <span class="math inline">\(\hat\beta\)</span> and set equal to 0, we can calculate the the estimator for ridge regression coefficients <span class="math inline">\(\hat\beta\)</span>:
+<span class="math display">\[
+-2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda\hat{\beta} =_{set} 0
+\]</span>
+Where we can obtain:
+<span class="math display">\[
+\hat{\beta} = \vec{y}^T\vec{x}{(\vec{x}^T\vec{x} + \lambda)}^{-1}
+\]</span></p>
+</div>
+<div id="higher-dimension-ridge-regression" class="section level3">
+<h3><span class="header-section-number">4.0.2</span> Higher dimension ridge regression</h3>
+<p>Note that here we are using an univariate example(1-dimensional y and 1-dimensional x), in a more complicated case, we calculate the sum of squared residual in the same manner:
+<span class="math display">\[
+RSS(\lambda) = (\boldsymbol{y} - \boldsymbol{X}\beta)^T(\boldsymbol{y} - \boldsymbol{X}\beta) + \lambda\beta^T\beta
+\]</span>
+Where we can get:
+<span class="math display">\[
+\hat{\beta} = \boldsymbol{X}^T\boldsymbol{y}{(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I})}^{-1}
+\]</span>
+Which is very similar to the result from the univariate example.
+Now, as we have mentioned above, <span class="math inline">\(\lambda\)</span> is the tuning parameter, which shrinks the coefficients more if it gets larger, thus shrinkage.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ridge-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lasso.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

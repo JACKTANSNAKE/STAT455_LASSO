@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Motivation | index</title>
+  <meta name="description" content="Chapter 2 Motivation | index" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Motivation | index" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Motivation | index" />
+  
+  
+  
+
+
+
+<meta name="date" content="2020-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="ridge-regression.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> index</a></li>
+<li class="chapter" data-level="2" data-path="motivation.html"><a href="motivation.html"><i class="fa fa-check"></i><b>2</b> Motivation</a></li>
+<li class="chapter" data-level="3" data-path="ridge-regression.html"><a href="ridge-regression.html"><i class="fa fa-check"></i><b>3</b> Ridge Regression</a><ul>
+<li class="chapter" data-level="3.1" data-path="ridge-regression.html"><a href="ridge-regression.html#definition"><i class="fa fa-check"></i><b>3.1</b> Definition</a></li>
+<li class="chapter" data-level="3.2" data-path="ridge-regression.html"><a href="ridge-regression.html#ridge-regression-1"><i class="fa fa-check"></i><b>3.2</b> Ridge Regression:</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="how-ridge-works.html"><a href="how-ridge-works.html"><i class="fa fa-check"></i><b>4</b> How Ridge Works</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="how-ridge-works.html"><a href="how-ridge-works.html#univariate-example"><i class="fa fa-check"></i><b>4.0.1</b> Univariate example</a></li>
+<li class="chapter" data-level="4.0.2" data-path="how-ridge-works.html"><a href="how-ridge-works.html#higher-dimension-ridge-regression"><i class="fa fa-check"></i><b>4.0.2</b> Higher dimension ridge regression</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>5</b> Lasso</a></li>
+<li class="chapter" data-level="6" data-path="how-lasso-works.html"><a href="how-lasso-works.html"><i class="fa fa-check"></i><b>6</b> How Lasso Works</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="how-lasso-works.html"><a href="how-lasso-works.html#univariate-example-1"><i class="fa fa-check"></i><b>6.0.1</b> univariate example</a></li>
+<li class="chapter" data-level="6.0.2" data-path="how-lasso-works.html"><a href="how-lasso-works.html#shrinkage-explaination-from-geometric-perspective"><i class="fa fa-check"></i><b>6.0.2</b> Shrinkage explaination from geometric perspective</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="a-real-example.html"><a href="a-real-example.html"><i class="fa fa-check"></i><b>7</b> A Real Example</a></li>
+<li class="chapter" data-level="8" data-path="bayesian-lasso.html"><a href="bayesian-lasso.html"><i class="fa fa-check"></i><b>8</b> Bayesian Lasso</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">index</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="motivation" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Motivation</h1>
+<p>The ordinary least squared model
+<span class="math display">\[Y = \beta_0+\beta_1X_1+\beta_2X_2+...+\beta_nX_n+\epsilon_i\]</span>
+is the mostly commonly used method to describe the relationship between the response variable Y and a set of variables X. However, the OLS model is not perfect and it faces two major criticism. First, the OLS model usually has low prediction accuracy because it often has large variance and low bias. The second weakness is efficient interpretation. If we have a dataset with large number of predictors, we would usually choose a small subset of predictors which are strongly associated with the response variable; thus, it seems to be a loss that we still include the weak predictors in our model. However, the linear regression model is easy to regress and interpret; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation.</p>
+<p>There are several solutions proposed by the statisticians. The first method is subset selection which is a discrete selection process. Assuming that we have p predictors, and we would build <span class="math inline">\(2^p\)</span> models to find the most predictive models within all possible combinations. However, if we have a dataset with only 10 predictors, we would have to construct 1024 models. Therefore, the subset selection is computationally inefficient. The second method is shrinkage, including ridge and lasso regression. This approach shrinks the coefficients towards zero which is a continuous selection process. The continuous selection process is less variable than the subset selection because subset selection can yield a different model if there is a small change in the dataset. Therefore, we want to use the coefficients shrinkage method to find the best model under the concept of linear regression. In the following sections, we would discuss the definition, application, Bayesian interpretation, and limitations for both ridge and lasso regression.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ridge-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Chapter 5 Lasso | index" />
+<meta property="og:type" content="book" />
+
+
+
+
+
+
+<meta name="date" content="2020-04-22" />
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+
+<meta name="description" content="Chapter 5 Lasso | index">
+
+<title>Chapter 5 Lasso | index</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<link rel="stylesheet" href="toc.css" type="text/css" />
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li><a href="index.html#index"><span class="toc-section-number">1</span> index</a></li>
+<li><a href="2-motivation.html#motivation"><span class="toc-section-number">2</span> Motivation</a></li>
+<li class="has-sub"><a href="3-ridge-regression.html#ridge-regression"><span class="toc-section-number">3</span> Ridge Regression</a><ul>
+<li><a href="3-1-definition.html#definition"><span class="toc-section-number">3.1</span> Definition</a></li>
+<li><a href="3-2-ridge-regression-1.html#ridge-regression-1"><span class="toc-section-number">3.2</span> Ridge Regression:</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-how-ridge-works.html#how-ridge-works"><span class="toc-section-number">4</span> How Ridge Works</a><ul>
+<li><a href="4-how-ridge-works.html#univariate-example"><span class="toc-section-number">4.0.1</span> Univariate example</a></li>
+<li><a href="4-how-ridge-works.html#higher-dimension-ridge-regression"><span class="toc-section-number">4.0.2</span> Higher dimension ridge regression</a></li>
+</ul></li>
+<li><a href="5-lasso.html#lasso"><span class="toc-section-number">5</span> Lasso</a></li>
+<li class="has-sub"><a href="6-how-lasso-works.html#how-lasso-works"><span class="toc-section-number">6</span> How Lasso Works</a><ul>
+<li><a href="6-how-lasso-works.html#univariate-example-1"><span class="toc-section-number">6.0.1</span> univariate example</a></li>
+<li><a href="6-how-lasso-works.html#shrinkage-explaination-from-geometric-perspective"><span class="toc-section-number">6.0.2</span> Shrinkage explaination from geometric perspective</a></li>
+</ul></li>
+<li><a href="7-a-real-example.html#a-real-example"><span class="toc-section-number">7</span> A Real Example</a></li>
+<li><a href="8-bayesian-lasso.html#bayesian-lasso"><span class="toc-section-number">8</span> Bayesian Lasso</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="lasso" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Lasso</h1>
+<p>Lasso regression is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient:
+<span class="math display">\[
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
+\]</span>
+Which is the same as:
+<span class="math display">\[
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
+\text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
+\]</span></p>
+<p>We notice that the lasso model uses <span class="math inline">\(l_1\)</span> norm rather than the <span class="math inline">\(l_2\)</span> norm, and this approach enables the coefficients to reach zero while the ridge regression fails. The coefficients can be zero in lasso model, thus it can help us select variables which are the non-zero predictors. We would discuss this in the next part when we compare ridge with lasso in details.</p>
+
+</div>
+<p style="text-align: center;">
+<a href="4-how-ridge-works.html"><button class="btn btn-default">Previous</button></a>
+<a href="6-how-lasso-works.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Lasso
+Lasso regression is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient: 
+$$
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
+$$
+Which is the same as:
+$$
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
+\text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
+$$
+
+We notice that the lasso model uses $l_1$ norm rather than the $l_2$ norm, and this approach enables the coefficients to reach zero while the ridge regression fails. The coefficients can be zero in lasso model, thus it can help us select variables which are the non-zero predictors. We would discuss this in the next part when we compare ridge with lasso in details. 
