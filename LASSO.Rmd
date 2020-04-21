@@ -168,16 +168,6 @@ Thus, if we plot the two constraints in a 2-dimensional coordinate system, we ha
 Note that the red contours are the vector space for the coefficient estimator $\hat\beta$. Originally, the constraint and the vector space are separate; as we increase the constraint limit $t$, eventually the two constraints will hit the vector space, and thus achieving optimization for both the ridge regression model and the Lasso regression model. Since the 2-dimensional Lasso constraint has corners(diamond shape), if the constraint hit the vector space on one such corner, one of the two features gets dropped and shrinked to zero. In higher dimensional spaces, the diamond shape becomes rhomboid where there are more corners and more possibility for dropping one or more variables. In contrast, the constraint for ridge regression is a circle, where all points on or within the circle resemble a linear combination of the two features. Thus, technically speaking, when the ridge regression constraint hit the vector space and achieve optimization, one variable could be shrunk very close to zero while the other remain slightly shrunk, it is impossible for ridge regression to achieve variable selection in reality. Similarly, in higher dimensional space, the constraint for ridge regression becomes a shpere and the situation is very similar to what we have in the two dimensional space.
 
 
-
-# Generalization of shrinkage methods from Bayes perspective
-Bayesian estimation assumes the coefficients have prior distribution, $p(\beta)$, where $\beta =(\beta_0,\beta_1...\beta_p)^T$. The likelihood of data is $f(Y\rvert X,\beta)$, where $X = (X_1...X_p)$. Therefore, we can derive the formula for posterior distribution of $\beta$:
-$$p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\beta)p(\beta)$$
-
-
-
-
-
-
 # Applications of Ridge and Lasso
 ## Choice between Ridge and Lasso
 ## Choice of optimal tuning parameter
@@ -545,11 +535,14 @@ cars_test%>%
 
 > From the summary table above, we can see that for the highly corrlated numerical dataset bodyfat, lasso gives the smallest training RMSE while ridge gives the smallest testing RMSE. For the less correlated dataset cars with categorical variables included, lasso always gives the smallest RMSE.
 
+# Generalization of shrinkage methods from Bayes perspective
+Bayesian estimation assumes the coefficients have prior distribution, $p(\beta)$, where $\beta =(\beta_0,\beta_1...\beta_p)^T$. The likelihood of data is $f(Y\rvert X,\beta)$, where $X = (X_1...X_p)$. Therefore, we can derive the formula for posterior distribution of $\beta$:
+$$p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\beta)p(\beta)$$
 
 # Bayesian Interpretation
 
 We can show that $\hat{\boldsymbol\beta}_{LASSO}$ has a Bayesian interpretation. In particular, we can show that is a Bayes estimator for $\boldsymbol\beta$ assuming a multivariate Normal likelihood for $\mathbf{y}$:
-$$\mathbf{y} \mid \boldsymbol\beta, \sigma^2 \sim N(\mathbf{X}\boldsymbol\beta, \sigma^2\mathbf{I}),$$
+$$f(y\mid \boldsymbol\beta, \sigma^2)\sim N(\mathbf{X}\boldsymbol\beta, \sigma^2\mathbf{I}),$$
 and an independent double exponential (aka Laplace) prior for $\boldsymbol\beta$: 
 $$f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)$$
 
@@ -557,14 +550,22 @@ $$f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)$$
 
 The posterior distribution for $\boldsymbol\beta$ (assuming $\sigma^2 = 1$ for simplicity): 
 
-$$g(\boldsymbol\beta \mid y) \propto f(y \mid \boldsymbol\beta, \sigma^2) f(\boldsymbol\beta)$$
-$$= f(y \mid \boldsymbol\beta) \prod_{i=1}^p f(\beta_j), \quad \text{by independence assumption}$$
-
-$$=(2\pi)^{-n/2}\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \left(\frac{\lambda}{2}\right)^p \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)$$
-
-$$\propto ...$$
-
+$$\begin{aligned}
+g(\boldsymbol\beta \mid y)&\propto f(y \mid \boldsymbol\beta, \sigma^2) f(\boldsymbol\beta)\\
+&= f(y \mid \boldsymbol\beta) \prod_{i=1}^p f(\beta_j)\text{, by independence assumption}\\
+&=(2\pi)^{-n/2}\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \left(\frac{\lambda}{2}\right)^p \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&\propto\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&=\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)
+\end{aligned}$$
 
 ## Posterior Mode
 
 Maximize the posterior distribution, or minimize the -log posterior
+
+# Maximize the posterior distribution
+
+$$\frac{d}{d\boldsymbol\beta}=$$
+# Minimize the -log posterior
+
+$$\text{-log posterior: }\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|\\
+\frac{d}{d\boldsymbol\beta}=$$
