@@ -1,0 +1,11 @@
+# Lasso
+Least absolute shrinkage and selection operator, aka Lasso, is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient: 
+$$
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
+$$
+Which is the same as:
+$$
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
+\text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
+$$
+Notice that in Lasso, the penalty term now becomes the sum of absolute value of the coefficients instead of sum of squares of the coefficients. 

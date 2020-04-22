@@ -1,5 +1,5 @@
 ---
-title: "index"
+title: "Shrinkage Methods"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: 
@@ -7,10 +7,45 @@ output:
   bookdown::gitbook: default
 documentclass: book
 ---
-# index
+# Motivation
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
+
+## The ordinary least squared model 
+$$Y = \beta_0+\beta_1X_1+\beta_2X_2+...+\beta_pX_p+\epsilon$$
+is the most commonly used method to describe the relationship between the response variable Y and a set of variables X. However, the OLS model is not perfect and it faces two major criticism and one major drawback:
+
+ * First, the OLS model usually has low prediction accuracy because it often has large variance and low bias.
+ 
+ * The second weakness is efficient interpretation. If we have a dataset with large number of predictors, we would usually choose a small subset of predictors which are strongly associated with the response variable; thus, it seems to be a loss that we still include the weak predictors in our model.
+ 
+ * Also, OLS does not work when there are more predictors than data points. That being said, it does not generate a unique solution($p > n$).
+ 
+However, the linear regression model is easy to regress and interpret; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation.
+
+## Several solutions proposed by statisticians 
+The first method is subset selection:
+  
+  * Best subset selection algorithm: This is a sort of brute force technique that in real life no actual statistician would use for subset selection. In order to perform best subset selection, we generate the power set of all $p$ variables in a dataset, and then we select the one with the least error.
+    
+  * backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.
+    
+  * More stepwise selection: forward stepwise selection, bidirectional elimination$\cdots$.
+    
+Problems with subset selection algorithms:
+
+  * They are mostly computationally expensive.
+  
+  * They are discreet selection processes(1 variable at a time).
+  
+  * The algorithms only do locally(each step) best choices. Once a variable is deleted, it is never going back in.
+  
+## Shrinkage
+  There are two different kinds of shrinkage algorithms:
+  * L1 shrinkage methods: only shrinks the coefficients but does not perform variable selection.
+  * L2 shrinkage methods: performs both shrinking coefficients and variable selection(shrink some variables to 0).
+  We are going to start by looking at an L1 shrinkage method, and then look at the most classic L2 shrinkage method: Lasso.
