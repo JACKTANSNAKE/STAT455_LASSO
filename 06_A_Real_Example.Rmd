@@ -2,7 +2,7 @@
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
 library(ggplot2)
-library(tidyverse)
+library(readr)
 library(dplyr)
 library(rsample) #for splitting data
 library(caret)
@@ -18,7 +18,7 @@ library(coefplot)
 # Load the data
 # Highly correlated
 # Numerical
-bf<-read.csv("bodyfat.csv")
+bf<-read.csv("Bodyfat.csv")
 
 set.seed(455)
 bf_split <- initial_split(bf%>%select(-Density), prop = .7)
@@ -248,10 +248,13 @@ bf_test%>%
 # Load the data
 # Not highly correlated
 # Numerical+categorial
-cars<- read_csv("https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv")
+cars2018 <- read_csv("cars2018.csv", col_types = cols(Model = col_skip(), 
+    `Model Index` = col_skip()))
+```
 
+```{r}
 set.seed(455)
-cars_split <- initial_split(cars%>%select(-`Model Index`, -Model), prop = .7)
+cars_split <- initial_split(cars2018, prop = .7)
 cars_train <- training(cars_split)
 cars_test <- testing(cars_split)
 ```

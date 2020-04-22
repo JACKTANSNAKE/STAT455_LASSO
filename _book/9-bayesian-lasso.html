@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="3.2 Ridge Regression: | index" />
+<meta property="og:title" content="Chapter 9 Bayesian Lasso | index" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="3.2 Ridge Regression: | index">
+<meta name="description" content="Chapter 9 Bayesian Lasso | index">
 
-<title>3.2 Ridge Regression: | index</title>
+<title>Chapter 9 Bayesian Lasso | index</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -180,24 +180,12 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="ridge-regression-1" class="section level2">
-<h2><span class="header-section-number">3.2</span> Ridge Regression:</h2>
-<p><span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\} \ \ \ (1)
-\]</span>
-Which is the same as:
-<span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
-\text{subject to} \sum_{j = 1}^{p}\beta_j^2 \leq t
-\]</span>
-where there is a one-to-one corresondence between the parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(t\)</span>.</p>
-<p><span class="math inline">\(\lambda\)</span> is the tuning parameter, and <span class="math inline">\(\lambda\sum_{j = 1}^{p}\beta_j^2\)</span> is the skrinkage penalty. If <span class="math inline">\(\lambda\)</span> is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if <span class="math inline">\(\lambda\)</span> is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if <span class="math inline">\(\lambda\)</span> approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application.</p>
-
+<div id="bayesian-lasso" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Bayesian Lasso</h1>
 </div>
-<!-- </div> -->
 <p style="text-align: center;">
-<a href="3-1-definition.html"><button class="btn btn-default">Previous</button></a>
-<a href="4-how-ridge-works.html"><button class="btn btn-default">Next</button></a>
+<a href="8-1-data-summary.html"><button class="btn btn-default">Previous</button></a>
+<a href="9-1-generalization-of-shrinkage-methods-from-bayes-perspective.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

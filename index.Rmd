@@ -11,6 +11,6 @@ documentclass: book
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'caret', 'rsample', 'ISLR', 'glmnet', 'coefplot'
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```

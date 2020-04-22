@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="3.2 Ridge Regression: | index" />
+<meta property="og:title" content="7.2 WITHOUT CV | index" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="3.2 Ridge Regression: | index">
+<meta name="description" content="7.2 WITHOUT CV | index">
 
-<title>3.2 Ridge Regression: | index</title>
+<title>7.2 WITHOUT CV | index</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -180,24 +180,40 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="ridge-regression-1" class="section level2">
-<h2><span class="header-section-number">3.2</span> Ridge Regression:</h2>
-<p><span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\} \ \ \ (1)
-\]</span>
-Which is the same as:
-<span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
-\text{subject to} \sum_{j = 1}^{p}\beta_j^2 \leq t
-\]</span>
-where there is a one-to-one corresondence between the parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(t\)</span>.</p>
-<p><span class="math inline">\(\lambda\)</span> is the tuning parameter, and <span class="math inline">\(\lambda\sum_{j = 1}^{p}\beta_j^2\)</span> is the skrinkage penalty. If <span class="math inline">\(\lambda\)</span> is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if <span class="math inline">\(\lambda\)</span> is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if <span class="math inline">\(\lambda\)</span> approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application.</p>
-
+<div id="without-cv" class="section level2">
+<h2><span class="header-section-number">7.2</span> WITHOUT CV</h2>
+<div id="ols" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> OLS</h3>
+<pre><code>## (Intercept)         Age      Weight      Height        Neck       Chest 
+## 10.53771759  0.07344948  0.01129956 -0.05372288 -0.80411627 -0.11789624 
+##     Abdomen         Hip       Thigh        Knee       Ankle      Biceps 
+##  0.98528673 -0.43320085  0.37243770 -0.25791914  0.24878673  0.07757529 
+##     Forearm       Wrist 
+##  0.58521403 -1.97978709 
+## [1] 4.712247</code></pre>
 </div>
-<!-- </div> -->
+<div id="ridge" class="section level3">
+<h3><span class="header-section-number">7.2.2</span> RIDGE</h3>
+<p><img src="Shrinkage-Methods_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="Shrinkage-Methods_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<pre><code>## [1] 0.4977024</code></pre>
+<pre><code>## [1] 4.856731</code></pre>
+</div>
+<div id="lasso-1" class="section level3">
+<h3><span class="header-section-number">7.2.3</span> LASSO</h3>
+<p><img src="Shrinkage-Methods_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="Shrinkage-Methods_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<pre><code>## [1] 0.04977024</code></pre>
+<pre><code>## [1] 4.618946</code></pre>
+<pre><code>##       RMSE
+## 1 5.023873
+##       RMSE
+## 1 4.885821
+##       RMSE
+## 1 4.901642</code></pre>
+</div>
+</div>
 <p style="text-align: center;">
-<a href="3-1-definition.html"><button class="btn btn-default">Previous</button></a>
-<a href="4-how-ridge-works.html"><button class="btn btn-default">Next</button></a>
+<a href="7-1-cross-validation.html"><button class="btn btn-default">Previous</button></a>
+<a href="7-3-with-cv.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="3.2 Ridge Regression: | index" />
+<meta property="og:title" content="7.3 WITH CV | index" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="3.2 Ridge Regression: | index">
+<meta name="description" content="7.3 WITH CV | index">
 
-<title>3.2 Ridge Regression: | index</title>
+<title>7.3 WITH CV | index</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -180,24 +180,35 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="ridge-regression-1" class="section level2">
-<h2><span class="header-section-number">3.2</span> Ridge Regression:</h2>
-<p><span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\} \ \ \ (1)
-\]</span>
-Which is the same as:
-<span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
-\text{subject to} \sum_{j = 1}^{p}\beta_j^2 \leq t
-\]</span>
-where there is a one-to-one corresondence between the parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(t\)</span>.</p>
-<p><span class="math inline">\(\lambda\)</span> is the tuning parameter, and <span class="math inline">\(\lambda\sum_{j = 1}^{p}\beta_j^2\)</span> is the skrinkage penalty. If <span class="math inline">\(\lambda\)</span> is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if <span class="math inline">\(\lambda\)</span> is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if <span class="math inline">\(\lambda\)</span> approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application.</p>
-
+<div id="with-cv" class="section level2">
+<h2><span class="header-section-number">7.3</span> WITH CV</h2>
+<div id="ols-1" class="section level3">
+<h3><span class="header-section-number">7.3.1</span> OLS</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">set.seed</span>(<span class="dv">455</span>)</a>
+<a class="sourceLine" id="cb7-2" title="2">bf_ols &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb7-3" title="3">  bodyfat <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb7-4" title="4">  <span class="dt">data =</span> bf_train, </a>
+<a class="sourceLine" id="cb7-5" title="5">  <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,</a>
+<a class="sourceLine" id="cb7-6" title="6">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, </a>
+<a class="sourceLine" id="cb7-7" title="7">                           <span class="dt">number =</span> <span class="dv">10</span>), </a>
+<a class="sourceLine" id="cb7-8" title="8">  <span class="dt">na.action =</span> na.omit</a>
+<a class="sourceLine" id="cb7-9" title="9">)</a>
+<a class="sourceLine" id="cb7-10" title="10"></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="kw">coefficients</span>(bf_ols<span class="op">$</span>finalModel)</a></code></pre></div>
+<pre><code>## (Intercept)         Age      Weight      Height        Neck       Chest 
+## 10.53771759  0.07344948  0.01129956 -0.05372288 -0.80411627 -0.11789624 
+##     Abdomen         Hip       Thigh        Knee       Ankle      Biceps 
+##  0.98528673 -0.43320085  0.37243770 -0.25791914  0.24878673  0.07757529 
+##     Forearm       Wrist 
+##  0.58521403 -1.97978709</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">bf_ols<span class="op">$</span>results<span class="op">$</span>RMSE</a></code></pre></div>
+<pre><code>## [1] 4.319528</code></pre>
+</div>
 </div>
 <!-- </div> -->
 <p style="text-align: center;">
-<a href="3-1-definition.html"><button class="btn btn-default">Previous</button></a>
-<a href="4-how-ridge-works.html"><button class="btn btn-default">Next</button></a>
+<a href="7-2-without-cv.html"><button class="btn btn-default">Previous</button></a>
+<a href="8-ridge-1.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>
