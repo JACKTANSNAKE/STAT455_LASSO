@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Lasso | Shrinkage Methods</title>
-  <meta name="description" content="Chapter 4 Lasso | Shrinkage Methods" />
+  <title>Chapter 5 How Lasso performs variable selection | Shrinkage Methods</title>
+  <meta name="description" content="Chapter 5 How Lasso performs variable selection | Shrinkage Methods" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Lasso | Shrinkage Methods" />
+  <meta property="og:title" content="Chapter 5 How Lasso performs variable selection | Shrinkage Methods" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Lasso | Shrinkage Methods" />
+  <meta name="twitter:title" content="Chapter 5 How Lasso performs variable selection | Shrinkage Methods" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="how-ridge-works.html"/>
-<link rel="next" href="how-lasso-performs-variable-selection.html"/>
+<link rel="prev" href="lasso.html"/>
+<link rel="next" href="a-real-example.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.0.3" data-path="how-ridge-works.html"><a href="how-ridge-works.html#the-tuning-parameter"><i class="fa fa-check"></i><b>3.0.3</b> The tuning parameter</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>4</b> Lasso</a><ul>
-<li class="chapter" data-level="4.1" data-path="lasso.html"><a href="lasso.html#standarlize-the-dataset"><i class="fa fa-check"></i><b>4.1</b> Standarlize the dataset</a></li>
+<li class="chapter" data-level="4.1" data-path="lasso.html"><a href="lasso.html#standardize-the-dataset"><i class="fa fa-check"></i><b>4.1</b> Standardize the dataset</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html"><i class="fa fa-check"></i><b>5</b> How Lasso performs variable selection</a><ul>
 <li class="chapter" data-level="5.0.1" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html#univariate-example-1"><i class="fa fa-check"></i><b>5.0.1</b> univariate example</a></li>
@@ -186,25 +186,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="lasso" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Lasso</h1>
-<p>Least absolute shrinkage and selection operator, aka Lasso, is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient:
+<div id="how-lasso-performs-variable-selection" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> How Lasso performs variable selection</h1>
+<p>Again, just as we discussed how shrinkage worked, we’ll use the univariate model to illustrate.</p>
+<div id="univariate-example-1" class="section level3">
+<h3><span class="header-section-number">5.0.1</span> univariate example</h3>
+<p>Again we have a simple model: <span class="math inline">\(y = \beta x + \epsilon\)</span>, with an L2 penalty(Lasso regression) on <span class="math inline">\(\hat\beta\)</span> and a least squares loss function on <span class="math inline">\(\hat\epsilon\)</span>. We can then expand the expression for sum of squared residuals to be minimized as:
 <span class="math display">\[
-\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
+\hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\}
 \]</span>
-Which is the same as:
+For convenience, we will now substitute <span class="math inline">\(2\lambda^* = \lambda\)</span>, since <span class="math inline">\(2\lambda^* = \lambda\)</span> has a one-to-one relationship, this change does not affect the result. We can then rewrite <span class="math inline">\(\hat\epsilon\)</span> in the matrix form:
 <span class="math display">\[
-\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
-\text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
+\hat{\epsilon} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + 2\lambda^*\rvert\hat{\beta}\rvert\}
 \]</span>
-Notice that in Lasso, the penalty term now becomes the sum of absolute value of the coefficients instead of sum of squares of the coefficients.</p>
-<div id="standarlize-the-dataset" class="section level2">
-<h2><span class="header-section-number">4.1</span> Standarlize the dataset</h2>
-<p>Considering lasso regression (Find x to minimize the following term):</p>
-<p><span class="math display">\[
-\rvert \rvert Ax-b\rvert \rvert^2 +\lambda \rvert \rvert x \rvert \rvert_1
-\]</span></p>
-<p>By standardizing the datset, the columns of A have zero mean and unit norn and the columns of b have zero mean. By making the means of columns zero, we can get rid of the intercept. Besides, since the norms of the columns in A is one, some column would no longer have smaller coefficients because of their bigger norm, which leads us incorrently conclude that this column can not explain <span class="math inline">\(x\)</span> well. Therefore, by putting all columns into the same scale, we can use the differences in the magnitudes of the elements of <span class="math inline">\(x\)</span> that are directly related to the “wiggliness” of the explanatory function <span class="math inline">\(Ax\)</span>, which is, loosely speaking, what the regularization tries to control.</p>
+Which we can further expand into:
+<span class="math display">\[
+\hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\rvert\hat{\beta}\rvert\}
+\]</span>
+Unlike the ridge regression case where we can take a derivative directly and set it equal to zero so that we can minimize the residual, here we have a <span class="math inline">\(\rvert\hat{\beta}\rvert\)</span> term which makes such procedure painful. Thus, we will instead compare different cases w.r.t. <span class="math inline">\(\hat\beta\)</span>.
+Case1: <span class="math inline">\(\hat\beta \geq 0\)</span>, <span class="math inline">\(\rvert\hat{\beta}\rvert = \hat{\beta}\)</span>
+Since we are assuming that <span class="math inline">\(\hat\beta \geq 0\)</span>, it is the same as assuming <span class="math inline">\(\vec{y}^T\vec{x} \geq 0\)</span>(x’s and y’s have a positive relationship).
+In this case, we can rewrite the above expression as:
+<span class="math display">\[
+\hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\hat{\beta}\}
+\]</span>
+Then we can take the derivative w.r.t. <span class="math inline">\(\hat\beta\)</span> and set it equal to zero:
+<span class="math display">\[
+-2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^* =_{set} 0
+\]</span>
+Where we can obtain a solution for <span class="math inline">\(\hat\beta\)</span>:
+<span class="math display">\[
+\hat\beta = (\vec{y}^T\vec{x} - \lambda^*)(\vec{x}^T\vec{x})^{-1}
+\]</span>
+Obviously by increasing <span class="math inline">\(\lambda^*\)</span>, we can eventually achieve <span class="math inline">\(\hat\beta = 0\)</span> at <span class="math inline">\(\lambda^* = \vec{y}^T\vec{x}\)</span>. However, it is tricky to think about what happens when we increase <span class="math inline">\(\lambda^*\)</span> once <span class="math inline">\(\vec{y}^T\vec{x} = 0\)</span>. The thing is that increasing <span class="math inline">\(\lambda^*\)</span> at this point will not drive <span class="math inline">\(\hat{\beta}\)</span> negative, because once the estimator <span class="math inline">\(\hat\beta\)</span> becomes negative, the derivative of the penalty term estimator becomes:
+<span class="math display">\[
+-2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^* =_{set} 0
+\]</span>
+where the flip in the sign of <span class="math inline">\(\lambda^*\)</span> is due to the absolute value function before taking the derivative. Thus, we have a new solution for <span class="math inline">\(\hat\beta\)</span>:
+<span class="math display">\[
+\hat\beta = (\vec{y}^T\vec{x} + \lambda^*)(\vec{x}^T\vec{x})^{-1}
+\]</span>
+This solution, however, is inconsistent with our premises <span class="math inline">\(\hat\beta &lt; 0\)</span>, since we have assumed that the least squares solution is greater than or equal to zero(<span class="math inline">\(\vec{y}^T\vec{x} \geq 0\)</span>), and <span class="math inline">\(\lambda^* \geq 0\)</span>. For this solution, the sum of squared residual does not have an minimum anymore. Thus, we will just stick at <span class="math inline">\(\hat\beta = 0\)</span>, even if <span class="math inline">\(\lambda^* &gt; \vec{y}^T\vec{x}\)</span>.
+Intuitively, when we assume that the least squares solution is negative with <span class="math inline">\(\hat\beta &lt; 0\)</span>, the logic is the same that we stick with <span class="math inline">\(\hat\beta = 0\)</span> once it reaches zero.
+Note that so far we’ve only talked about a univariate Lasso example. When having a dataset that has multiple dimensions, as we keep increasing the value of <span class="math inline">\(\lambda\)</span>(or <span class="math inline">\(\lambda^*\)</span>), some of the features or variables will be zeroed out just as <span class="math inline">\(\hat\beta\)</span> shown above while some other features are shrinked toward zero but not yet reduced to zero. Therefore, the Lasso does variable selection in this manner, by shrinking some of the coefficients to zero while some non-zero.</p>
+</div>
+<div id="shrinkage-explaination-from-geometric-perspective" class="section level3">
+<h3><span class="header-section-number">5.0.2</span> Shrinkage explaination from geometric perspective</h3>
+<p>Now suppose that we have a dataset with 2 features. We first train a liner model for the data, and suppose <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> are the coefficients for the two features. Thus by the definition of the ridge regression constraint, we have:
+<span class="math display">\[
+\beta_1^2 + \beta_2^2 \leq t
+\]</span>
+Similarly, for the Lasso regression contraint, we have:
+<span class="math display">\[
+\rvert\beta_1\rvert + \rvert\beta_2\rvert \leq t
+\]</span>
+Thus, if we plot the two constraints in a 2-dimensional coordinate system, we have:
+<img src="2dimConstraint.png" /></p>
+<p>Note that the red contours are the vector space for the coefficient estimator <span class="math inline">\(\hat\beta\)</span>. Originally, the constraint and the vector space are separate; as we increase the constraint limit <span class="math inline">\(t\)</span>, eventually the two constraints will hit the vector space, and thus achieving optimization for both the ridge regression model and the Lasso regression model. Since the 2-dimensional Lasso constraint has corners(diamond shape), if the constraint hit the vector space on one such corner, one of the two features gets dropped and shrinked to zero. In higher dimensional spaces, the diamond shape becomes rhomboid where there are more corners and more possibility for dropping one or more variables. In contrast, the constraint for ridge regression is a circle, where all points on or within the circle resemble a linear combination of the two features. Thus, technically speaking, when the ridge regression constraint hit the vector space and achieve optimization, one variable could be shrunk very close to zero while the other remain slightly shrunk, it is impossible for ridge regression to achieve variable selection in reality. Similarly, in higher dimensional space, the constraint for ridge regression becomes a shpere and the situation is very similar to what we have in the two dimensional space.</p>
 
 </div>
 </div>
@@ -213,8 +251,8 @@ Notice that in Lasso, the penalty term now becomes the sum of absolute value of 
           </div>
         </div>
       </div>
-<a href="how-ridge-works.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="how-lasso-performs-variable-selection.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="lasso.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="a-real-example.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

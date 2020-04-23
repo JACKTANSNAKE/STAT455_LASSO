@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="1.2 Several solutions proposed by statisticians | Shrinkage Methods" />
+<meta property="og:title" content="1.1 The ordinary least squared model | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="1.2 Several solutions proposed by statisticians | Shrinkage Methods">
+<meta name="description" content="1.1 The ordinary least squared model | Shrinkage Methods">
 
-<title>1.2 Several solutions proposed by statisticians | Shrinkage Methods</title>
+<title>1.1 The ordinary least squared model | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -149,7 +149,7 @@ img {
 <li><a href="3-how-ridge-works.html#the-tuning-parameter"><span class="toc-section-number">3.0.3</span> The tuning parameter</a></li>
 </ul></li>
 <li class="has-sub"><a href="4-lasso.html#lasso"><span class="toc-section-number">4</span> Lasso</a><ul>
-<li><a href="4-1-standarlize-the-dataset.html#standarlize-the-dataset"><span class="toc-section-number">4.1</span> Standarlize the dataset</a></li>
+<li><a href="4-1-standardize-the-dataset.html#standardize-the-dataset"><span class="toc-section-number">4.1</span> Standardize the dataset</a></li>
 </ul></li>
 <li class="has-sub"><a href="5-how-lasso-performs-variable-selection.html#how-lasso-performs-variable-selection"><span class="toc-section-number">5</span> How Lasso performs variable selection</a><ul>
 <li><a href="5-how-lasso-performs-variable-selection.html#univariate-example-1"><span class="toc-section-number">5.0.1</span> univariate example</a></li>
@@ -183,24 +183,20 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="several-solutions-proposed-by-statisticians" class="section level2">
-<h2><span class="header-section-number">1.2</span> Several solutions proposed by statisticians</h2>
-<p>The first method is subset selection:</p>
+<div id="the-ordinary-least-squared-model" class="section level2">
+<h2><span class="header-section-number">1.1</span> The ordinary least squared model</h2>
+<p><span class="math display">\[Y = \beta_0+\beta_1X_1+\beta_2X_2+...+\beta_pX_p+\epsilon\]</span>
+is the most commonly used method to describe the relationship between the response variable Y and a set of variables X. However, the OLS model is not perfect and it faces two major criticism and one major drawback:</p>
 <ul>
-<li><p>Best subset selection algorithm: This is a sort of brute force technique that in real life no actual statistician would use for subset selection. In order to perform best subset selection, we generate the power set of all <span class="math inline">\(p\)</span> variables in a dataset, and then we select the one with the least error.</p></li>
-<li><p>backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.</p></li>
-<li><p>More stepwise selection: forward stepwise selection, bidirectional elimination<span class="math inline">\(\cdots\)</span>.</p></li>
+<li><p>First, the OLS model usually has low prediction accuracy because it often has large variance and low bias.</p></li>
+<li><p>The second weakness is efficient interpretation. If we have a dataset with large number of predictors, we would usually choose a small subset of predictors which are strongly associated with the response variable; thus, it seems to be a loss that we still include the weak predictors in our model.</p></li>
+<li><p>Also, OLS does not work when there are more predictors than data points. That being said, it does not generate a unique solution(<span class="math inline">\(p &gt; n\)</span>).</p></li>
 </ul>
-<p>Problems with subset selection algorithms:</p>
-<ul>
-<li><p>They are mostly computationally expensive.</p></li>
-<li><p>They are discreet selection processes(1 variable at a time).</p></li>
-<li><p>The algorithms only do locally(each step) best choices. Once a variable is deleted, it is never going back in.</p></li>
-</ul>
+<p>However, the linear regression model is easy to regress and interpret; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation.</p>
 </div>
 <p style="text-align: center;">
-<a href="1-1-the-ordinary-least-squared-model.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-3-shrinkage.html"><button class="btn btn-default">Next</button></a>
+<a href="index.html"><button class="btn btn-default">Previous</button></a>
+<a href="1-2-several-solutions-proposed-by-statisticians.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

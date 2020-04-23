@@ -10,14 +10,14 @@ $$
 $$
 Notice that in Lasso, the penalty term now becomes the sum of absolute value of the coefficients instead of sum of squares of the coefficients. 
 
-## Standarlize the dataset
+## Standardize the dataset
  
-Considering lasso regression (Find x to  minimize the following term):
+Considering lasso regression (Find x to minimize the following term):
 
 $$
 \rvert \rvert Ax-b\rvert \rvert^2 +\lambda \rvert \rvert x \rvert \rvert_1
 $$
 
-By standardizing the datset, the columns of A have zero mean and unit norn and the columns of b have zero mean. By making the means of columns zero, we can get rid of the intercept. Besides, since the norms of the columns in A is one, some column would no longer have smaller coefficients because of their bigger norm, which leads us incorrently conclude that this column can not explain $x$ well. Therefore, by putting all columns into the same scale, we can use the differences in the magnitudes of the elements of $x$ that are directly related to the "wiggliness" of the explanatory function $Ax$, which is, loosely speaking, what the regularization tries to control.
+By standardizing the datset, the columns of A have zero mean and unit norm and the columns of b have zero mean. By making the means of columns zero, we can get rid of the intercept. Besides, since the norms of the columns in A is one, some column would no longer have smaller coefficients because of their bigger norm, which leads us incorrently conclude that this column can not explain $x$ well. Therefore, by putting all columns into the same scale, we can use the differences in the magnitudes of the elements of $x$ that are directly related to the "wiggliness" of the explanatory function $Ax$, which is, loosely speaking, what the regularization tries to control.
 
 

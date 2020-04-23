@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Reference | Shrinkage Methods</title>
-  <meta name="description" content="Chapter 9 Reference | Shrinkage Methods" />
+  <title>Chapter 4 Lasso | Shrinkage Methods</title>
+  <meta name="description" content="Chapter 4 Lasso | Shrinkage Methods" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 Reference | Shrinkage Methods" />
+  <meta property="og:title" content="Chapter 4 Lasso | Shrinkage Methods" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Reference | Shrinkage Methods" />
+  <meta name="twitter:title" content="Chapter 4 Lasso | Shrinkage Methods" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="limitations-of-ridge-and-lasso.html"/>
-
+<link rel="prev" href="how-ridge-works.html"/>
+<link rel="next" href="how-lasso-performs-variable-selection.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.0.3" data-path="how-ridge-works.html"><a href="how-ridge-works.html#the-tuning-parameter"><i class="fa fa-check"></i><b>3.0.3</b> The tuning parameter</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>4</b> Lasso</a><ul>
-<li class="chapter" data-level="4.1" data-path="lasso.html"><a href="lasso.html#standarlize-the-dataset"><i class="fa fa-check"></i><b>4.1</b> Standarlize the dataset</a></li>
+<li class="chapter" data-level="4.1" data-path="lasso.html"><a href="lasso.html#standardize-the-dataset"><i class="fa fa-check"></i><b>4.1</b> Standardize the dataset</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html"><i class="fa fa-check"></i><b>5</b> How Lasso performs variable selection</a><ul>
 <li class="chapter" data-level="5.0.1" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html#univariate-example-1"><i class="fa fa-check"></i><b>5.0.1</b> univariate example</a></li>
@@ -186,21 +186,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="reference" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> Reference</h1>
-<ul>
-<li><p>Hastie, Trevor, et al. The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Springer, 2017.</p></li>
-<li><p>Wieringen, Wessel N. van. “PDF.” 18 Jan. 2020.</p></li>
-</ul>
+<div id="lasso" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Lasso</h1>
+<p>Least absolute shrinkage and selection operator, aka Lasso, is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient:
+<span class="math display">\[
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
+\]</span>
+Which is the same as:
+<span class="math display">\[
+\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
+\text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
+\]</span>
+Notice that in Lasso, the penalty term now becomes the sum of absolute value of the coefficients instead of sum of squares of the coefficients.</p>
+<div id="standardize-the-dataset" class="section level2">
+<h2><span class="header-section-number">4.1</span> Standardize the dataset</h2>
+<p>Considering lasso regression (Find x to minimize the following term):</p>
+<p><span class="math display">\[
+\rvert \rvert Ax-b\rvert \rvert^2 +\lambda \rvert \rvert x \rvert \rvert_1
+\]</span></p>
+<p>By standardizing the datset, the columns of A have zero mean and unit norm and the columns of b have zero mean. By making the means of columns zero, we can get rid of the intercept. Besides, since the norms of the columns in A is one, some column would no longer have smaller coefficients because of their bigger norm, which leads us incorrently conclude that this column can not explain <span class="math inline">\(x\)</span> well. Therefore, by putting all columns into the same scale, we can use the differences in the magnitudes of the elements of <span class="math inline">\(x\)</span> that are directly related to the “wiggliness” of the explanatory function <span class="math inline">\(Ax\)</span>, which is, loosely speaking, what the regularization tries to control.</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="limitations-of-ridge-and-lasso.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="how-ridge-works.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-lasso-performs-variable-selection.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

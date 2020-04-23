@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods" />
+<meta property="og:title" content="2.2 Ridge Regression: | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods">
+<meta name="description" content="2.2 Ridge Regression: | Shrinkage Methods">
 
-<title>Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods</title>
+<title>2.2 Ridge Regression: | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -149,7 +149,7 @@ img {
 <li><a href="3-how-ridge-works.html#the-tuning-parameter"><span class="toc-section-number">3.0.3</span> The tuning parameter</a></li>
 </ul></li>
 <li class="has-sub"><a href="4-lasso.html#lasso"><span class="toc-section-number">4</span> Lasso</a><ul>
-<li><a href="4-1-standarlize-the-dataset.html#standarlize-the-dataset"><span class="toc-section-number">4.1</span> Standarlize the dataset</a></li>
+<li><a href="4-1-standardize-the-dataset.html#standardize-the-dataset"><span class="toc-section-number">4.1</span> Standardize the dataset</a></li>
 </ul></li>
 <li class="has-sub"><a href="5-how-lasso-performs-variable-selection.html#how-lasso-performs-variable-selection"><span class="toc-section-number">5</span> How Lasso performs variable selection</a><ul>
 <li><a href="5-how-lasso-performs-variable-selection.html#univariate-example-1"><span class="toc-section-number">5.0.1</span> univariate example</a></li>
@@ -183,17 +183,24 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="limitations-of-ridge-and-lasso" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Limitations of Ridge and Lasso</h1>
-<ul>
-<li><p>One important drawback of Lasso and ridge is that it’s very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)—you really just get estimates and that’s it.</p></li>
-<li><p>The other thing is that we usually cannot give a good explanation for the coefficients and the entire model, because the coefficients are shrunk. Some might say we could use Lasso simply as a variable selection tool and we can use the Lasso result to generate an OLS which is easier to explain. But note that there is possibility that Lasso would give us wrong information, based on assumptions we have made about the data.</p></li>
-<li><p>In real examples, when dealing with categorical variables(those with more than 10 sub-categories), Lasso often does weird thing as it treats each of the sub-category as an individual variable, that is, it selects some of the sub-categories while think others to be irrelevant. This also makes it hard to interpret.</p></li>
-</ul>
+<div id="ridge-regression-1" class="section level2">
+<h2><span class="header-section-number">2.2</span> Ridge Regression:</h2>
+<p><span class="math display">\[
+\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\} \ \ \ (1)
+\]</span>
+Which is the same as:
+<span class="math display">\[
+\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
+\text{subject to} \sum_{j = 1}^{p}\beta_j^2 \leq t
+\]</span>
+where there is a one-to-one corresondence between the parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(t\)</span>.</p>
+<p><span class="math inline">\(\lambda\)</span> is the tuning parameter, and <span class="math inline">\(\lambda\sum_{j = 1}^{p}\beta_j^2\)</span> is the skrinkage penalty. If <span class="math inline">\(\lambda\)</span> is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if <span class="math inline">\(\lambda\)</span> is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if <span class="math inline">\(\lambda\)</span> approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application.</p>
+
 </div>
+<!-- </div> -->
 <p style="text-align: center;">
-<a href="7-2-bayesian-interpretation.html"><button class="btn btn-default">Previous</button></a>
-<a href="9-reference.html"><button class="btn btn-default">Next</button></a>
+<a href="2-1-definition.html"><button class="btn btn-default">Previous</button></a>
+<a href="3-how-ridge-works.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Ridge Regression | Shrinkage Methods</title>
-  <meta name="description" content="Chapter 2 Ridge Regression | Shrinkage Methods" />
+  <title>Chapter 9 Reference | Shrinkage Methods</title>
+  <meta name="description" content="Chapter 9 Reference | Shrinkage Methods" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Ridge Regression | Shrinkage Methods" />
+  <meta property="og:title" content="Chapter 9 Reference | Shrinkage Methods" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Ridge Regression | Shrinkage Methods" />
+  <meta name="twitter:title" content="Chapter 9 Reference | Shrinkage Methods" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="how-ridge-works.html"/>
+<link rel="prev" href="limitations-of-ridge-and-lasso.html"/>
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.0.3" data-path="how-ridge-works.html"><a href="how-ridge-works.html#the-tuning-parameter"><i class="fa fa-check"></i><b>3.0.3</b> The tuning parameter</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>4</b> Lasso</a><ul>
-<li class="chapter" data-level="4.1" data-path="lasso.html"><a href="lasso.html#standarlize-the-dataset"><i class="fa fa-check"></i><b>4.1</b> Standarlize the dataset</a></li>
+<li class="chapter" data-level="4.1" data-path="lasso.html"><a href="lasso.html#standardize-the-dataset"><i class="fa fa-check"></i><b>4.1</b> Standardize the dataset</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html"><i class="fa fa-check"></i><b>5</b> How Lasso performs variable selection</a><ul>
 <li class="chapter" data-level="5.0.1" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html#univariate-example-1"><i class="fa fa-check"></i><b>5.0.1</b> univariate example</a></li>
@@ -186,36 +186,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ridge-regression" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Ridge Regression</h1>
-<div id="definition" class="section level2">
-<h2><span class="header-section-number">2.1</span> Definition</h2>
-<p>Recall that the ordinary least squares model estimates coefficients with the goal of minimizing the sum of the squared residuals:
-<span class="math display">\[RSS = \sum_{i=1}^n (y_i - \beta_0-\sum_{j=1}^p\beta_jx_{ij})^2\]</span>
-Since the shrinkage approach takes into account of variable selection, the ridge regression estimates the coefficients that minimizes the combination of RSS and sum of the squared coefficients:</p>
-</div>
-<div id="ridge-regression-1" class="section level2">
-<h2><span class="header-section-number">2.2</span> Ridge Regression:</h2>
-<p><span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\} \ \ \ (1)
-\]</span>
-Which is the same as:
-<span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
-\text{subject to} \sum_{j = 1}^{p}\beta_j^2 \leq t
-\]</span>
-where there is a one-to-one corresondence between the parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(t\)</span>.</p>
-<p><span class="math inline">\(\lambda\)</span> is the tuning parameter, and <span class="math inline">\(\lambda\sum_{j = 1}^{p}\beta_j^2\)</span> is the skrinkage penalty. If <span class="math inline">\(\lambda\)</span> is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if <span class="math inline">\(\lambda\)</span> is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if <span class="math inline">\(\lambda\)</span> approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application.</p>
+<div id="reference" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Reference</h1>
+<ul>
+<li><p>Hastie, Trevor, et al. The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Springer, 2017.</p></li>
+<li><p>Wieringen, Wessel N. van. “PDF.” 18 Jan. 2020.</p></li>
+</ul>
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="how-ridge-works.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="limitations-of-ridge-and-lasso.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

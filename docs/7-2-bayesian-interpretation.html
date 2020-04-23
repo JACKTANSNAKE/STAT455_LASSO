@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="1.3 Shrinkage | Shrinkage Methods" />
+<meta property="og:title" content="7.2 Bayesian Interpretation | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="1.3 Shrinkage | Shrinkage Methods">
+<meta name="description" content="7.2 Bayesian Interpretation | Shrinkage Methods">
 
-<title>1.3 Shrinkage | Shrinkage Methods</title>
+<title>7.2 Bayesian Interpretation | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -149,7 +149,7 @@ img {
 <li><a href="3-how-ridge-works.html#the-tuning-parameter"><span class="toc-section-number">3.0.3</span> The tuning parameter</a></li>
 </ul></li>
 <li class="has-sub"><a href="4-lasso.html#lasso"><span class="toc-section-number">4</span> Lasso</a><ul>
-<li><a href="4-1-standarlize-the-dataset.html#standarlize-the-dataset"><span class="toc-section-number">4.1</span> Standarlize the dataset</a></li>
+<li><a href="4-1-standardize-the-dataset.html#standardize-the-dataset"><span class="toc-section-number">4.1</span> Standardize the dataset</a></li>
 </ul></li>
 <li class="has-sub"><a href="5-how-lasso-performs-variable-selection.html#how-lasso-performs-variable-selection"><span class="toc-section-number">5</span> How Lasso performs variable selection</a><ul>
 <li><a href="5-how-lasso-performs-variable-selection.html#univariate-example-1"><span class="toc-section-number">5.0.1</span> univariate example</a></li>
@@ -183,20 +183,46 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="shrinkage" class="section level2">
-<h2><span class="header-section-number">1.3</span> Shrinkage</h2>
-<p>There are two different kinds of shrinkage algorithms:</p>
-<ul>
-<li><p>L1 shrinkage methods: only shrinks the coefficients but does not perform variable selection.</p></li>
-<li><p>L2 shrinkage methods: performs both shrinking coefficients and variable selection(shrink some variables to 0).</p></li>
-</ul>
-<p>We are going to start by looking at an L1 shrinkage method, and then look at the most classic L2 shrinkage method: Lasso.</p>
+<div id="bayesian-interpretation" class="section level2">
+<h2><span class="header-section-number">7.2</span> Bayesian Interpretation</h2>
+<p>We can show that <span class="math inline">\(\hat{\boldsymbol\beta}_{LASSO}\)</span> has a Bayesian interpretation. In particular, we can show that is a Bayes estimator for <span class="math inline">\(\boldsymbol\beta\)</span> assuming a multivariate Normal likelihood for <span class="math inline">\(\mathbf{y}\)</span>:
+<span class="math display">\[f(y\mid \boldsymbol\beta, \sigma^2)\sim N(\mathbf{X}\boldsymbol\beta, \sigma^2\mathbf{I}),\]</span>
+and an independent double exponential (aka Laplace) prior for <span class="math inline">\(\boldsymbol\beta\)</span>:
+<span class="math display">\[f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)\]</span></p>
+<div id="posterior" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> Posterior</h3>
+<p>The posterior distribution for <span class="math inline">\(\boldsymbol\beta\)</span> (assuming <span class="math inline">\(\sigma^2 = 1\)</span> for simplicity):</p>
+<p><span class="math display">\[\begin{aligned}
+g(\boldsymbol\beta \mid y)&amp;\propto f(y \mid \boldsymbol\beta, \sigma^2) f(\boldsymbol\beta)\\
+&amp;= f(y \mid \boldsymbol\beta) \prod_{i=1}^p f(\beta_j)\text{, by independence assumption}\\
+&amp;=(2\pi)^{-n/2}\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \left(\frac{\lambda}{2}\right)^p \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&amp;\propto\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&amp;=\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)
+\end{aligned}\]</span></p>
+</div>
+<div id="posterior-mode" class="section level3">
+<h3><span class="header-section-number">7.2.2</span> Posterior Mode</h3>
+<p>Maximize the posterior distribution, or minimize the -log posterior</p>
+<p><span class="math display">\[\begin{aligned}\\
+&amp;\arg\max\text{ }\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+=\text{ }&amp;\arg\max\text{ }-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|\\
+=\text{ }&amp;\arg\min\text{ }\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)+\lambda\sum_{j=1}^p |\beta_j|\\
+=\text{ }&amp;\arg\min\text{ -log posterior}\\
+\end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+\arg\min\text{ -log posterior}
+&amp;=\arg\min-\log(\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right))\\
+&amp;=\arg\min-\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&amp;=\arg\min\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)+\lambda\sum_{j=1}^p |\beta_j|\\
+&amp;=\beta_{LASSO}\text{, by definition}
+\end{aligned}\]</span></p>
 
+</div>
 </div>
 <!-- </div> -->
 <p style="text-align: center;">
-<a href="1-2-several-solutions-proposed-by-statisticians.html"><button class="btn btn-default">Previous</button></a>
-<a href="2-ridge-regression.html"><button class="btn btn-default">Next</button></a>
+<a href="7-1-generalization-of-shrinkage-methods-from-bayes-perspective.html"><button class="btn btn-default">Previous</button></a>
+<a href="8-limitations-of-ridge-and-lasso.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

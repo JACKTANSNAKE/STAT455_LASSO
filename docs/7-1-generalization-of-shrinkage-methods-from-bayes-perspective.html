@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Chapter 3 How Ridge Works | Shrinkage Methods" />
+<meta property="og:title" content="7.1 Generalization of shrinkage methods from Bayes perspective | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="Chapter 3 How Ridge Works | Shrinkage Methods">
+<meta name="description" content="7.1 Generalization of shrinkage methods from Bayes perspective | Shrinkage Methods">
 
-<title>Chapter 3 How Ridge Works | Shrinkage Methods</title>
+<title>7.1 Generalization of shrinkage methods from Bayes perspective | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -149,7 +149,7 @@ img {
 <li><a href="3-how-ridge-works.html#the-tuning-parameter"><span class="toc-section-number">3.0.3</span> The tuning parameter</a></li>
 </ul></li>
 <li class="has-sub"><a href="4-lasso.html#lasso"><span class="toc-section-number">4</span> Lasso</a><ul>
-<li><a href="4-1-standarlize-the-dataset.html#standarlize-the-dataset"><span class="toc-section-number">4.1</span> Standarlize the dataset</a></li>
+<li><a href="4-1-standardize-the-dataset.html#standardize-the-dataset"><span class="toc-section-number">4.1</span> Standardize the dataset</a></li>
 </ul></li>
 <li class="has-sub"><a href="5-how-lasso-performs-variable-selection.html#how-lasso-performs-variable-selection"><span class="toc-section-number">5</span> How Lasso performs variable selection</a><ul>
 <li><a href="5-how-lasso-performs-variable-selection.html#univariate-example-1"><span class="toc-section-number">5.0.1</span> univariate example</a></li>
@@ -183,100 +183,14 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="how-ridge-works" class="section level1">
-<h1><span class="header-section-number">Chapter 3</span> How Ridge Works</h1>
-<p>Recall from Linear Algebra that if we want to solve for <span class="math inline">\(\boldsymbol{A}x = b\)</span>, we can do:
-<span class="math display">\[
-\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Ty
-\]</span>
-We then take the inverse of <span class="math inline">\(\boldsymbol{A}^T\boldsymbol{A}\)</span> from the LHS, and multiply both sides by the inverse:
-<span class="math display">\[
-x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
-\]</span>
-Then we have come up with a least squares solution for x in <span class="math inline">\(Ax = b\)</span>.
-From here then we derive that: <span class="math inline">\(\hat\beta_{OLS} = (X^T X)^{-1} X^T y\)</span>.
-We will use a very similar approach to show how the shrinkage work for ridge regression.</p>
-<div id="univariate-example" class="section level3">
-<h3><span class="header-section-number">3.0.1</span> Univariate example</h3>
-<p>Let’s consider a very simple model: <span class="math inline">\(y = \beta x + \epsilon\)</span>, with an L2(ridge regression) penalty on <span class="math inline">\(\hat\beta\)</span> and a least-squares loss function on <span class="math inline">\(\hat{\epsilon}\)</span>. We can then expand the expression for sum of squared residuals to be minimized as:
-<span class="math display">\[
-\hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\}
-\]</span>
-Which if we transform into a Matrix form, gives:
-<span class="math display">\[
-\hat{\epsilon} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + \lambda\hat{\beta}^2\}
-\]</span>
-Which we can further expand into:
-<span class="math display">\[
-\hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + \lambda\hat{\beta}^2\}
-\]</span>
-Now if we take the derivative w.r.t <span class="math inline">\(\hat\beta\)</span> and set equal to 0, we can calculate the the estimator for ridge regression coefficients <span class="math inline">\(\hat\beta\)</span>:
-<span class="math display">\[
--2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda\hat{\beta} =_{set} 0
-\]</span>
-Where we can obtain:
-<span class="math display">\[
-\hat{\beta} = \vec{y}^T\vec{x}{(\vec{x}^T\vec{x} + \lambda)}^{-1}
-\]</span></p>
-</div>
-<div id="higher-dimension-ridge-regression" class="section level3">
-<h3><span class="header-section-number">3.0.2</span> Higher dimension ridge regression</h3>
-<p>Note that here we are using an univariate example(1-dimensional y and 1-dimensional x), in a more complicated case, we calculate the sum of squared residual in the same manner:
-<span class="math display">\[
-RSS(\lambda) = (\boldsymbol{y} - \boldsymbol{X}\beta)^T(\boldsymbol{y} - \boldsymbol{X}\beta) + \lambda\beta^T\beta
-\]</span>
-Where we can get:
-<span class="math display">\[
-\hat{\beta} = {(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}_{pp})}^{-1}\boldsymbol{X}^T\boldsymbol{Y}
-\]</span>
-Which is very similar to the result from the univariate example.</p>
-</div>
-<div id="the-tuning-parameter" class="section level3">
-<h3><span class="header-section-number">3.0.3</span> The tuning parameter</h3>
-<p>To further understand why <span class="math inline">\(\lambda\)</span> helps shrink the coefficients, we are going to use singular value decomposition(SVD) to examine the effect of <span class="math inline">\(\lambda\)</span>.
-Let the singular value decomposition of the (<span class="math inline">\(n \times p\)</span>)-dimensional design matrix X be:
-<span class="math display">\[
-\boldsymbol{X} = \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x
-\]</span>
-where <span class="math inline">\(\boldsymbol{D}_x\)</span> is an (<span class="math inline">\(n \times n\)</span>)-dimensional diagonal matrix with the singular values, <span class="math inline">\(\boldsymbol{U}_x\)</span> is an (<span class="math inline">\(n \times n\)</span>)-dimensional matrix
-with columns containing the left singular vectors (denoted <span class="math inline">\(u_i\)</span>), and <span class="math inline">\(\boldsymbol{V}_x\)</span> is a (<span class="math inline">\(p \times n\)</span>)-dimensional matrix with columns
-containing the right singular vectors (denoted <span class="math inline">\(V_i\)</span>). The columns of <span class="math inline">\(\boldsymbol{U}_x\)</span> and <span class="math inline">\(\boldsymbol{V}_x\)</span> are orthogonal:
-<span class="math display">\[
-\boldsymbol{U}^T_x\boldsymbol{U}_x = \boldsymbol{I}_{nn} = \boldsymbol{V}^T_x\boldsymbol{V}_x
-\]</span>
-Recall that the OLS estimator is:
-<span class="math display">\[
-\hat\beta_{OLS} = (X^T X)^{-1} X^T y
-\]</span>
-We can then rewrite the solution for OLS as:
-<span class="math display">\[\begin{align*}
-\boldsymbol{X}\hat\beta_{OLS} &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x(\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
- &amp;= \boldsymbol{U}_x\boldsymbol{U}^T_xy\\
- &amp;= {\sum_{j = 1}^{p}\boldsymbol{u}_j(1)\boldsymbol{u}_j^T\boldsymbol{y}}
-\end{align*}\]</span>
-We can also rewrite <span class="math inline">\(\hat\beta\)</span> as:
-<span class="math display">\[\begin{align*}
-\hat\beta &amp;= {(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}_{pp})}^{-1}\boldsymbol{X}^T\boldsymbol{Y}\\
- &amp;= (\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x + \lambda\boldsymbol{I}_{pp})^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= (\boldsymbol{V}_x\boldsymbol{D}_x^2\boldsymbol{V}_x^T + \lambda\boldsymbol{V}_x\boldsymbol{V}_x^T)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= (\boldsymbol{V}_x[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{V}^T_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y} \\
- &amp;= (\boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{V}_x^{-1})\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}
-\end{align*}\]</span>
-Then the ridge solutions becomes:
-<span class="math display">\[\begin{align*}
-\boldsymbol{X}\hat\beta &amp;= \boldsymbol{X}\boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x\boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \boldsymbol{U}_x\boldsymbol{D}_x(\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn})^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \sum_{j = 1}^{p}\boldsymbol{u}_j\frac{d^2_{j}}{d^2_{j} + \lambda}\boldsymbol{u}_j^T\boldsymbol{y}
-\end{align*}\]</span></p>
-<p>Note that since <span class="math inline">\(\lambda \geq 0\)</span>, we have <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda} \leq 1\)</span>. Ridge regression computes the coordinates of <span class="math inline">\(\boldsymbol{y}\)</span> with respect to the orthonormal basis U. Then it shrinks these coordinates by the factor <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda}\)</span>. This means that variable with smaller singular value is shrunk more than those with larger singular values. Note that variables with smaller singular values explains less of the variation of our sample(less important). This could be proved using the sample covariance matrix.</p>
-
-</div>
+<div id="generalization-of-shrinkage-methods-from-bayes-perspective" class="section level2">
+<h2><span class="header-section-number">7.1</span> Generalization of shrinkage methods from Bayes perspective</h2>
+<p>Bayesian estimation assumes the coefficients have prior distribution, <span class="math inline">\(p(\beta)\)</span>, where <span class="math inline">\(\beta =(\beta_0,\beta_1...\beta_p)^T\)</span>. The likelihood of data is <span class="math inline">\(f(Y\rvert X,\beta)\)</span>, where <span class="math inline">\(X = (X_1...X_p)\)</span>. Therefore, we can derive the formula for posterior distribution of <span class="math inline">\(\beta\)</span>:
+<span class="math display">\[p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\beta)p(\beta)\]</span></p>
 </div>
 <p style="text-align: center;">
-<a href="2-2-ridge-regression-1.html"><button class="btn btn-default">Previous</button></a>
-<a href="4-lasso.html"><button class="btn btn-default">Next</button></a>
+<a href="7-bayesian-lasso.html"><button class="btn btn-default">Previous</button></a>
+<a href="7-2-bayesian-interpretation.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>
