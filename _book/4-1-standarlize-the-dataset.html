@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="2.2 Ridge Regression: | Shrinkage Methods" />
+<meta property="og:title" content="4.1 Standarlize the dataset | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="2.2 Ridge Regression: | Shrinkage Methods">
+<meta name="description" content="4.1 Standarlize the dataset | Shrinkage Methods">
 
-<title>2.2 Ridge Regression: | Shrinkage Methods</title>
+<title>4.1 Standarlize the dataset | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -183,24 +183,19 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="ridge-regression-1" class="section level2">
-<h2><span class="header-section-number">2.2</span> Ridge Regression:</h2>
+<div id="standarlize-the-dataset" class="section level2">
+<h2><span class="header-section-number">4.1</span> Standarlize the dataset</h2>
+<p>Considering lasso regression (Find x to minimize the following term):</p>
 <p><span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\} \ \ \ (1)
-\]</span>
-Which is the same as:
-<span class="math display">\[
-\hat{\beta^{ridge}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
-\text{subject to} \sum_{j = 1}^{p}\beta_j^2 \leq t
-\]</span>
-where there is a one-to-one corresondence between the parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(t\)</span>.</p>
-<p><span class="math inline">\(\lambda\)</span> is the tuning parameter, and <span class="math inline">\(\lambda\sum_{j = 1}^{p}\beta_j^2\)</span> is the skrinkage penalty. If <span class="math inline">\(\lambda\)</span> is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squared model; if <span class="math inline">\(\lambda\)</span> is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if <span class="math inline">\(\lambda\)</span> approaches infinity, then the coefficients would approach zero. The selection of the optimal tuninig parameter is based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application.</p>
+\rvert \rvert Ax-b\rvert \rvert^2 +\lambda \rvert \rvert x \rvert \rvert_1
+\]</span></p>
+<p>By standardizing the datset, the columns of A have zero mean and unit norn and the columns of b have zero mean. By making the means of columns zero, we can get rid of the intercept. Besides, since the norms of the columns in A is one, some column would no longer have smaller coefficients because of their bigger norm, which leads us incorrently conclude that this column can not explain <span class="math inline">\(x\)</span> well. Therefore, by putting all columns into the same scale, we can use the differences in the magnitudes of the elements of <span class="math inline">\(x\)</span> that are directly related to the “wiggliness” of the explanatory function <span class="math inline">\(Ax\)</span>, which is, loosely speaking, what the regularization tries to control.</p>
 
 </div>
 <!-- </div> -->
 <p style="text-align: center;">
-<a href="2-1-definition.html"><button class="btn btn-default">Previous</button></a>
-<a href="3-how-ridge-works.html"><button class="btn btn-default">Next</button></a>
+<a href="4-lasso.html"><button class="btn btn-default">Previous</button></a>
+<a href="5-how-lasso-performs-variable-selection.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>
