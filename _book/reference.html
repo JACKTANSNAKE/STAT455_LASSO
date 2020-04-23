@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Shrinkage Methods</title>
-  <meta name="description" content="Shrinkage Methods" />
+  <title>Chapter 10 Reference | Shrinkage Methods</title>
+  <meta name="description" content="Chapter 10 Reference | Shrinkage Methods" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Shrinkage Methods" />
+  <meta property="og:title" content="Chapter 10 Reference | Shrinkage Methods" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Shrinkage Methods" />
+  <meta name="twitter:title" content="Chapter 10 Reference | Shrinkage Methods" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="limitations-of-ridge-and-lasso.html"/>
 
-<link rel="next" href="ridge-regression.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -189,56 +189,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Shrinkage Methods</h1>
-<p class="date"><em>2020-04-23</em></p>
-</div>
-<div id="motivation" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Motivation</h1>
-<div id="the-ordinary-least-squared-model" class="section level2">
-<h2><span class="header-section-number">1.1</span> The ordinary least squared model</h2>
-<p><span class="math display">\[Y = \beta_0+\beta_1X_1+\beta_2X_2+...+\beta_pX_p+\epsilon\]</span>
-is the most commonly used method to describe the relationship between the response variable Y and a set of variables X. However, the OLS model is not perfect and it faces two major criticism and one major drawback:</p>
+<div id="reference" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> Reference</h1>
 <ul>
-<li><p>First, the OLS model usually has low prediction accuracy because it often has large variance and low bias.</p></li>
-<li><p>The second weakness is efficient interpretation. If we have a dataset with large number of predictors, we would usually choose a small subset of predictors which are strongly associated with the response variable; thus, it seems to be a loss that we still include the weak predictors in our model.</p></li>
-<li><p>Also, OLS does not work when there are more predictors than data points. That being said, it does not generate a unique solution(<span class="math inline">\(p &gt; n\)</span>).</p></li>
+<li><p>Hastie, Trevor, et al. The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Springer, 2017.</p></li>
+<li><p>Wieringen, Wessel N. van. “PDF.” 18 Jan. 2020.</p></li>
 </ul>
-<p>However, the linear regression model is easy to regress and interpret; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation.</p>
-</div>
-<div id="several-solutions-proposed-by-statisticians" class="section level2">
-<h2><span class="header-section-number">1.2</span> Several solutions proposed by statisticians</h2>
-<p>The first method is subset selection:</p>
-<ul>
-<li><p>Best subset selection algorithm: This is a sort of brute force technique that in real life no actual statistician would use for subset selection. In order to perform best subset selection, we generate the power set of all <span class="math inline">\(p\)</span> variables in a dataset, and then we select the one with the least error.</p></li>
-<li><p>backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.</p></li>
-<li><p>More stepwise selection: forward stepwise selection, bidirectional elimination<span class="math inline">\(\cdots\)</span>.</p></li>
-</ul>
-<p>Problems with subset selection algorithms:</p>
-<ul>
-<li><p>They are mostly computationally expensive.</p></li>
-<li><p>They are discreet selection processes(1 variable at a time).</p></li>
-<li><p>The algorithms only do locally(each step) best choices. Once a variable is deleted, it is never going back in.</p></li>
-</ul>
-</div>
-<div id="shrinkage" class="section level2">
-<h2><span class="header-section-number">1.3</span> Shrinkage</h2>
-<p>There are two different kinds of shrinkage algorithms:</p>
-<ul>
-<li><p>L1 shrinkage methods: only shrinks the coefficients but does not perform variable selection.</p></li>
-<li><p>L2 shrinkage methods: performs both shrinking coefficients and variable selection(shrink some variables to 0).</p></li>
-</ul>
-<p>We are going to start by looking at an L1 shrinkage method, and then look at the most classic L2 shrinkage method: Lasso.</p>
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="limitations-of-ridge-and-lasso.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="ridge-regression.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

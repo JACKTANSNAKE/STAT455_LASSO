@@ -46,6 +46,9 @@ Problems with subset selection algorithms:
   
 ## Shrinkage
   There are two different kinds of shrinkage algorithms:
+  
   * L1 shrinkage methods: only shrinks the coefficients but does not perform variable selection.
+  
   * L2 shrinkage methods: performs both shrinking coefficients and variable selection(shrink some variables to 0).
+  
   We are going to start by looking at an L1 shrinkage method, and then look at the most classic L2 shrinkage method: Lasso.

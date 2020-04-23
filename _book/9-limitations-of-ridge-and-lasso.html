@@ -13,7 +13,7 @@
 
 
 
-<meta name="date" content="2020-04-22" />
+<meta name="date" content="2020-04-23" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -179,6 +179,7 @@ img {
 </ul></li>
 </ul></li>
 <li><a href="9-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">9</span> Limitations of Ridge and Lasso</a></li>
+<li><a href="10-reference.html#reference"><span class="toc-section-number">10</span> Reference</a></li>
 </ul>
 </div>
 </div>
@@ -188,14 +189,14 @@ img {
 <div id="limitations-of-ridge-and-lasso" class="section level1">
 <h1><span class="header-section-number">Chapter 9</span> Limitations of Ridge and Lasso</h1>
 <ul>
-<li>One important drawback of Lasso and ridge is that it’s very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)—you really just get estimates and that’s it.</li>
-<li>The other thing is that we usually cannot give a good explanation for the coefficients and the entire model, because the coefficients are shrunk. Some might say we could use Lasso simply as a variable selection tool and we can use the Lasso result to generate an OLS which is easier to explain. But note that there is possibility that Lasso would give us wrong information, based on assumptions we have made about the data.</li>
-<li>In real examples, when dealing with categorical variables(those with more than 10 sub-categories), Lasso often does weird thing as it treats each of the sub-category as an individual variable, that is, it selects some of the sub-categories while think others to be irrelevant. This also makes it hard to interpret.</li>
+<li><p>One important drawback of Lasso and ridge is that it’s very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)—you really just get estimates and that’s it.</p></li>
+<li><p>The other thing is that we usually cannot give a good explanation for the coefficients and the entire model, because the coefficients are shrunk. Some might say we could use Lasso simply as a variable selection tool and we can use the Lasso result to generate an OLS which is easier to explain. But note that there is possibility that Lasso would give us wrong information, based on assumptions we have made about the data.</p></li>
+<li><p>In real examples, when dealing with categorical variables(those with more than 10 sub-categories), Lasso often does weird thing as it treats each of the sub-category as an individual variable, that is, it selects some of the sub-categories while think others to be irrelevant. This also makes it hard to interpret.</p></li>
 </ul>
-
 </div>
 <p style="text-align: center;">
 <a href="8-2-bayesian-interpretation.html"><button class="btn btn-default">Previous</button></a>
+<a href="10-reference.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

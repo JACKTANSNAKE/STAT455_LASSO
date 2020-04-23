@@ -13,7 +13,7 @@
 
 
 
-<meta name="date" content="2020-04-22" />
+<meta name="date" content="2020-04-23" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -179,6 +179,7 @@ img {
 </ul></li>
 </ul></li>
 <li><a href="9-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">9</span> Limitations of Ridge and Lasso</a></li>
+<li><a href="10-reference.html#reference"><span class="toc-section-number">10</span> Reference</a></li>
 </ul>
 </div>
 </div>
@@ -246,21 +247,33 @@ containing the right singular vectors (denoted <span class="math inline">\(V_i\)
 <span class="math display">\[
 \boldsymbol{U}^T_x\boldsymbol{U}_x = \boldsymbol{I}_{nn} = \boldsymbol{V}^T_x\boldsymbol{V}_x
 \]</span>
-Then we can rewrite <span class="math inline">\(\hat\beta\)</span> as:
+Recall that the OLS estimator is:
+<span class="math display">\[
+\hat\beta_{OLS} = (X^T X)^{-1} X^T y
+\]</span>
+We can then rewrite the solution for OLS as:
+<span class="math display">\[\begin{align*}
+\boldsymbol{X}\hat\beta_{OLS} &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x(\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
+ &amp;= \boldsymbol{U}_x\boldsymbol{U}^T_xy\\
+ &amp;= {\sum_{j = 1}^{p}\boldsymbol{u}_j(1)\boldsymbol{u}_j^T\boldsymbol{y}}
+\end{align*}\]</span>
+We can also rewrite <span class="math inline">\(\hat\beta\)</span> as:
 <span class="math display">\[\begin{align*}
 \hat\beta &amp;= {(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}_{pp})}^{-1}\boldsymbol{X}^T\boldsymbol{Y}\\
  &amp;= (\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x + \lambda\boldsymbol{I}_{pp})^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
  &amp;= (\boldsymbol{V}_x\boldsymbol{D}_x^2\boldsymbol{V}_x^T + \lambda\boldsymbol{V}_x\boldsymbol{V}_x^T)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \boldsymbol{V}_x(\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn})^{-1}\boldsymbol{V}^T_x\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \boldsymbol{V}_x(\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn})^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}
+ &amp;= (\boldsymbol{V}_x[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{V}^T_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y} \\
+ &amp;= (\boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{V}_x^{-1})\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
+ &amp;= \boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}
 \end{align*}\]</span>
-Then the ridge solutions becomes
+Then the ridge solutions becomes:
 <span class="math display">\[\begin{align*}
-\boldsymbol{X}\hat\beta &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x\boldsymbol{V}_x(\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn})^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
+\boldsymbol{X}\hat\beta &amp;= \boldsymbol{X}\boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
+ &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x\boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
  &amp;= \boldsymbol{U}_x\boldsymbol{D}_x(\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn})^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
  &amp;= \sum_{j = 1}^{p}\boldsymbol{u}_j\frac{d^2_{j}}{d^2_{j} + \lambda}\boldsymbol{u}_j^T\boldsymbol{y}
-\end{align*}\]</span>
-Note that since <span class="math inline">\(\lambda \geq 0\)</span>, we have <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda} \leq 1\)</span>. Ridge regression computes the coordinates of <span class="math inline">\(\boldsymbol{y}\)</span> with respect to the orthonormal basis U. Then it shrinks these coordinates by the factor <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda}\)</span>. This means that variable with smaller singular value is shrunk more than those with larger singular values.</p>
+\end{align*}\]</span></p>
+<p>Note that since <span class="math inline">\(\lambda \geq 0\)</span>, we have <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda} \leq 1\)</span>. Ridge regression computes the coordinates of <span class="math inline">\(\boldsymbol{y}\)</span> with respect to the orthonormal basis U. Then it shrinks these coordinates by the factor <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda}\)</span>. This means that variable with smaller singular value is shrunk more than those with larger singular values. Note that variables with smaller singular values explains less of the variation of our sample(less important). This could be proved using the sample covariance matrix.</p>
 
 </div>
 </div>

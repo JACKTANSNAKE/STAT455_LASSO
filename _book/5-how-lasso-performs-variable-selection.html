@@ -13,7 +13,7 @@
 
 
 
-<meta name="date" content="2020-04-22" />
+<meta name="date" content="2020-04-23" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -179,6 +179,7 @@ img {
 </ul></li>
 </ul></li>
 <li><a href="9-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">9</span> Limitations of Ridge and Lasso</a></li>
+<li><a href="10-reference.html#reference"><span class="toc-section-number">10</span> Reference</a></li>
 </ul>
 </div>
 </div>
@@ -203,30 +204,30 @@ Which we can further expand into:
 \hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\rvert\hat{\beta}\rvert\}
 \]</span>
 Unlike the ridge regression case where we can take a derivative directly and set it equal to zero so that we can minimize the residual, here we have a <span class="math inline">\(\rvert\hat{\beta}\rvert\)</span> term which makes such procedure painful. Thus, we will instead compare different cases w.r.t. <span class="math inline">\(\hat\beta\)</span>.
-+ Case1: <span class="math inline">\(\hat\beta \geq 0\)</span>, <span class="math inline">\(\rvert\hat{\beta}\rvert = \hat{\beta}\)</span>
-- Since we are assuming that <span class="math inline">\(\hat\beta \geq 0\)</span>, it is the same as assuming <span class="math inline">\(\vec{y}^T\vec{x} \geq 0\)</span>(x’s and y’s have a positive relationship).
-- In this case, we can rewrite the above expression as:
+Case1: <span class="math inline">\(\hat\beta \geq 0\)</span>, <span class="math inline">\(\rvert\hat{\beta}\rvert = \hat{\beta}\)</span>
+Since we are assuming that <span class="math inline">\(\hat\beta \geq 0\)</span>, it is the same as assuming <span class="math inline">\(\vec{y}^T\vec{x} \geq 0\)</span>(x’s and y’s have a positive relationship).
+In this case, we can rewrite the above expression as:
 <span class="math display">\[
 \hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\hat{\beta}\}
 \]</span>
-- Then we can take the derivative w.r.t. <span class="math inline">\(\hat\beta\)</span> and set it equal to zero:
+Then we can take the derivative w.r.t. <span class="math inline">\(\hat\beta\)</span> and set it equal to zero:
 <span class="math display">\[
 -2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^* =_{set} 0
 \]</span>
-- Where we can obtain a solution for <span class="math inline">\(\hat\beta\)</span>:
+Where we can obtain a solution for <span class="math inline">\(\hat\beta\)</span>:
 <span class="math display">\[
 \hat\beta = (\vec{y}^T\vec{x} - \lambda^*)(\vec{x}^T\vec{x})^{-1}
 \]</span>
-- Obviously by increasing <span class="math inline">\(\lambda^*\)</span>, we can eventually achieve <span class="math inline">\(\hat\beta = 0\)</span> at <span class="math inline">\(\lambda^* = \vec{y}^T\vec{x}\)</span>. However, it is tricky to think about what happens when we increase <span class="math inline">\(\lambda^*\)</span> once <span class="math inline">\(\vec{y}^T\vec{x} = 0\)</span>. The thing is that increasing <span class="math inline">\(\lambda^*\)</span> at this point will not drive <span class="math inline">\(\hat{\beta}\)</span> negative, because once the estimator <span class="math inline">\(\hat\beta\)</span> becomes negative, the derivative of the penalty term estimator becomes:
+Obviously by increasing <span class="math inline">\(\lambda^*\)</span>, we can eventually achieve <span class="math inline">\(\hat\beta = 0\)</span> at <span class="math inline">\(\lambda^* = \vec{y}^T\vec{x}\)</span>. However, it is tricky to think about what happens when we increase <span class="math inline">\(\lambda^*\)</span> once <span class="math inline">\(\vec{y}^T\vec{x} = 0\)</span>. The thing is that increasing <span class="math inline">\(\lambda^*\)</span> at this point will not drive <span class="math inline">\(\hat{\beta}\)</span> negative, because once the estimator <span class="math inline">\(\hat\beta\)</span> becomes negative, the derivative of the penalty term estimator becomes:
 <span class="math display">\[
 -2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^* =_{set} 0
 \]</span>
-- where the flip in the sign of <span class="math inline">\(\lambda^*\)</span> is due to the absolute value function before taking the derivative. Thus, we have a new solution for <span class="math inline">\(\hat\beta\)</span>:
+where the flip in the sign of <span class="math inline">\(\lambda^*\)</span> is due to the absolute value function before taking the derivative. Thus, we have a new solution for <span class="math inline">\(\hat\beta\)</span>:
 <span class="math display">\[
 \hat\beta = (\vec{y}^T\vec{x} + \lambda^*)(\vec{x}^T\vec{x})^{-1}
 \]</span>
-- This solution, however, is inconsistent with our premises <span class="math inline">\(\hat\beta &lt; 0\)</span>, since we have assumed that the least squares solution is greater than or equal to zero(<span class="math inline">\(\vec{y}^T\vec{x} \geq 0\)</span>), and <span class="math inline">\(\lambda^* \geq 0\)</span>. For this solution, the sum of squared residual does not have an minimum anymore. Thus, we will just stick at <span class="math inline">\(\hat\beta = 0\)</span>, even if <span class="math inline">\(\lambda^* &gt; \vec{y}^T\vec{x}\)</span>.
-+ Intuitively, when we assume that the least squares solution is negative with <span class="math inline">\(\hat\beta &lt; 0\)</span>, the logic is the same that we stick with <span class="math inline">\(\hat\beta = 0\)</span> once it reaches zero.
+This solution, however, is inconsistent with our premises <span class="math inline">\(\hat\beta &lt; 0\)</span>, since we have assumed that the least squares solution is greater than or equal to zero(<span class="math inline">\(\vec{y}^T\vec{x} \geq 0\)</span>), and <span class="math inline">\(\lambda^* \geq 0\)</span>. For this solution, the sum of squared residual does not have an minimum anymore. Thus, we will just stick at <span class="math inline">\(\hat\beta = 0\)</span>, even if <span class="math inline">\(\lambda^* &gt; \vec{y}^T\vec{x}\)</span>.
+Intuitively, when we assume that the least squares solution is negative with <span class="math inline">\(\hat\beta &lt; 0\)</span>, the logic is the same that we stick with <span class="math inline">\(\hat\beta = 0\)</span> once it reaches zero.
 Note that so far we’ve only talked about a univariate Lasso example. When having a dataset that has multiple dimensions, as we keep increasing the value of <span class="math inline">\(\lambda\)</span>(or <span class="math inline">\(\lambda^*\)</span>), some of the features or variables will be zeroed out just as <span class="math inline">\(\hat\beta\)</span> shown above while some other features are shrinked toward zero but not yet reduced to zero. Therefore, the Lasso does variable selection in this manner, by shrinking some of the coefficients to zero while some non-zero.</p>
 </div>
 <div id="shrinkage-explaination-from-geometric-perspective" class="section level3">
