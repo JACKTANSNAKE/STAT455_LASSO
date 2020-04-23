@@ -155,7 +155,7 @@ bf_test%>%
 # Numerical+categorial
 cars<- read_csv("https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv")
 
-set.seed(455)
+set.seed(???)
 cars_split <- initial_split(cars%>%select(-`Model Index`, -Model), prop = .7)
 cars_train <- training(cars_split)
 cars_test <- testing(cars_split)
@@ -164,7 +164,7 @@ cars_test <- testing(cars_split)
 ### OLS
 
 ```{r}
-set.seed(455)
+set.seed(???)
 cars_ols <- train(
   ? ~ ?,
   data = ?, 
@@ -182,7 +182,7 @@ cars_ols$results$RMSE
 ### RIDGE
 
 ```{r}
-set.seed(455)
+set.seed(???)
 cars_ridge <- train(
   ? ~ ?,
   data = ?, 
@@ -204,7 +204,7 @@ plot(cars_ridge$finalModel,xvar="lambda",label=TRUE)
 ```
 
 ```{r}
-set.seed(455)
+set.seed(???)
 cars_ridge_best <- train(
   ? ~ ?,
   data = ?, 
