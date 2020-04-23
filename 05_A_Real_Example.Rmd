@@ -83,7 +83,7 @@ bf_ridge_best <- train(
   na.action = na.omit
 )
 
-coefficients(bf_ridge_best$finalModel)
+coefficients(bf_ridge_best$finalModel,0.6135907)
 ```
 
 ### LASSO
@@ -123,7 +123,7 @@ bf_lasso_best <- train(
   na.action = na.omit
 )
 
-coefficients(bf_lasso_best$finalModel)
+coefficients(bf_lasso_best$finalModel,0.05214008)
 ```
 
 ### Test data
@@ -216,7 +216,7 @@ cars_ridge_best <- train(
 
 cars_ridge_best$results$RMSE
 
-coefficients(cars_ridge_best$finalModel)
+coefficients(cars_ridge_best$finalModel,0.3764936)
 ```
 
 ### LASSO
@@ -258,7 +258,8 @@ cars_lasso_best <- train(
 
 cars_lasso_best$results$RMSE
 
-coefficients(cars_lasso_best$finalModel)
+coefficients(cars_lasso_best$finalModel,0.009545485)
+coefficients(cars_lasso_best$finalModel,0.1)
 ```
 
 ### Test data
