@@ -1,22 +1,25 @@
-# A Real Example
+---
+title: "In-Class Activity"
+author: "Yunyang Zhong"
+date: "4/22/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
 library(ggplot2)
-library(readr)
+library(tidyverse)
 library(dplyr)
 library(rsample) #for splitting data
 library(caret)
 library(ISLR)
 library(glmnet)
-library(coefplot)
 ```
 
-### Cross validation
-
-> Cross validation randomly divides the data set into k folds, k-1 training groups to which models will be fitted and one testing group to test the model.
-
-![](cv.PNG)
-(from Hands-On Machine Learning with R 2.4 by Bradley Boehmke & Brandon Greenwell)
+## Example
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
 # Load the data
@@ -44,6 +47,8 @@ bf_ols <- train(
 )
 
 coefficients(bf_ols$finalModel)
+
+bf_ols$results$RMSE
 ```
 
 ### RIDGE
@@ -83,7 +88,7 @@ bf_ridge_best <- train(
   na.action = na.omit
 )
 
-coefficients(bf_ridge_best$finalModel)
+bf_ridge_best$results$RMSE
 ```
 
 ### LASSO
@@ -123,7 +128,7 @@ bf_lasso_best <- train(
   na.action = na.omit
 )
 
-coefficients(bf_lasso_best$finalModel)
+bf_lasso_best$results$RMSE
 ```
 
 ### Test data
@@ -142,19 +147,16 @@ bf_test%>%
   summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
 ```
 
-### Activity
+## OLS vs RIDGE vs LASSO example 2
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
 # Load the data
 # Not highly correlated
 # Numerical+categorial
-cars2018 <- read_csv("cars2018.csv", col_types = cols(Model = col_skip(), 
-    `Model Index` = col_skip()))
-```
+cars<- read_csv("https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv")
 
-```{r}
-set.seed(455)
-cars_split <- initial_split(cars2018, prop = .7)
+set.seed(???)
+cars_split <- initial_split(cars%>%select(-`Model Index`, -Model), prop = .7)
 cars_train <- training(cars_split)
 cars_test <- testing(cars_split)
 ```
@@ -162,11 +164,11 @@ cars_test <- testing(cars_split)
 ### OLS
 
 ```{r}
-set.seed(455)
+set.seed(???)
 cars_ols <- train(
-  MPG ~ .,
-  data = cars_train, 
-  method = "lm",
+  ? ~ ?,
+  data = ?, 
+  method = ?,
   trControl = trainControl(method = "cv", 
                            number = 10), 
   na.action = na.omit
@@ -180,10 +182,10 @@ cars_ols$results$RMSE
 ### RIDGE
 
 ```{r}
-set.seed(455)
+set.seed(???)
 cars_ridge <- train(
-  MPG ~ .,
-  data = cars_train, 
+  ? ~ ?,
+  data = ?, 
   method = "glmnet",
   trControl = trainControl(method = "cv", 
                            number = 10),
@@ -202,66 +204,34 @@ plot(cars_ridge$finalModel,xvar="lambda",label=TRUE)
 ```
 
 ```{r}
-set.seed(455)
+set.seed(???)
 cars_ridge_best <- train(
-  MPG ~ .,
-  data = cars_train, 
+  ? ~ ?,
+  data = ?, 
   method = "glmnet",
   trControl = trainControl(method = "cv", 
                            number = 10),
   tuneGrid = data.frame(alpha = 0, 
-                        lambda = 0.3764936),
+                        lambda = ?),
   na.action = na.omit
 )
 
 cars_ridge_best$results$RMSE
-
-coefficients(cars_ridge_best$finalModel)
 ```
 
 ### LASSO
 
+(The code for LASSO is the same as for RIDGE except that you need to use alpha = 1.)
+
 ```{r}
-set.seed(455)
-cars_lasso <- train(
-  MPG ~ .,
-  data = cars_train, 
-  method = "glmnet",
-  trControl = trainControl(method = "cv", 
-                           number = 10),
-  tuneGrid = data.frame(alpha = 1, 
-                        lambda = 10^seq(-3, -2, length = 100)),
-  na.action = na.omit
-)
-
-cars_lasso%>%
-  ggplot(aes(x=lambda,y=RMSE))+
-  geom_point(size = .5, alpha = .5)
-
-cars_lasso$bestTune$lambda
-
-plot(cars_lasso$finalModel,xvar='lambda',label=TRUE)
+# Try on your own!
 ```
 
 ```{r}
-set.seed(455)
-cars_lasso_best <- train(
-  MPG ~ .,
-  data = cars_train, 
-  method = "glmnet",
-  trControl = trainControl(method = "cv", 
-                           number = 10),
-  tuneGrid = data.frame(alpha = 1, 
-                        lambda = 0.009545485),
-  na.action = na.omit
-)
-
-cars_lasso_best$results$RMSE
-
-coefficients(cars_lasso_best$finalModel)
+# Your turn!
 ```
 
-### Test data
+## Using test data to see the effect of your model
 
 ```{r}
 cars_test%>%
@@ -277,8 +247,21 @@ cars_test%>%
   summarize(RMSE = sqrt(mean((MPG - pred_mpg)^2)))
 ```
 
-## Data Summary
+## Bayesian Lasso proof
 
-![](Summary.PNG)
+Assumptions:
+@ A multivariate Normal likelihood for $\mathbf{y}$:
+$$f(y\mid \boldsymbol\beta, \sigma^2)\sim N(\mathbf{X}\boldsymbol\beta, \sigma^2\mathbf{I})$$
+@ An independent double exponential (aka Laplace) prior for $\boldsymbol\beta$: 
+$$f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)$$
+@ $\sigma^2 = 1$ for simplicity
 
-> From the summary table above, we can see that for the highly corrlated numerical dataset bodyfat, lasso gives the smallest training RMSE while ridge gives the smallest testing RMSE. For the less correlated dataset cars with categorical variables included, lasso always gives the smallest RMSE.
+The posterior distribution for $\boldsymbol\beta$
+$$\begin{aligned}
+g(\boldsymbol\beta \mid y)&\propto f(y \mid \boldsymbol\beta, \sigma^2) f(\boldsymbol\beta)\\
+&= ???
+\end{aligned}$$
+
+### Posterior Mode
+
+Prove that maximize the posterior distribution is the same as minimizing the -log posterior!
