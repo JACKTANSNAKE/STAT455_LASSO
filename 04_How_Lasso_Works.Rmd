@@ -4,15 +4,15 @@ Again, just as we discussed how shrinkage worked, we'll use the univariate model
 ### univariate example
 Again we have a simple model: $y = \beta x + \epsilon$, with an L2 penalty(Lasso regression) on $\hat\beta$ and a least squares loss function on $\hat\epsilon$. We can then expand the expression for sum of squared residuals to be minimized as:
 $$
-\hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\}
+\hat\beta = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\}
 $$
 For convenience, we will now substitute $2\lambda^* = \lambda$, since $2\lambda^* = \lambda$ has a one-to-one relationship, this change does not affect the result. We can then rewrite $\hat\epsilon$ in the matrix form:
 $$
-\hat{\epsilon} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + 2\lambda^*\rvert\hat{\beta}\rvert\}
+\hat{\beta} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + 2\lambda^*\rvert\hat{\beta}\rvert\}
 $$
 Which we can further expand into:
 $$
-\hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\rvert\hat{\beta}\rvert\}
+\hat\beta = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\rvert\hat{\beta}\rvert\}
 $$
 Unlike the ridge regression case where we can take a derivative directly and set it equal to zero so that we can minimize the residual, here we have a $\rvert\hat{\beta}\rvert$ term which makes such procedure painful. Thus, we will instead compare different cases w.r.t. $\hat\beta$.
   Case1: $\hat\beta \geq 0$, $\rvert\hat{\beta}\rvert = \hat{\beta}$
@@ -31,7 +31,7 @@ $$
 $$
     Obviously by increasing $\lambda^*$, we can eventually achieve $\hat\beta = 0$ at $\lambda^* = \vec{y}^T\vec{x}$. However, it is tricky to think about what happens when we increase $\lambda^*$ once $\vec{y}^T\vec{x} = 0$. The thing is that increasing $\lambda^*$ at this point will not drive $\hat{\beta}$ negative, because once the estimator $\hat\beta$ becomes negative, the derivative of the penalty term estimator becomes:
 $$
--2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^* =_{set} 0
+-2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} - 2\lambda^* =_{set} 0
 $$
     where the flip in the sign of $\lambda^*$ is due to the absolute value function before taking the derivative. Thus, we have a new solution for $\hat\beta$:
 $$

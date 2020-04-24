@@ -193,15 +193,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.0.1</span> univariate example</h3>
 <p>Again we have a simple model: <span class="math inline">\(y = \beta x + \epsilon\)</span>, with an L2 penalty(Lasso regression) on <span class="math inline">\(\hat\beta\)</span> and a least squares loss function on <span class="math inline">\(\hat\epsilon\)</span>. We can then expand the expression for sum of squared residuals to be minimized as:
 <span class="math display">\[
-\hat\epsilon = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\}
+\hat\beta = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\}
 \]</span>
 For convenience, we will now substitute <span class="math inline">\(2\lambda^* = \lambda\)</span>, since <span class="math inline">\(2\lambda^* = \lambda\)</span> has a one-to-one relationship, this change does not affect the result. We can then rewrite <span class="math inline">\(\hat\epsilon\)</span> in the matrix form:
 <span class="math display">\[
-\hat{\epsilon} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + 2\lambda^*\rvert\hat{\beta}\rvert\}
+\hat{\beta} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + 2\lambda^*\rvert\hat{\beta}\rvert\}
 \]</span>
 Which we can further expand into:
 <span class="math display">\[
-\hat\epsilon = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\rvert\hat{\beta}\rvert\}
+\hat\beta = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^*\rvert\hat{\beta}\rvert\}
 \]</span>
 Unlike the ridge regression case where we can take a derivative directly and set it equal to zero so that we can minimize the residual, here we have a <span class="math inline">\(\rvert\hat{\beta}\rvert\)</span> term which makes such procedure painful. Thus, we will instead compare different cases w.r.t. <span class="math inline">\(\hat\beta\)</span>.
 Case1: <span class="math inline">\(\hat\beta \geq 0\)</span>, <span class="math inline">\(\rvert\hat{\beta}\rvert = \hat{\beta}\)</span>
@@ -220,7 +220,7 @@ Where we can obtain a solution for <span class="math inline">\(\hat\beta\)</span
 \]</span>
 Obviously by increasing <span class="math inline">\(\lambda^*\)</span>, we can eventually achieve <span class="math inline">\(\hat\beta = 0\)</span> at <span class="math inline">\(\lambda^* = \vec{y}^T\vec{x}\)</span>. However, it is tricky to think about what happens when we increase <span class="math inline">\(\lambda^*\)</span> once <span class="math inline">\(\vec{y}^T\vec{x} = 0\)</span>. The thing is that increasing <span class="math inline">\(\lambda^*\)</span> at this point will not drive <span class="math inline">\(\hat{\beta}\)</span> negative, because once the estimator <span class="math inline">\(\hat\beta\)</span> becomes negative, the derivative of the penalty term estimator becomes:
 <span class="math display">\[
--2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda^* =_{set} 0
+-2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} - 2\lambda^* =_{set} 0
 \]</span>
 where the flip in the sign of <span class="math inline">\(\lambda^*\)</span> is due to the absolute value function before taking the derivative. Thus, we have a new solution for <span class="math inline">\(\hat\beta\)</span>:
 <span class="math display">\[
