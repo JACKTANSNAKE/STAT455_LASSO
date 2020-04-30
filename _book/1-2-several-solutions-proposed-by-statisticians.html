@@ -13,7 +13,7 @@
 
 
 
-<meta name="date" content="2020-04-24" />
+<meta name="date" content="2020-04-30" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -138,6 +138,8 @@ img {
 <li><a href="1-1-the-ordinary-least-squared-model.html#the-ordinary-least-squared-model"><span class="toc-section-number">1.1</span> The ordinary least squared model</a></li>
 <li><a href="1-2-several-solutions-proposed-by-statisticians.html#several-solutions-proposed-by-statisticians"><span class="toc-section-number">1.2</span> Several solutions proposed by statisticians</a></li>
 <li><a href="1-3-shrinkage.html#shrinkage"><span class="toc-section-number">1.3</span> Shrinkage</a></li>
+<li><a href="1-4-literature-review.html#literature-review"><span class="toc-section-number">1.4</span> Literature Review</a></li>
+<li><a href="1-5-outline.html#outline"><span class="toc-section-number">1.5</span> Outline</a></li>
 </ul></li>
 <li class="has-sub"><a href="2-ridge-regression.html#ridge-regression"><span class="toc-section-number">2</span> Ridge Regression</a><ul>
 <li><a href="2-1-definition.html#definition"><span class="toc-section-number">2.1</span> Definition</a></li>
@@ -188,7 +190,7 @@ img {
 <p>The first method is subset selection:</p>
 <ul>
 <li><p>Best subset selection algorithm: This is a sort of brute force technique that in real life no actual statistician would use for subset selection. In order to perform best subset selection, we generate the power set of all <span class="math inline">\(p\)</span> variables in a dataset, and then we select the one with the least error.</p></li>
-<li><p>backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.</p></li>
+<li><p>Backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.</p></li>
 <li><p>More stepwise selection: forward stepwise selection, bidirectional elimination<span class="math inline">\(\cdots\)</span>.</p></li>
 </ul>
 <p>Problems with subset selection algorithms:</p>

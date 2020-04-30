@@ -32,7 +32,7 @@ The first method is subset selection:
   
   * Best subset selection algorithm: This is a sort of brute force technique that in real life no actual statistician would use for subset selection. In order to perform best subset selection, we generate the power set of all $p$ variables in a dataset, and then we select the one with the least error.
     
-  * backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.
+  * Backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.
     
   * More stepwise selection: forward stepwise selection, bidirectional elimination$\cdots$.
     
@@ -52,3 +52,8 @@ Problems with subset selection algorithms:
   * L2 shrinkage methods: performs both shrinking coefficients and variable selection(shrink some variables to 0).
   
   We are going to start by looking at an L1 shrinkage method, and then look at the most classic L2 shrinkage method: Lasso.
+  
+## Literature Review
+
+## Outline 
+  In section 2 and 3, we will be covering the definition of ridge regression and how ridge regression performs shrinkage. In section 4 and 5, we will be stating the definition of Lasso and how Lasso performs both shrinkage and variable selection. In section 6, we will implement ridge regression and Lasso on some tidied data that are commonly used for machine learning to show the continous process that these shrinkage methods provide. In section 7, we will be studying bayesian Lasso. In section 8, we are going to cover some limitations of shrinkage methods and go through some other related topics. 

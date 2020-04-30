@@ -8,6 +8,10 @@
 
 # Reference
 
-  * Hastie, Trevor, et al. The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Springer, 2017.
+  * Hastie, T., Friedman, J., & Tisbshirani, R. (2017). The Elements of statistical learning: data mining, inference, and prediction. New York: Springer.
   
-  * Wieringen, Wessel N. van. “PDF.” 18 Jan. 2020. 
+  * James, G., Witten, D., Hastie, T., & Tibshirani, R. (2017). An introduction to statistical learning: with applications in R. New York: Springer.
+  
+  * Tibshirani, R. (1996). Regression Shrinkage and Selection Via the Lasso. Journal of the Royal Statistical Society: Series B (Methodological), 58(1), 267–288. doi: 10.1111/j.2517-6161.1996.tb02080.x
+  
+  * Wieringen, W. N. van. (2020, January 18). Lecture Notes on Ridge Regression. PDF.
