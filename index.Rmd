@@ -6,6 +6,7 @@ output:
   bookdown::pdf_book: default
   bookdown::gitbook: default
 documentclass: book
+classoption: openany
 ---
 # Motivation
 ```{r include=FALSE}
@@ -54,6 +55,7 @@ Problems with subset selection algorithms:
   We are going to start by looking at an L1 shrinkage method, and then look at the most classic L2 shrinkage method: Lasso.
   
 ## Literature Review
+  In 1996, Robert Tishirani posted `Regression Shrinkage and Selection Via the Lasso`, which was the first time Lasso was brought into statistics. Later, Tibshirani together with other well known statisticians published `An introduction to statistical learning: with applications in R`, which includes simple explaination of Lasso and Ridge Regression. In a more complicated version of textbook Tibshirani and other statisticians published, `The Elements of statistical learning: data mining, inference, and prediction`, they included a much more complete and comprehensive perspective on general Shrinkage techniques, including a Bayesian interpretation of the Lasso. Most of our work will be based on our understanding from this textbook.
 
 ## Outline 
   In section 2 and 3, we will be covering the definition of ridge regression and how ridge regression performs shrinkage. In section 4 and 5, we will be stating the definition of Lasso and how Lasso performs both shrinkage and variable selection. In section 6, we will implement ridge regression and Lasso on some tidied data that are commonly used for machine learning to show the continous process that these shrinkage methods provide. In section 7, we will be studying bayesian Lasso. In section 8, we are going to cover some limitations of shrinkage methods and go through some other related topics. 

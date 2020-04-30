@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods" />
+<meta property="og:title" content="6.5 LASSO | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods">
+<meta name="description" content="6.5 LASSO | Shrinkage Methods">
 
-<title>Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods</title>
+<title>6.5 LASSO | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -180,17 +180,46 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="limitations-of-ridge-and-lasso" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Limitations of Ridge and Lasso</h1>
-<ul>
-<li><p>One important drawback of Lasso and ridge is that it’s very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)—you really just get estimates and that’s it.</p></li>
-<li><p>The other thing is that we usually cannot give a good explanation for the coefficients and the entire model, because the coefficients are shrunk. Some might say we could use Lasso simply as a variable selection tool and we can use the Lasso result to generate an OLS which is easier to explain. But note that there is possibility that Lasso would give us wrong information, based on assumptions we have made about the data.</p></li>
-<li><p>In real examples, when dealing with categorical variables(those with more than 10 sub-categories), Lasso often does weird thing as it treats each of the sub-category as an individual variable, that is, it selects some of the sub-categories while think others to be irrelevant. This also makes it hard to interpret.</p></li>
-</ul>
+<div id="lasso-1" class="section level2">
+<h2><span class="header-section-number">6.5</span> LASSO</h2>
+<p>We repeat the same process to fit the LASSO model. In terms of coding, the only difference is to change the alpha value in the tuneGrid from 0 to 1. We get a RMSE of 3.0255, which is the smallest. Some coefficients such as Cylinders and Gears are set to 0. It is interesting that the coefficient TransmissionManual is set to 0 while TransmissionCVT, the other term of the same categorical variable, is not. This leads to one of the limitation of LASSO models when analyzing categorical variables. From the graph showing the shrinkage of coefficients, we can see the as lambda increases, all of them get to exactly 0.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">set.seed</span>(<span class="dv">455</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">cars_lasso &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb2-3" title="3">  MPG <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb2-4" title="4">  <span class="dt">data =</span> cars_train, </a>
+<a class="sourceLine" id="cb2-5" title="5">  <span class="dt">method =</span> <span class="st">&quot;glmnet&quot;</span>,</a>
+<a class="sourceLine" id="cb2-6" title="6">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, </a>
+<a class="sourceLine" id="cb2-7" title="7">                           <span class="dt">number =</span> <span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb2-8" title="8">  <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">alpha =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb2-9" title="9">                        <span class="dt">lambda =</span> <span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">-2</span>, <span class="dt">length =</span> <span class="dv">100</span>)),</a>
+<a class="sourceLine" id="cb2-10" title="10">  <span class="dt">na.action =</span> na.omit</a>
+<a class="sourceLine" id="cb2-11" title="11">)</a>
+<a class="sourceLine" id="cb2-12" title="12"></a>
+<a class="sourceLine" id="cb2-13" title="13">cars_lasso<span class="op">$</span>bestTune<span class="op">$</span>lambda</a></code></pre></div>
+<p><img src="Shrinkage-Methods_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre><code>## 17 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                                                          1
+## (Intercept)                                    39.75545077
+## Displacement                                   -2.83657321
+## Cylinders                                       .         
+## Gears                                           .         
+## TransmissionCVT                                 4.79076756
+## TransmissionManual                              .         
+## AspirationTurbocharged/Supercharged            -1.44680028
+## `Lockup Torque Converter`Y                     -1.61692083
+## Drive2-Wheel Drive, Rear                       -1.94168304
+## Drive4-Wheel Drive                             -2.78768269
+## DriveAll Wheel Drive                           -2.22100559
+## `Max Ethanol`                                  -0.00222014
+## `Recommended Fuel`Premium Unleaded Required     .         
+## `Recommended Fuel`Regular Unleaded Recommended -0.10788122
+## `Intake Valves Per Cyl`                        -0.27837487
+## `Exhaust Valves Per Cyl`                       -1.97358320
+## `Fuel injection`Multipoint/sequential ignition -0.49852192</code></pre>
 </div>
 <p style="text-align: center;">
-<a href="7-3-posterior-mode.html"><button class="btn btn-default">Previous</button></a>
-<a href="8-1-reference.html"><button class="btn btn-default">Next</button></a>
+<a href="6-4-ridge.html"><button class="btn btn-default">Previous</button></a>
+<a href="6-6-test-data.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

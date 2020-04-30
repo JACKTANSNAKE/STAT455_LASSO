@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods" />
+<meta property="og:title" content="8.1 Reference | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods">
+<meta name="description" content="8.1 Reference | Shrinkage Methods">
 
-<title>Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods</title>
+<title>8.1 Reference | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -180,17 +180,19 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="limitations-of-ridge-and-lasso" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Limitations of Ridge and Lasso</h1>
+<div id="reference" class="section level2">
+<h2><span class="header-section-number">8.1</span> Reference</h2>
 <ul>
-<li><p>One important drawback of Lasso and ridge is that it’s very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)—you really just get estimates and that’s it.</p></li>
-<li><p>The other thing is that we usually cannot give a good explanation for the coefficients and the entire model, because the coefficients are shrunk. Some might say we could use Lasso simply as a variable selection tool and we can use the Lasso result to generate an OLS which is easier to explain. But note that there is possibility that Lasso would give us wrong information, based on assumptions we have made about the data.</p></li>
-<li><p>In real examples, when dealing with categorical variables(those with more than 10 sub-categories), Lasso often does weird thing as it treats each of the sub-category as an individual variable, that is, it selects some of the sub-categories while think others to be irrelevant. This also makes it hard to interpret.</p></li>
+<li><p>Hastie, T., Friedman, J., &amp; Tisbshirani, R. (2017). The Elements of statistical learning: data mining, inference, and prediction. New York: Springer.</p></li>
+<li><p>James, G., Witten, D., Hastie, T., &amp; Tibshirani, R. (2017). An introduction to statistical learning: with applications in R. New York: Springer.</p></li>
+<li><p>Tibshirani, R. (1996). Regression Shrinkage and Selection Via the Lasso. Journal of the Royal Statistical Society: Series B (Methodological), 58(1), 267–288. doi: 10.1111/j.2517-6161.1996.tb02080.x</p></li>
+<li><p>Wieringen, W. N. van. (2020, January 18). Lecture Notes on Ridge Regression. PDF.</p></li>
 </ul>
+
 </div>
+<!-- </div> -->
 <p style="text-align: center;">
-<a href="7-3-posterior-mode.html"><button class="btn btn-default">Previous</button></a>
-<a href="8-1-reference.html"><button class="btn btn-default">Next</button></a>
+<a href="8-limitations-of-ridge-and-lasso.html"><button class="btn btn-default">Previous</button></a>
 </p>
 </div>
 </div>

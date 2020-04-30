@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods" />
+<meta property="og:title" content="7.1 Bayesian Interpretation | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods">
+<meta name="description" content="7.1 Bayesian Interpretation | Shrinkage Methods">
 
-<title>Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods</title>
+<title>7.1 Bayesian Interpretation | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -180,17 +180,16 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="limitations-of-ridge-and-lasso" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Limitations of Ridge and Lasso</h1>
-<ul>
-<li><p>One important drawback of Lasso and ridge is that it’s very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)—you really just get estimates and that’s it.</p></li>
-<li><p>The other thing is that we usually cannot give a good explanation for the coefficients and the entire model, because the coefficients are shrunk. Some might say we could use Lasso simply as a variable selection tool and we can use the Lasso result to generate an OLS which is easier to explain. But note that there is possibility that Lasso would give us wrong information, based on assumptions we have made about the data.</p></li>
-<li><p>In real examples, when dealing with categorical variables(those with more than 10 sub-categories), Lasso often does weird thing as it treats each of the sub-category as an individual variable, that is, it selects some of the sub-categories while think others to be irrelevant. This also makes it hard to interpret.</p></li>
-</ul>
+<div id="bayesian-interpretation" class="section level2">
+<h2><span class="header-section-number">7.1</span> Bayesian Interpretation</h2>
+<p>We can show that <span class="math inline">\(\hat{\boldsymbol\beta}_{LASSO}\)</span> has a Bayesian interpretation. In particular, we can show that is a Bayes estimator for <span class="math inline">\(\boldsymbol\beta\)</span> assuming a multivariate Normal likelihood for <span class="math inline">\(\mathbf{y}\)</span>:
+<span class="math display">\[f(y\mid \boldsymbol\beta, \sigma^2)\sim N(\mathbf{X}\boldsymbol\beta, \sigma^2\mathbf{I}),\]</span>
+and an independent double exponential (aka Laplace) prior for <span class="math inline">\(\boldsymbol\beta\)</span>:
+<span class="math display">\[f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)\]</span></p>
 </div>
 <p style="text-align: center;">
-<a href="7-3-posterior-mode.html"><button class="btn btn-default">Previous</button></a>
-<a href="8-1-reference.html"><button class="btn btn-default">Next</button></a>
+<a href="7-bayesian-lasso.html"><button class="btn btn-default">Previous</button></a>
+<a href="7-2-posterior.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

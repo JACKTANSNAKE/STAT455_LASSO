@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 How Ridge Works | Shrinkage Methods</title>
-  <meta name="description" content="Chapter 3 How Ridge Works | Shrinkage Methods" />
+  <title>Chapter 6 Applications of Ridge and Lasso | Shrinkage Methods</title>
+  <meta name="description" content="Chapter 6 Applications of Ridge and Lasso | Shrinkage Methods" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 How Ridge Works | Shrinkage Methods" />
+  <meta property="og:title" content="Chapter 6 Applications of Ridge and Lasso | Shrinkage Methods" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 How Ridge Works | Shrinkage Methods" />
+  <meta name="twitter:title" content="Chapter 6 Applications of Ridge and Lasso | Shrinkage Methods" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="ridge-regression.html"/>
-<link rel="next" href="lasso.html"/>
+<link rel="prev" href="how-lasso-performs-variable-selection.html"/>
+<link rel="next" href="bayesian-lasso.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -183,94 +183,85 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="how-ridge-works" class="section level1">
-<h1><span class="header-section-number">Chapter 3</span> How Ridge Works</h1>
-<p>Recall from Linear Algebra that if we want to solve for <span class="math inline">\(\boldsymbol{A}x = b\)</span>, we can do:
-<span class="math display">\[
-\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Ty
-\]</span>
-We then take the inverse of <span class="math inline">\(\boldsymbol{A}^T\boldsymbol{A}\)</span> from the LHS, and multiply both sides by the inverse:
-<span class="math display">\[
-x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
-\]</span>
-Then we have come up with a least squares solution for x in <span class="math inline">\(Ax = b\)</span>.
-From here then we derive that: <span class="math inline">\(\hat\beta_{OLS} = (X^T X)^{-1} X^T y\)</span>.
-We will use a very similar approach to show how the shrinkage work for ridge regression.</p>
-<div id="univariate-example" class="section level3">
-<h3><span class="header-section-number">3.0.1</span> Univariate example</h3>
-<p>Let’s consider a very simple model: <span class="math inline">\(y = \beta x + \epsilon\)</span>, with an L2(ridge regression) penalty on <span class="math inline">\(\hat\beta\)</span> and a least-squares loss function on <span class="math inline">\(\hat{\epsilon}\)</span>. We can then expand the expression for sum of squared residuals to be minimized as:
-<span class="math display">\[
-\hat\beta = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\}
-\]</span>
-Which if we transform into a Matrix form, gives:
-<span class="math display">\[
-\hat{\beta} = arg\min_\beta\{(\vec{y} - \vec{x}\hat\beta)^{T}(\vec{y} - \vec{x}\hat\beta) + \lambda\hat{\beta}^2\}
-\]</span>
-Which we can further expand into:
-<span class="math display">\[
-\hat\beta = arg\min_\beta\{\vec{y}^{T}\vec{y} - 2\vec{y}^T\vec{x}\hat{\beta} + \hat{\beta}\vec{x}^T\vec{x}\hat{\beta} + \lambda\hat{\beta}^2\}
-\]</span>
-Now if we take the derivative w.r.t <span class="math inline">\(\hat\beta\)</span> and set equal to 0, we can calculate the the estimator for ridge regression coefficients <span class="math inline">\(\hat\beta\)</span>:
-<span class="math display">\[
--2\vec{y}^T\vec{x} + 2\vec{x}^T\vec{x}\hat{\beta} + 2\lambda\hat{\beta} =_{set} 0
-\]</span>
-Where we can obtain:
-<span class="math display">\[
-\hat{\beta} = \vec{y}^T\vec{x}{(\vec{x}^T\vec{x} + \lambda)}^{-1}
-\]</span></p>
+<div id="applications-of-ridge-and-lasso" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Applications of Ridge and Lasso</h1>
+<div id="cross-validation" class="section level2">
+<h2><span class="header-section-number">6.1</span> Cross Validation</h2>
+<p><img src="cv.PNG" />
+(from Hands-On Machine Learning with R 2.4 by Bradley Boehmke &amp; Brandon Greenwell)</p>
+<p>Cross validation randomly divides the data set into k folds, k-1 training groups to which models will be fitted and 1 testing group to test the model. For example, in the image above, the dataset is divided into 5 groups, the blue ones as the training groups and the pink one as the test group. The process is repeated 5 times and averaging the RMSE for each time gives the cross-validation RMSE of the model. In our simulation, k=10 will be used to minimize the variability and imporve the accuracy of the models.</p>
 </div>
-<div id="higher-dimension-ridge-regression" class="section level3">
-<h3><span class="header-section-number">3.0.2</span> Higher dimension ridge regression</h3>
-<p>Note that here we are using an univariate example(1-dimensional y and 1-dimensional x), in a more complicated case, we calculate the sum of squared residual in the same manner:
-<span class="math display">\[
-RSS(\lambda) = (\boldsymbol{y} - \boldsymbol{X}\hat\beta)^T(\boldsymbol{y} - \boldsymbol{X}\hat\beta) + \lambda\hat\beta^T\hat\beta
-\]</span>
-Where we can get:
-<span class="math display">\[
-\hat{\beta} = {(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}_{pp})}^{-1}\boldsymbol{X}^T\boldsymbol{Y}
-\]</span>
-Which is very similar to the result from the univariate example.</p>
+<div id="dataset" class="section level2">
+<h2><span class="header-section-number">6.2</span> Dataset</h2>
+<p>This dataset is obtained from <a href="https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv" class="uri">https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv</a>. The goal is the find how different features of a car affect its MPG. The outcome variable is numerical while the predictor variables are a mix of numerical and categorical variables. The dataset is splitted into training data with 70% of the data and test data with 30%.</p>
 </div>
-<div id="the-tuning-parameter" class="section level3">
-<h3><span class="header-section-number">3.0.3</span> The tuning parameter</h3>
-<p>To further understand why <span class="math inline">\(\lambda\)</span> helps shrink the coefficients, we are going to use singular value decomposition(SVD) to examine the effect of <span class="math inline">\(\lambda\)</span>.
-Let the singular value decomposition of the (<span class="math inline">\(n \times p\)</span>)-dimensional design matrix X be:
-<span class="math display">\[
-\boldsymbol{X} = \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x
-\]</span>
-where <span class="math inline">\(\boldsymbol{D}_x\)</span> is an (<span class="math inline">\(n \times n\)</span>)-dimensional diagonal matrix with the singular values, <span class="math inline">\(\boldsymbol{U}_x\)</span> is an (<span class="math inline">\(n \times n\)</span>)-dimensional matrix
-with columns containing the left singular vectors (denoted <span class="math inline">\(u_i\)</span>), and <span class="math inline">\(\boldsymbol{V}_x\)</span> is a (<span class="math inline">\(p \times n\)</span>)-dimensional matrix with columns
-containing the right singular vectors (denoted <span class="math inline">\(V_i\)</span>). The columns of <span class="math inline">\(\boldsymbol{U}_x\)</span> and <span class="math inline">\(\boldsymbol{V}_x\)</span> are orthogonal:
-<span class="math display">\[
-\boldsymbol{U}^T_x\boldsymbol{U}_x = \boldsymbol{I}_{nn} = \boldsymbol{V}^T_x\boldsymbol{V}_x
-\]</span>
-Recall that the OLS estimator is:
-<span class="math display">\[
-\hat\beta_{OLS} = (X^T X)^{-1} X^T y
-\]</span>
-We can then rewrite the solution for OLS as:
-<span class="math display">\[\begin{align*}
-\boldsymbol{X}\hat\beta_{OLS} &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x(\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
- &amp;= \boldsymbol{U}_x\boldsymbol{U}^T_xy\\
- &amp;= {\sum_{j = 1}^{p}\boldsymbol{u}_j(1)\boldsymbol{u}_j^T\boldsymbol{y}}
-\end{align*}\]</span>
-We can also rewrite <span class="math inline">\(\hat\beta\)</span> as:
-<span class="math display">\[\begin{align*}
-\hat\beta &amp;= {(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}_{pp})}^{-1}\boldsymbol{X}^T\boldsymbol{Y}\\
- &amp;= (\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x + \lambda\boldsymbol{I}_{pp})^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= (\boldsymbol{V}_x\boldsymbol{D}_x^2\boldsymbol{V}_x^T + \lambda\boldsymbol{V}_x\boldsymbol{V}_x^T)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= (\boldsymbol{V}_x[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{V}^T_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y} \\
- &amp;= (\boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{V}_x^{-1})\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}
-\end{align*}\]</span>
-Then the ridge solutions becomes:
-<span class="math display">\[\begin{align*}
-\boldsymbol{X}\hat\beta &amp;= \boldsymbol{X}\boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x\boldsymbol{V}_x^{-T}[\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn}]^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \boldsymbol{U}_x\boldsymbol{D}_x(\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn})^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
- &amp;= \sum_{j = 1}^{p}\boldsymbol{u}_j\frac{d^2_{j}}{d^2_{j} + \lambda}\boldsymbol{u}_j^T\boldsymbol{y}
-\end{align*}\]</span></p>
-<p>Note that since <span class="math inline">\(\lambda \geq 0\)</span>, we have <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda} \leq 1\)</span>. Ridge regression computes the coordinates of <span class="math inline">\(\boldsymbol{y}\)</span> with respect to the orthonormal basis U. Then it shrinks these coordinates by the factor <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda}\)</span>. This means that variable with smaller singular value is shrunk more than those with larger singular values. Note that variables with smaller singular values explains less of the variation of our sample(less important). This could be proved using the sample covariance matrix.</p>
+<div id="ols" class="section level2">
+<h2><span class="header-section-number">6.3</span> OLS</h2>
+<p>We first fit an OLS model to the training data. The result shows that the coefficient for Gears is 0.1338 and the coefficient for Cylinders is 0.5918. The RMSE for this model is 3.0272.</p>
+</div>
+<div id="ridge" class="section level2">
+<h2><span class="header-section-number">6.4</span> RIDGE</h2>
+<p>Secondly, we fit a ridge model to the training data. We try with a range of lambda values and use the bestTune$lambda function to find the lambda value that minimizes the RMSE. Then we plug in this lambda value and make a new ridge model. We get a RMSE of 3.0743, which is slightly higher than the OLS RMSE. The coefficient for Cylinders is shrunk to -0.4284 and the one for Gear is shrunk to -0.0064, but none of the coefficients is set to 0 though some of them are close to 0. The graph below shows the shrinkage of coefficients. We can see the as lambda increases, all of them get close to 0 but not equal to 0.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">set.seed</span>(<span class="dv">455</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2">cars_ridge &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb1-3" title="3">  MPG <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb1-4" title="4">  <span class="dt">data =</span> cars_train, </a>
+<a class="sourceLine" id="cb1-5" title="5">  <span class="dt">method =</span> <span class="st">&quot;glmnet&quot;</span>,</a>
+<a class="sourceLine" id="cb1-6" title="6">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, </a>
+<a class="sourceLine" id="cb1-7" title="7">                           <span class="dt">number =</span> <span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb1-8" title="8">  <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">alpha =</span> <span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb1-9" title="9">                        <span class="dt">lambda =</span> <span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">0</span>, <span class="dt">length =</span> <span class="dv">100</span>)),</a>
+<a class="sourceLine" id="cb1-10" title="10">  <span class="dt">na.action =</span> na.omit</a>
+<a class="sourceLine" id="cb1-11" title="11">)</a>
+<a class="sourceLine" id="cb1-12" title="12"></a>
+<a class="sourceLine" id="cb1-13" title="13">cars_ridge<span class="op">$</span>bestTune<span class="op">$</span>lambda</a></code></pre></div>
+<p><img src="Shrinkage-Methods_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="lasso-1" class="section level2">
+<h2><span class="header-section-number">6.5</span> LASSO</h2>
+<p>We repeat the same process to fit the LASSO model. In terms of coding, the only difference is to change the alpha value in the tuneGrid from 0 to 1. We get a RMSE of 3.0255, which is the smallest. Some coefficients such as Cylinders and Gears are set to 0. It is interesting that the coefficient TransmissionManual is set to 0 while TransmissionCVT, the other term of the same categorical variable, is not. This leads to one of the limitation of LASSO models when analyzing categorical variables. From the graph showing the shrinkage of coefficients, we can see the as lambda increases, all of them get to exactly 0.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">set.seed</span>(<span class="dv">455</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">cars_lasso &lt;-<span class="st"> </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb2-3" title="3">  MPG <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb2-4" title="4">  <span class="dt">data =</span> cars_train, </a>
+<a class="sourceLine" id="cb2-5" title="5">  <span class="dt">method =</span> <span class="st">&quot;glmnet&quot;</span>,</a>
+<a class="sourceLine" id="cb2-6" title="6">  <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, </a>
+<a class="sourceLine" id="cb2-7" title="7">                           <span class="dt">number =</span> <span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb2-8" title="8">  <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">alpha =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb2-9" title="9">                        <span class="dt">lambda =</span> <span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">-2</span>, <span class="dt">length =</span> <span class="dv">100</span>)),</a>
+<a class="sourceLine" id="cb2-10" title="10">  <span class="dt">na.action =</span> na.omit</a>
+<a class="sourceLine" id="cb2-11" title="11">)</a>
+<a class="sourceLine" id="cb2-12" title="12"></a>
+<a class="sourceLine" id="cb2-13" title="13">cars_lasso<span class="op">$</span>bestTune<span class="op">$</span>lambda</a></code></pre></div>
+<p><img src="Shrinkage-Methods_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre><code>## 17 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                                                          1
+## (Intercept)                                    39.75545077
+## Displacement                                   -2.83657321
+## Cylinders                                       .         
+## Gears                                           .         
+## TransmissionCVT                                 4.79076756
+## TransmissionManual                              .         
+## AspirationTurbocharged/Supercharged            -1.44680028
+## `Lockup Torque Converter`Y                     -1.61692083
+## Drive2-Wheel Drive, Rear                       -1.94168304
+## Drive4-Wheel Drive                             -2.78768269
+## DriveAll Wheel Drive                           -2.22100559
+## `Max Ethanol`                                  -0.00222014
+## `Recommended Fuel`Premium Unleaded Required     .         
+## `Recommended Fuel`Regular Unleaded Recommended -0.10788122
+## `Intake Valves Per Cyl`                        -0.27837487
+## `Exhaust Valves Per Cyl`                       -1.97358320
+## `Fuel injection`Multipoint/sequential ignition -0.49852192</code></pre>
+</div>
+<div id="test-data" class="section level2">
+<h2><span class="header-section-number">6.6</span> Test data</h2>
+<p>We also apply the models to the test data to obtain the test RMSEs.</p>
+</div>
+<div id="summary" class="section level2">
+<h2><span class="header-section-number">6.7</span> Summary</h2>
+<p><img src="Summary.PNG" /></p>
+<p>From the summary table above, we can see that for this dataset, lasso always gives the smallest RMSE no matter for the training group or the testing group.</p>
 
 </div>
 </div>
@@ -279,8 +270,8 @@ Then the ridge solutions becomes:
           </div>
         </div>
       </div>
-<a href="ridge-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="lasso.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="how-lasso-performs-variable-selection.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bayesian-lasso.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

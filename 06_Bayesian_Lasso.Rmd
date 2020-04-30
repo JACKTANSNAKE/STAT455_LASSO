@@ -1,9 +1,5 @@
 # Bayesian Lasso
 
-## Generalization of shrinkage methods from Bayes perspective
-Bayesian estimation assumes the coefficients have prior distribution, $p(\beta)$, where $\beta =(\beta_0,\beta_1...\beta_p)^T$. The likelihood of data is $f(Y\rvert X,\beta)$, where $X = (X_1...X_p)$. Therefore, we can derive the formula for posterior distribution of $\beta$:
-$$p(\beta\rvert Y,X ) \propto f(Y\rvert X,\beta)p(\beta\rvert X) = f(Y\rvert X,\beta)p(\beta)$$
-
 ## Bayesian Interpretation
 
 We can show that $\hat{\boldsymbol\beta}_{LASSO}$ has a Bayesian interpretation. In particular, we can show that is a Bayes estimator for $\boldsymbol\beta$ assuming a multivariate Normal likelihood for $\mathbf{y}$:
@@ -11,7 +7,7 @@ $$f(y\mid \boldsymbol\beta, \sigma^2)\sim N(\mathbf{X}\boldsymbol\beta, \sigma^2
 and an independent double exponential (aka Laplace) prior for $\boldsymbol\beta$: 
 $$f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)$$
 
-### Posterior
+## Posterior
 
 The posterior distribution for $\boldsymbol\beta$ (assuming $\sigma^2 = 1$ for simplicity): 
 
@@ -23,9 +19,9 @@ g(\boldsymbol\beta \mid y)&\propto f(y \mid \boldsymbol\beta, \sigma^2) f(\bolds
 &=\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)
 \end{aligned}$$
 
-### Posterior Mode
+## Posterior Mode
 
-Maximize the posterior distribution, or minimize the -log posterior
+Maximizing the posterior distribution, or minimizing the $-\log$ posterior, leads to $\beta_{LASSO}$.
 
 $$\begin{aligned}\\
 &\arg\max\text{ }\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)\\

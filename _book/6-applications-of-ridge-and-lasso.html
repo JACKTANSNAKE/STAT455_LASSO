@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods" />
+<meta property="og:title" content="Chapter 6 Applications of Ridge and Lasso | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods">
+<meta name="description" content="Chapter 6 Applications of Ridge and Lasso | Shrinkage Methods">
 
-<title>Chapter 8 Limitations of Ridge and Lasso | Shrinkage Methods</title>
+<title>Chapter 6 Applications of Ridge and Lasso | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -180,17 +180,12 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="limitations-of-ridge-and-lasso" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Limitations of Ridge and Lasso</h1>
-<ul>
-<li><p>One important drawback of Lasso and ridge is that it’s very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)—you really just get estimates and that’s it.</p></li>
-<li><p>The other thing is that we usually cannot give a good explanation for the coefficients and the entire model, because the coefficients are shrunk. Some might say we could use Lasso simply as a variable selection tool and we can use the Lasso result to generate an OLS which is easier to explain. But note that there is possibility that Lasso would give us wrong information, based on assumptions we have made about the data.</p></li>
-<li><p>In real examples, when dealing with categorical variables(those with more than 10 sub-categories), Lasso often does weird thing as it treats each of the sub-category as an individual variable, that is, it selects some of the sub-categories while think others to be irrelevant. This also makes it hard to interpret.</p></li>
-</ul>
+<div id="applications-of-ridge-and-lasso" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Applications of Ridge and Lasso</h1>
 </div>
 <p style="text-align: center;">
-<a href="7-3-posterior-mode.html"><button class="btn btn-default">Previous</button></a>
-<a href="8-1-reference.html"><button class="btn btn-default">Next</button></a>
+<a href="5-how-lasso-performs-variable-selection.html"><button class="btn btn-default">Previous</button></a>
+<a href="6-1-cross-validation.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

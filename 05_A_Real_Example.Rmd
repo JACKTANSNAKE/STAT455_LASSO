@@ -1,167 +1,41 @@
-# A Real Example
+# Applications of Ridge and Lasso
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
-library(ggplot2)
 library(readr)
-library(dplyr)
-library(rsample) #for splitting data
+library(rsample)
 library(caret)
-library(ISLR)
 library(glmnet)
-library(coefplot)
+library(dplyr)
 ```
 
-### Cross validation
-
-> Cross validation randomly divides the data set into k folds, k-1 training groups to which models will be fitted and one testing group to test the model.
+## Cross Validation
 
 ![](cv.PNG)
 (from Hands-On Machine Learning with R 2.4 by Bradley Boehmke & Brandon Greenwell)
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
-# Load the data
-# Highly correlated
-# Numerical
-bf<-read.csv("Bodyfat.csv")
+Cross validation randomly divides the data set into k folds, k-1 training groups to which models will be fitted and 1 testing group to test the model. For example, in the image above, the dataset is divided into 5 groups, the blue ones as the training groups and the pink one as the test group. The process is repeated 5 times and averaging the RMSE for each time gives the cross-validation RMSE of the model. In our simulation, k=10 will be used to minimize the variability and imporve the accuracy of the models.
 
-set.seed(455)
-bf_split <- initial_split(bf%>%select(-Density), prop = .7)
-bf_train <- training(bf_split)
-bf_test <- testing(bf_split)
-```
-
-### OLS
-
-```{r}
-set.seed(455)
-bf_ols <- train(
-  bodyfat ~ .,
-  data = bf_train, 
-  method = "lm",
-  trControl = trainControl(method = "cv", 
-                           number = 10), 
-  na.action = na.omit
-)
-
-coefficients(bf_ols$finalModel)
-```
-
-### RIDGE
-
-```{r}
-set.seed(455)
-bf_ridge <- train(
-  bodyfat ~ .,
-  data = bf_train, 
-  method = "glmnet",
-  trControl = trainControl(method = "cv", 
-                           number = 10),
-  tuneGrid = data.frame(alpha = 0, 
-                        lambda = 10^seq(-3,0, length = 100)),
-  na.action = na.omit
-)
-
-bf_ridge%>%
-  ggplot(aes(x=lambda,y=RMSE))+
-  geom_point(size = .5, alpha = .5)
-
-bf_ridge$bestTune$lambda
-
-plot(bf_ridge$finalModel,xvar="lambda",label=TRUE)
-```
-
-```{r}
-set.seed(455)
-bf_ridge_best <- train(
-  bodyfat ~ .,
-  data = bf_train, 
-  method = "glmnet",
-  trControl = trainControl(method = "cv", 
-                           number = 10),
-  tuneGrid = data.frame(alpha = 0, 
-                        lambda = 0.6135907),
-  na.action = na.omit
-)
-
-coefficients(bf_ridge_best$finalModel,0.6135907)
-```
-
-### LASSO
-
-```{r}
-set.seed(455)
-bf_lasso <- train(
-  bodyfat ~ .,
-  data = bf_train, 
-  method = "glmnet",
-  trControl = trainControl(method = "cv", 
-                           number = 10),
-  tuneGrid = data.frame(alpha = 1, 
-                        lambda = 10^seq(-3, -1, length = 100)),
-  na.action = na.omit
-)
-
-bf_lasso%>%
-  ggplot(aes(x=lambda,y=RMSE))+
-  geom_point(size = .5, alpha = .5)
-
-bf_lasso$bestTune$lambda
-
-plot(bf_lasso$finalModel,xvar='lambda',label=TRUE)
-```
-
-```{r}
-set.seed(455)
-bf_lasso_best <- train(
-  bodyfat ~ .,
-  data = bf_train, 
-  method = "glmnet",
-  trControl = trainControl(method = "cv", 
-                           number = 10),
-  tuneGrid = data.frame(alpha = 1, 
-                        lambda = 0.05214008),
-  na.action = na.omit
-)
-
-coefficients(bf_lasso_best$finalModel,0.05214008)
-```
-
-### Test data
-
-```{r}
-bf_test%>%
-  mutate(pred_bf = predict(bf_ols, newdata = bf_test)) %>% 
-  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
-
-bf_test%>%
-  mutate(pred_bf = predict(bf_ridge_best, newdata = bf_test)) %>% 
-  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
-
-bf_test%>%
-  mutate(pred_bf = predict(bf_lasso_best, newdata = bf_test)) %>% 
-  summarize(RMSE = sqrt(mean((bodyfat - pred_bf)^2)))
-```
-
-### Activity
+## Dataset
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
-# Load the data
-# Not highly correlated
-# Numerical+categorial
 cars2018 <- read_csv("cars2018.csv", col_types = cols(Model = col_skip(), 
     `Model Index` = col_skip()))
 ```
 
-```{r}
+```{r,echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
 set.seed(455)
 cars_split <- initial_split(cars2018, prop = .7)
 cars_train <- training(cars_split)
 cars_test <- testing(cars_split)
 ```
 
-### OLS
+This dataset is obtained from https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv. The goal is the find how different features of a car affect its MPG. The outcome variable is numerical while the predictor variables are a mix of numerical and categorical variables. The dataset is splitted into training data with 70% of the data and test data with 30%.
 
-```{r}
+## OLS
+
+We first fit an OLS model to the training data. The result shows that the coefficient for Gears is 0.1338 and the coefficient for Cylinders is 0.5918. The RMSE for this model is 3.0272.
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
 set.seed(455)
 cars_ols <- train(
   MPG ~ .,
@@ -177,9 +51,11 @@ coefficients(cars_ols$finalModel)
 cars_ols$results$RMSE
 ```
 
-### RIDGE
+## RIDGE
 
-```{r}
+Secondly, we fit a ridge model to the training data. We try with a range of lambda values and use the bestTune$lambda function to find the lambda value that minimizes the RMSE. Then we plug in this lambda value and make a new ridge model. We get a RMSE of 3.0743, which is slightly higher than the OLS RMSE. The coefficient for Cylinders is shrunk to -0.4284 and the one for Gear is shrunk to -0.0064, but none of the coefficients is set to 0 though some of them are close to 0. The graph below shows the shrinkage of coefficients. We can see the as lambda increases, all of them get close to 0 but not equal to 0.
+
+```{r,echo=TRUE,warning=FALSE,message=FALSE,results='hide'}
 set.seed(455)
 cars_ridge <- train(
   MPG ~ .,
@@ -192,16 +68,14 @@ cars_ridge <- train(
   na.action = na.omit
 )
 
-cars_ridge%>%
-  ggplot(aes(x=lambda,y=RMSE))+
-  geom_point(size = .5, alpha = .5)
-
 cars_ridge$bestTune$lambda
+```
 
+```{r,echo=FALSE,warning=FALSE,message=FALSE,results='hold'}
 plot(cars_ridge$finalModel,xvar="lambda",label=TRUE)
 ```
 
-```{r}
+```{r,echo=FALSE,warning=FALSE,message=FALSE,results='hide'}
 set.seed(455)
 cars_ridge_best <- train(
   MPG ~ .,
@@ -219,9 +93,11 @@ cars_ridge_best$results$RMSE
 coefficients(cars_ridge_best$finalModel,0.3764936)
 ```
 
-### LASSO
+## LASSO
 
-```{r}
+We repeat the same process to fit the LASSO model. In terms of coding, the only difference is to change the alpha value in the tuneGrid from 0 to 1. We get a RMSE of 3.0255, which is the smallest. Some coefficients such as Cylinders and Gears are set to 0. It is interesting that the coefficient TransmissionManual is set to 0 while TransmissionCVT, the other term of the same categorical variable, is not. This leads to one of the limitation of LASSO models when analyzing categorical variables. From the graph showing the shrinkage of coefficients, we can see the as lambda increases, all of them get to exactly 0.
+
+```{r,echo=TRUE,warning=FALSE,message=FALSE,results='hide'}
 set.seed(455)
 cars_lasso <- train(
   MPG ~ .,
@@ -234,16 +110,14 @@ cars_lasso <- train(
   na.action = na.omit
 )
 
-cars_lasso%>%
-  ggplot(aes(x=lambda,y=RMSE))+
-  geom_point(size = .5, alpha = .5)
-
 cars_lasso$bestTune$lambda
+```
 
+```{r,echo=FALSE,warning=FALSE,message=FALSE,results='hold'}
 plot(cars_lasso$finalModel,xvar='lambda',label=TRUE)
 ```
 
-```{r}
+```{r,echo=FALSE,warning=FALSE,message=FALSE,results='hide'}
 set.seed(455)
 cars_lasso_best <- train(
   MPG ~ .,
@@ -259,12 +133,17 @@ cars_lasso_best <- train(
 cars_lasso_best$results$RMSE
 
 coefficients(cars_lasso_best$finalModel,0.009545485)
+```
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE,results='hold'}
 coefficients(cars_lasso_best$finalModel,0.1)
 ```
 
-### Test data
+## Test data
 
-```{r}
+We also apply the models to the test data to obtain the test RMSEs.
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE,results='hide'}
 cars_test%>%
   mutate(pred_mpg = predict(cars_ols, newdata = cars_test)) %>% 
   summarize(RMSE = sqrt(mean((MPG - pred_mpg)^2)))
@@ -278,8 +157,8 @@ cars_test%>%
   summarize(RMSE = sqrt(mean((MPG - pred_mpg)^2)))
 ```
 
-## Data Summary
+## Summary
 
 ![](Summary.PNG)
 
-> From the summary table above, we can see that for the highly corrlated numerical dataset bodyfat, lasso gives the smallest training RMSE while ridge gives the smallest testing RMSE. For the less correlated dataset cars with categorical variables included, lasso always gives the smallest RMSE.
+From the summary table above, we can see that for this dataset, lasso always gives the smallest RMSE no matter for the training group or the testing group.
