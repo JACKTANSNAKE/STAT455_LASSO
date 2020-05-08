@@ -1,4 +1,4 @@
-##Limitations of Ridge and Lasso
+## Limitations of Ridge and Lasso
 
 * According to our empirical results, we find that both ridge and lasso are better at making predictions than the OLS model. 
 
