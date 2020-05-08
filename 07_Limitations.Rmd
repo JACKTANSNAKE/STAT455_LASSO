@@ -1,4 +1,8 @@
-# Limitations of Ridge and Lasso
+##Limitations of Ridge and Lasso
+
+* According to our empirical results, we find that both ridge and lasso are better at making predictions than the OLS model. 
+
+* The coefficients in Lasso can reach zero while those in ridge can never be zero. If we want to perform variable selection, lasso might be a better choice.
 
 * One important drawback of Lasso and ridge is that it's very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)---you really just get estimates and that's it.
 
