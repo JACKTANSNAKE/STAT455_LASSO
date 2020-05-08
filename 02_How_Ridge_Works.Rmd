@@ -1,18 +1,18 @@
 # How Ridge Works
 Recall from Linear Algebra that if we want to solve for $\boldsymbol{A}x = b$, we can do:
 $$
-\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Ty
+\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Tb
 $$
 We then take the inverse of $\boldsymbol{A}^T\boldsymbol{A}$ from the LHS, and multiply both sides by the inverse:
 $$
-x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
+x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Tb
 $$
 Then we have come up with a least squares solution for x in $Ax = b$.
 From here then we derive that: $\hat\beta_{OLS} = (X^T X)^{-1} X^T y$.
 We will use a very similar approach to show how the shrinkage work for ridge regression.
 
 ### Univariate example
-Let's consider a very simple model: $y = \beta x + \epsilon$, with an L2(ridge regression) penalty on $\hat\beta$ and a least-squares loss function on $\hat{\epsilon}$. We can then expand the expression for sum of squared residuals to be minimized as:
+Let's consider a very simple model: $y = \beta x + \epsilon$, with an L2(ridge regression) penalty on $\hat\beta$ and prediction error. We can then expand the expression for sum of squared residuals to be minimized as:
 $$
 \hat\beta = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\}
 $$
@@ -60,13 +60,15 @@ Recall that the OLS estimator is:
 $$
 \hat\beta_{OLS} = (X^T X)^{-1} X^T y
 $$
-We can then rewrite the solution for OLS as:
+We can then rewrite the fitted values from OLS as:
 \begin{align*}
 \boldsymbol{X}\hat\beta_{OLS} &= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x(\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
+&=\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x(\boldsymbol{D}_x\boldsymbol{D}_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
+&= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x\boldsymbol{D}_x^{-1}\boldsymbol{D}_x^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
  &= \boldsymbol{U}_x\boldsymbol{U}^T_xy\\
  &= {\sum_{j = 1}^{p}\boldsymbol{u}_j(1)\boldsymbol{u}_j^T\boldsymbol{y}}
 \end{align*}
-We can also rewrite $\hat\beta$ as:
+We can also rewrite $\hat\beta^{ridge}$ as:
 \begin{align*}
 \hat\beta &= {(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}_{pp})}^{-1}\boldsymbol{X}^T\boldsymbol{Y}\\
  &= (\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x + \lambda\boldsymbol{I}_{pp})^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
@@ -83,4 +85,4 @@ Then the ridge solutions becomes:
  &= \sum_{j = 1}^{p}\boldsymbol{u}_j\frac{d^2_{j}}{d^2_{j} + \lambda}\boldsymbol{u}_j^T\boldsymbol{y}
 \end{align*}
 
-Note that since $\lambda \geq 0$, we have $\frac{d^2_{j}}{d^2_{j} + \lambda} \leq 1$. Ridge regression computes the coordinates of $\boldsymbol{y}$ with respect to the orthonormal basis U. Then it shrinks these coordinates by the factor $\frac{d^2_{j}}{d^2_{j} + \lambda}$. This means that variable with smaller singular value is shrunk more than those with larger singular values. Note that variables with smaller singular values explains less of the variation of our sample(less important). This could be proved using the sample covariance matrix.
+Note that since $\lambda \geq 0$, we have $\frac{d^2_{j}}{d^2_{j} + \lambda} \leq 1$. Ridge regression computes the coordinates of $\boldsymbol{y}$ with respect to the orthonormal basis U. Then it shrinks these coordinates by the factor $\frac{d^2_{j}}{d^2_{j} + \lambda}$. This means that variable with smaller singular value ($d_j$) is shrunk more than those with larger singular values. Note that variables with smaller singular values explains less of the variation of our sample(less important). This could be proved using the sample covariance matrix.
