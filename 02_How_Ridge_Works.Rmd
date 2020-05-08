@@ -1,11 +1,11 @@
 # How Ridge Works
-Recall from Linear Algebra that if we want to solve for $\boldsymbol{A}x = b$, we can do:
+Recall from Linear Algebra that if we want to solve for $\boldsymbol{A}x =y$, we can do:
 $$
-\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Tb
+\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Ty
 $$
 We then take the inverse of $\boldsymbol{A}^T\boldsymbol{A}$ from the LHS, and multiply both sides by the inverse:
 $$
-x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Tb
+x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
 $$
 Then we have come up with a least squares solution for x in $Ax = b$.
 From here then we derive that: $\hat\beta_{OLS} = (X^T X)^{-1} X^T y$.
