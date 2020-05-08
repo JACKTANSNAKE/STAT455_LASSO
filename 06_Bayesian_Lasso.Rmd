@@ -1,4 +1,4 @@
-# Bayesian Lasso
+# Bayesian Interpretation of Lasso
 
 ## Bayesian Interpretation
 
@@ -6,6 +6,8 @@ We can show that $\hat{\boldsymbol\beta}_{LASSO}$ has a Bayesian interpretation.
 $$f(y\mid \boldsymbol\beta, \sigma^2)\sim N(\mathbf{X}\boldsymbol\beta, \sigma^2\mathbf{I}),$$
 and an independent double exponential (aka Laplace) prior for $\boldsymbol\beta$: 
 $$f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)$$
+
+
 
 ## Posterior
 
