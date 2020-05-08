@@ -38,7 +38,7 @@ The first method is subset selection:
     
   * backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.
     
-  * More stepwise selection: forward stepwise selection, bidirectional elimination$\cdots$ ().
+  * More stepwise selection: forward stepwise selection, bidirectional elimination and so on (Tibshirani el at., 2001).
     
 Problems with subset selection algorithms:
 
