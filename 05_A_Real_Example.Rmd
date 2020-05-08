@@ -10,6 +10,8 @@ library(dplyr)
 
 ## Cross Validation
 
+One of the key features of a good model is prediction accuracy. If our prediction varies a lot when we use the model on other datasets, then our model is bad at making prediction, and our model is overfitting to that the training dataset. Therefore, we also want to estimate the prediction accuracy of our models to decide whether it is good at making predictions; and one way of estimation prediction accuracy is cross validation.  
+
 ![](cv.PNG)
 (from Hands-On Machine Learning with R 2.4 by Bradley Boehmke & Brandon Greenwell)
 
@@ -29,7 +31,7 @@ cars_train <- training(cars_split)
 cars_test <- testing(cars_split)
 ```
 
-This dataset is obtained from https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv. The goal is the find how different features of a car affect its MPG. The outcome variable is numerical while the predictor variables are a mix of numerical and categorical variables. The dataset is splitted into training data with 70% of the data and test data with 30%.
+This dataset is obtained from https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv. The goal is to find how different features of a car affect its miles per gallon (MPG). The outcome variable is numerical while the predictor variables are a mix of numerical and categorical variables. The dataset is splitted into training data with 70% of the data and test data with 30%. In this case, we would use the training data to fit our linear model and test its prediction accuracy with the remaining data. 
 
 ## OLS
 
@@ -161,4 +163,4 @@ cars_test%>%
 
 ![](Summary.PNG)
 
-From the summary table above, we can see that for this dataset, lasso always gives the smallest RMSE no matter for the training group or the testing group.
+From the summary table above, we can see that for this dataset, lasso always gives the smallest RMSE no matter for the training group or the testing group. Also, according to the graphs of shrinking coefficients, we can see that some coefficients can reach zero; while in the graph for ridge regression, all coefficients decrease towards zero but they never reach the x-axis. By shrinking some coefficients to zero, Lasso regression can also help us to select variables. Therefore, Lasso regression is also better than ridge when we need to select key variables.
