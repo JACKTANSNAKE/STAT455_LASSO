@@ -74,8 +74,8 @@ $$\begin{aligned}
 g(\boldsymbol\beta \mid y)&\propto f(y \mid \boldsymbol\beta, \sigma^2) f(\boldsymbol\beta)\\
 &= f(y \mid \boldsymbol\beta) \prod_{i=1}^p f(\beta_j)\text{, by independence assumption}\\
 &=(2\pi)^{-n/2}\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \left(\frac{\lambda}{\sqrt{2\pi}} \right)^p\exp(-\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2)\\
-&\propto\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \exp\left(-\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2\right)\\
-&=\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2\right)
+&\propto\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \exp\left(-\lambda^*\sum_{j=1}^p\beta_j^2\right)\\
+&=\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda^*\sum_{j=1}^p\beta_j^2\right)
 \end{aligned}$$
 
 ## Posterior Mode
@@ -83,16 +83,16 @@ g(\boldsymbol\beta \mid y)&\propto f(y \mid \boldsymbol\beta, \sigma^2) f(\bolds
 Maximizing the posterior distribution, or minimizing the $-\log$ posterior, leads to $\hat\beta_{RIDGE}$.
 
 $$\begin{aligned}\\
-&\arg\max\text{ }\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2\right)\\
-=\text{ }&\arg\max\text{ }-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2\\
-=\text{ }&\arg\min\text{ }\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)+\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2\\
+&\arg\max\text{ }\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda^*\sum_{j=1}^p\beta_j^2\right)\\
+=\text{ }&\arg\max\text{ }-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda^*\sum_{j=1}^p\beta_j^2\\
+=\text{ }&\arg\min\text{ }\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)+\lambda^*\sum_{j=1}^p\beta_j^2\\
 =\text{ }&\arg\min\text{ -log posterior}\\
 \end{aligned}$$
 
 $$\begin{aligned}
 \arg\min\text{ -log posterior}
-&=\arg\min-\log(\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2\right))\\
-&=\arg\min-\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2\right)\\
-&=\arg\min\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)+\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2\\
+&=\arg\min-\log(\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda^*\sum_{j=1}^p\beta_j^2\right))\\
+&=\arg\min-\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda^*\sum_{j=1}^p\beta_j^2\right)\\
+&=\arg\min\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)+\lambda^*\sum_{j=1}^p\beta_j^2\\
 &=\hat\beta_{RIDGE}\text{, by definition}
 \end{aligned}$$
