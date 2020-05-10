@@ -28,7 +28,7 @@ is the most commonly used method to describe the relationship between the respon
  
 However, the linear regression model is easy to regress, interpret, and perform inference; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation.
 
-## Several solution concepts for better linear regression model 
+## Several concepts for better linear regression model 
 
 One of the key questions to find the best model is to determine if we should include a variable in our model or not. The process of making decision on each variable is called variable selection. There are two different ways of selecting variables: discrete and continuous selection process. We would briefly talk about both solutions in the following session.
 
@@ -48,7 +48,7 @@ Problems with subset selection algorithms:
   
   * The algorithms only do locally(each step) best choices. Once a variable is deleted, it is never going back in.
   
-Shrinkage:
+## Shrinkage:
 
 Shrinkage refers to the shrinking coefficients as we include another penalty term for large coefficients. As we increase the penalty, all coefficients would shrink towards zero. However, among all those variables, the coefficients of the predictors which are worse at explaining the variation in the response variable would decrease faster than others. Therefore, as the penalty increases, we could gradually see how each coefficient decrease, which can support us choose the important variables. There are two different kinds of shrinkage algorithms:
   

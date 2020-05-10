@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Ridge Regression | Shrinkage Methods</title>
-  <meta name="description" content="Chapter 2 Ridge Regression | Shrinkage Methods" />
+  <title>Chapter 7 Bayesian Interpretation of Lasso | Shrinkage Methods</title>
+  <meta name="description" content="Chapter 7 Bayesian Interpretation of Lasso | Shrinkage Methods" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Ridge Regression | Shrinkage Methods" />
+  <meta property="og:title" content="Chapter 7 Bayesian Interpretation of Lasso | Shrinkage Methods" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Ridge Regression | Shrinkage Methods" />
+  <meta name="twitter:title" content="Chapter 7 Bayesian Interpretation of Lasso | Shrinkage Methods" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="how-ridge-works.html"/>
+<link rel="prev" href="applications-of-ridge-and-lasso.html"/>
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -182,25 +182,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ridge-regression" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Ridge Regression</h1>
-<div id="definition" class="section level2">
-<h2><span class="header-section-number">2.1</span> Definition</h2>
-<p>Recall that the ordinary least squares model estimates coefficients with the goal of minimizing the sum of the squared residuals:
-<span class="math display">\[RSS = \sum_{i=1}^n (y_i - \beta_0-\sum_{j=1}^p\beta_jx_{ij})^2\]</span>
-Since ridge regression penalizes for large coefficients and uses <span class="math inline">\(l_2\)</span> norm of coefficients as the penalty term, we know that its estimatation of coefficients should minimize the combination of RSS and sum of the squared coefficients:</p>
+<div id="bayesian-interpretation-of-lasso" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Bayesian Interpretation of Lasso</h1>
+<div id="bayesian-interpretation" class="section level2">
+<h2><span class="header-section-number">7.1</span> Bayesian Interpretation</h2>
+<p>We can show that <span class="math inline">\(\hat{\boldsymbol\beta}_{LASSO}\)</span> has a Bayesian interpretation. In particular, we can show that is a Bayes estimator for <span class="math inline">\(\boldsymbol\beta\)</span> assuming a multivariate Normal likelihood for <span class="math inline">\(\mathbf{y}\)</span>:
+<span class="math display">\[f(y\mid \boldsymbol\beta, \sigma^2)\sim N(\mathbf{X}\boldsymbol\beta, \sigma^2\mathbf{I}),\]</span>
+and an independent double exponential (aka Laplace) prior for <span class="math inline">\(\boldsymbol\beta\)</span>:
+<span class="math display">\[f(\beta_j) = \left(\frac{\lambda}{2} \right)\exp(-\lambda |\beta_j|)\]</span></p>
 </div>
-<div id="ridge-regression-1" class="section level2">
-<h2><span class="header-section-number">2.2</span> Ridge Regression:</h2>
-<p><span class="math display">\[
-\hat{\beta}^{ridge} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\} \ \ \ (1)
-\]</span>
-Which is the same as:
-<span class="math display">\[
-\hat{\beta}^{ridge} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\},\text{ subject to} \sum_{j = 1}^{p}\beta_j^2 \leq t
-\]</span>
-where there is a one-to-one corresondence between the parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(t\)</span>.</p>
-<p><span class="math inline">\(\lambda\)</span> is the tuning parameter, and <span class="math inline">\(\lambda\sum_{j = 1}^{p}\beta_j^2\)</span> is the skrinkage penalty. If <span class="math inline">\(\lambda\)</span> is zero, then the penalty term equals to zero, and we would minimize the RSS, which is equivalent as ordinary least squares model; if <span class="math inline">\(\lambda\)</span> is large, then the penalty term would be larger as well, the coefficients would be smaller; therefore, if <span class="math inline">\(\lambda\)</span> approaches infinity, then the coefficients would approach zero. The selection of the optimal tuning parameter is often based on the evidence which is the MSE, and we would discuss the choice of tuning parameter later in the application.</p>
+<div id="posterior" class="section level2">
+<h2><span class="header-section-number">7.2</span> Posterior</h2>
+<p>The posterior distribution for <span class="math inline">\(\boldsymbol\beta\)</span> (assuming <span class="math inline">\(\sigma^2 = 1\)</span> for simplicity):</p>
+<p><span class="math display">\[\begin{aligned}
+g(\boldsymbol\beta \mid y)&amp;\propto f(y \mid \boldsymbol\beta, \sigma^2) f(\boldsymbol\beta)\\
+&amp;= f(y \mid \boldsymbol\beta) \prod_{i=1}^p f(\beta_j)\text{, by independence assumption}\\
+&amp;=(2\pi)^{-n/2}\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \left(\frac{\lambda}{2}\right)^p \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&amp;\propto\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \exp\left(-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&amp;=\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)
+\end{aligned}\]</span></p>
+</div>
+<div id="posterior-mode" class="section level2">
+<h2><span class="header-section-number">7.3</span> Posterior Mode</h2>
+<p>Maximizing the posterior distribution, or minimizing the <span class="math inline">\(-\log\)</span> posterior, leads to <span class="math inline">\(\beta_{LASSO}\)</span>.</p>
+<p><span class="math display">\[\begin{aligned}\\
+&amp;\arg\max\text{ }\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+=\text{ }&amp;\arg\max\text{ }-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|\\
+=\text{ }&amp;\arg\min\text{ }\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)+\lambda\sum_{j=1}^p |\beta_j|\\
+=\text{ }&amp;\arg\min\text{ -log posterior}\\
+\end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+\arg\min\text{ -log posterior}
+&amp;=\arg\min-\log(\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right))\\
+&amp;=\arg\min-\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
+&amp;=\arg\min\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)+\lambda\sum_{j=1}^p |\beta_j|\\
+&amp;=\beta_{LASSO}\text{, by definition}
+\end{aligned}\]</span></p>
+
+</div>
+<div id="limitations-of-ridge-and-lasso" class="section level2">
+<h2><span class="header-section-number">7.4</span> Limitations of Ridge and Lasso</h2>
+<ul>
+<li><p>According to our empirical results, we find that both ridge and lasso are better at making predictions than the OLS model.</p></li>
+<li><p>The coefficients in Lasso can reach zero while those in ridge can never be zero. If we want to perform variable selection, lasso might be a better choice.</p></li>
+<li><p>One important drawback of Lasso and ridge is that it’s very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)—you really just get estimates and that’s it.</p></li>
+<li><p>The other thing is that we usually cannot give a good explanation for the coefficients and the entire model, because the coefficients are shrunk. Some might say we could use Lasso simply as a variable selection tool and we can use the Lasso result to generate an OLS which is easier to explain. But note that there is possibility that Lasso would give us wrong information, based on assumptions we have made about the data.</p></li>
+<li><p>In real examples, when dealing with categorical variables(those with more than 10 sub-categories), Lasso often does weird thing as it treats each of the sub-category as an individual variable, that is, it selects some of the sub-categories while think others to be irrelevant. This also makes it hard to interpret.</p></li>
+</ul>
+</div>
+<div id="reference" class="section level2">
+<h2><span class="header-section-number">7.5</span> Reference</h2>
+<ul>
+<li><p>Hastie, T., Friedman, J., &amp; Tisbshirani, R. (2017). The Elements of statistical learning: data mining, inference, and prediction. New York: Springer.</p></li>
+<li><p>James, G., Witten, D., Hastie, T., &amp; Tibshirani, R. (2017). An introduction to statistical learning: with applications in R. New York: Springer.</p></li>
+<li><p>Tibshirani, R. (1996). Regression Shrinkage and Selection Via the Lasso. Journal of the Royal Statistical Society: Series B (Methodological), 58(1), 267–288. doi: 10.1111/j.2517-6161.1996.tb02080.x</p></li>
+<li><p>Wieringen, W. N. van. (2020, January 18). Lecture Notes on Ridge Regression. PDF.</p></li>
+</ul>
 
 </div>
 </div>
@@ -209,8 +246,8 @@ where there is a one-to-one corresondence between the parameters <span class="ma
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="how-ridge-works.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="applications-of-ridge-and-lasso.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

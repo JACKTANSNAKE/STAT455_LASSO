@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-04-30" />
+<meta name="date" content="2020-05-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="how-lasso-performs-variable-selection.html"/>
-<link rel="next" href="bayesian-lasso.html"/>
+<link rel="next" href="bayesian-interpretation-of-lasso.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -127,9 +127,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Motivation</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#the-ordinary-least-squared-model"><i class="fa fa-check"></i><b>1.1</b> The ordinary least squared model</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#several-solutions-proposed-by-statisticians"><i class="fa fa-check"></i><b>1.2</b> Several solutions proposed by statisticians</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#shrinkage"><i class="fa fa-check"></i><b>1.3</b> Shrinkage</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#the-ordinary-least-squares-model"><i class="fa fa-check"></i><b>1.1</b> The ordinary least squares model</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#several-concepts-for-better-linear-regression-model"><i class="fa fa-check"></i><b>1.2</b> Several concepts for better linear regression model</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#shrinkage"><i class="fa fa-check"></i><b>1.3</b> Shrinkage:</a></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#literature-review"><i class="fa fa-check"></i><b>1.4</b> Literature Review</a></li>
 <li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#outline"><i class="fa fa-check"></i><b>1.5</b> Outline</a></li>
 </ul></li>
@@ -147,7 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html"><i class="fa fa-check"></i><b>5</b> How Lasso performs variable selection</a><ul>
 <li class="chapter" data-level="5.0.1" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html#univariate-example-1"><i class="fa fa-check"></i><b>5.0.1</b> univariate example</a></li>
-<li class="chapter" data-level="5.0.2" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html#shrinkage-explaination-from-geometric-perspective"><i class="fa fa-check"></i><b>5.0.2</b> Shrinkage explaination from geometric perspective</a></li>
+<li class="chapter" data-level="5.0.2" data-path="how-lasso-performs-variable-selection.html"><a href="how-lasso-performs-variable-selection.html#shrinkage-explanation-from-geometric-perspective"><i class="fa fa-check"></i><b>5.0.2</b> Shrinkage explanation from geometric perspective</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="applications-of-ridge-and-lasso.html"><a href="applications-of-ridge-and-lasso.html"><i class="fa fa-check"></i><b>6</b> Applications of Ridge and Lasso</a><ul>
 <li class="chapter" data-level="6.1" data-path="applications-of-ridge-and-lasso.html"><a href="applications-of-ridge-and-lasso.html#cross-validation"><i class="fa fa-check"></i><b>6.1</b> Cross Validation</a></li>
@@ -158,13 +158,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.6" data-path="applications-of-ridge-and-lasso.html"><a href="applications-of-ridge-and-lasso.html#test-data"><i class="fa fa-check"></i><b>6.6</b> Test data</a></li>
 <li class="chapter" data-level="6.7" data-path="applications-of-ridge-and-lasso.html"><a href="applications-of-ridge-and-lasso.html#summary"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="bayesian-lasso.html"><a href="bayesian-lasso.html"><i class="fa fa-check"></i><b>7</b> Bayesian Lasso</a><ul>
-<li class="chapter" data-level="7.1" data-path="bayesian-lasso.html"><a href="bayesian-lasso.html#bayesian-interpretation"><i class="fa fa-check"></i><b>7.1</b> Bayesian Interpretation</a></li>
-<li class="chapter" data-level="7.2" data-path="bayesian-lasso.html"><a href="bayesian-lasso.html#posterior"><i class="fa fa-check"></i><b>7.2</b> Posterior</a></li>
-<li class="chapter" data-level="7.3" data-path="bayesian-lasso.html"><a href="bayesian-lasso.html#posterior-mode"><i class="fa fa-check"></i><b>7.3</b> Posterior Mode</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="limitations-of-ridge-and-lasso.html"><a href="limitations-of-ridge-and-lasso.html"><i class="fa fa-check"></i><b>8</b> Limitations of Ridge and Lasso</a><ul>
-<li class="chapter" data-level="8.1" data-path="limitations-of-ridge-and-lasso.html"><a href="limitations-of-ridge-and-lasso.html#reference"><i class="fa fa-check"></i><b>8.1</b> Reference</a></li>
+<li class="chapter" data-level="7" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html"><i class="fa fa-check"></i><b>7</b> Bayesian Interpretation of Lasso</a><ul>
+<li class="chapter" data-level="7.1" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#bayesian-interpretation"><i class="fa fa-check"></i><b>7.1</b> Bayesian Interpretation</a></li>
+<li class="chapter" data-level="7.2" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#posterior"><i class="fa fa-check"></i><b>7.2</b> Posterior</a></li>
+<li class="chapter" data-level="7.3" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#posterior-mode"><i class="fa fa-check"></i><b>7.3</b> Posterior Mode</a></li>
+<li class="chapter" data-level="7.4" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#limitations-of-ridge-and-lasso"><i class="fa fa-check"></i><b>7.4</b> Limitations of Ridge and Lasso</a></li>
+<li class="chapter" data-level="7.5" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#reference"><i class="fa fa-check"></i><b>7.5</b> Reference</a></li>
 </ul></li>
 </ul>
 
@@ -187,13 +186,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 6</span> Applications of Ridge and Lasso</h1>
 <div id="cross-validation" class="section level2">
 <h2><span class="header-section-number">6.1</span> Cross Validation</h2>
+<p>One of the key features of a good model is prediction accuracy. If our prediction varies a lot when we use the model on other datasets, then our model is bad at making prediction, and our model is overfitting to that the training dataset. Therefore, we also want to estimate the prediction accuracy of our models to decide whether it is good at making predictions; and one way of estimation prediction accuracy is cross validation.</p>
 <p><img src="cv.PNG" />
 (from Hands-On Machine Learning with R 2.4 by Bradley Boehmke &amp; Brandon Greenwell)</p>
 <p>Cross validation randomly divides the data set into k folds, k-1 training groups to which models will be fitted and 1 testing group to test the model. For example, in the image above, the dataset is divided into 5 groups, the blue ones as the training groups and the pink one as the test group. The process is repeated 5 times and averaging the RMSE for each time gives the cross-validation RMSE of the model. In our simulation, k=10 will be used to minimize the variability and imporve the accuracy of the models.</p>
 </div>
 <div id="dataset" class="section level2">
 <h2><span class="header-section-number">6.2</span> Dataset</h2>
-<p>This dataset is obtained from <a href="https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv" class="uri">https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv</a>. The goal is the find how different features of a car affect its MPG. The outcome variable is numerical while the predictor variables are a mix of numerical and categorical variables. The dataset is splitted into training data with 70% of the data and test data with 30%.</p>
+<p>This dataset is obtained from <a href="https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv" class="uri">https://raw.githubusercontent.com/juliasilge/supervised-ML-case-studies-course/master/data/cars2018.csv</a>. The goal is to find how different features of a car affect its miles per gallon (MPG). The outcome variable is numerical while the predictor variables are a mix of numerical and categorical variables. The dataset is splitted into training data with 70% of the data and test data with 30%. In this case, we would use the training data to fit our linear model and test its prediction accuracy with the remaining data.</p>
 </div>
 <div id="ols" class="section level2">
 <h2><span class="header-section-number">6.3</span> OLS</h2>
@@ -261,7 +261,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="summary" class="section level2">
 <h2><span class="header-section-number">6.7</span> Summary</h2>
 <p><img src="Summary.PNG" /></p>
-<p>From the summary table above, we can see that for this dataset, lasso always gives the smallest RMSE no matter for the training group or the testing group.</p>
+<p>From the summary table above, we can see that for this dataset, lasso always gives the smallest RMSE no matter for the training group or the testing group. Also, according to the graphs of shrinking coefficients, we can see that some coefficients can reach zero; while in the graph for ridge regression, all coefficients decrease towards zero but they never reach the x-axis. By shrinking some coefficients to zero, Lasso regression can also help us to select variables. Therefore, Lasso regression is also better than ridge when we need to select key variables.</p>
 
 </div>
 </div>
@@ -271,7 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="how-lasso-performs-variable-selection.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="bayesian-lasso.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bayesian-interpretation-of-lasso.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

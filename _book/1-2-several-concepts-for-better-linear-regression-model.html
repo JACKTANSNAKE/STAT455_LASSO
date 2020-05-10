@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="1.5 Outline | Shrinkage Methods" />
+<meta property="og:title" content="1.2 Several concepts for better linear regression model | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="1.5 Outline | Shrinkage Methods">
+<meta name="description" content="1.2 Several concepts for better linear regression model | Shrinkage Methods">
 
-<title>1.5 Outline | Shrinkage Methods</title>
+<title>1.2 Several concepts for better linear regression model | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -179,15 +179,25 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="outline" class="section level2">
-<h2><span class="header-section-number">1.5</span> Outline</h2>
-<p>In section 2 and 3, we will be covering the definition of ridge regression and how ridge regression performs shrinkage. In section 4 and 5, we will be stating the definition of Lasso and how Lasso performs both shrinkage and variable selection. In section 6, we will implement ridge regression and Lasso on some tidied data that are commonly used for machine learning to show the continous process that these shrinkage methods provide. In section 7, we will be studying Bayesian interpretation of Lasso. In section 8, we are going to cover some limitations of shrinkage methods and go through some other related topics.</p>
-
+<div id="several-concepts-for-better-linear-regression-model" class="section level2">
+<h2><span class="header-section-number">1.2</span> Several concepts for better linear regression model</h2>
+<p>One of the key questions to find the best model is to determine if we should include a variable in our model or not. The process of making decision on each variable is called variable selection. There are two different ways of selecting variables: discrete and continuous selection process. We would briefly talk about both solutions in the following session.</p>
+<p>The first method is subset selection:</p>
+<ul>
+<li><p>Best subset selection algorithm: This is a sort of brute force technique because it is computationally expensive. In order to perform best subset selection, we generate the all possible subsets of <span class="math inline">\(p\)</span> variables in a dataset, and then we can select the one with the least error.</p></li>
+<li><p>backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.</p></li>
+<li><p>More stepwise selection: forward stepwise selection, bidirectional elimination and so on (Tibshirani el at., 2001).</p></li>
+</ul>
+<p>Problems with subset selection algorithms:</p>
+<ul>
+<li><p>They are mostly computationally expensive.</p></li>
+<li><p>They are discrete selection processes(1 variable at a time).</p></li>
+<li><p>The algorithms only do locally(each step) best choices. Once a variable is deleted, it is never going back in.</p></li>
+</ul>
 </div>
-<!-- </div> -->
 <p style="text-align: center;">
-<a href="1-4-literature-review.html"><button class="btn btn-default">Previous</button></a>
-<a href="2-ridge-regression.html"><button class="btn btn-default">Next</button></a>
+<a href="1-1-the-ordinary-least-squares-model.html"><button class="btn btn-default">Previous</button></a>
+<a href="1-3-shrinkage.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

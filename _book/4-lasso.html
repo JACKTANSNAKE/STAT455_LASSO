@@ -13,7 +13,7 @@
 
 
 
-<meta name="date" content="2020-04-30" />
+<meta name="date" content="2020-05-10" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -135,9 +135,9 @@ img {
 <div id="TOC">
 <ul>
 <li class="has-sub"><a href="index.html#motivation"><span class="toc-section-number">1</span> Motivation</a><ul>
-<li><a href="1-1-the-ordinary-least-squared-model.html#the-ordinary-least-squared-model"><span class="toc-section-number">1.1</span> The ordinary least squared model</a></li>
-<li><a href="1-2-several-solutions-proposed-by-statisticians.html#several-solutions-proposed-by-statisticians"><span class="toc-section-number">1.2</span> Several solutions proposed by statisticians</a></li>
-<li><a href="1-3-shrinkage.html#shrinkage"><span class="toc-section-number">1.3</span> Shrinkage</a></li>
+<li><a href="1-1-the-ordinary-least-squares-model.html#the-ordinary-least-squares-model"><span class="toc-section-number">1.1</span> The ordinary least squares model</a></li>
+<li><a href="1-2-several-concepts-for-better-linear-regression-model.html#several-concepts-for-better-linear-regression-model"><span class="toc-section-number">1.2</span> Several concepts for better linear regression model</a></li>
+<li><a href="1-3-shrinkage.html#shrinkage"><span class="toc-section-number">1.3</span> Shrinkage:</a></li>
 <li><a href="1-4-literature-review.html#literature-review"><span class="toc-section-number">1.4</span> Literature Review</a></li>
 <li><a href="1-5-outline.html#outline"><span class="toc-section-number">1.5</span> Outline</a></li>
 </ul></li>
@@ -155,7 +155,7 @@ img {
 </ul></li>
 <li class="has-sub"><a href="5-how-lasso-performs-variable-selection.html#how-lasso-performs-variable-selection"><span class="toc-section-number">5</span> How Lasso performs variable selection</a><ul>
 <li><a href="5-how-lasso-performs-variable-selection.html#univariate-example-1"><span class="toc-section-number">5.0.1</span> univariate example</a></li>
-<li><a href="5-how-lasso-performs-variable-selection.html#shrinkage-explaination-from-geometric-perspective"><span class="toc-section-number">5.0.2</span> Shrinkage explaination from geometric perspective</a></li>
+<li><a href="5-how-lasso-performs-variable-selection.html#shrinkage-explanation-from-geometric-perspective"><span class="toc-section-number">5.0.2</span> Shrinkage explanation from geometric perspective</a></li>
 </ul></li>
 <li class="has-sub"><a href="6-applications-of-ridge-and-lasso.html#applications-of-ridge-and-lasso"><span class="toc-section-number">6</span> Applications of Ridge and Lasso</a><ul>
 <li><a href="6-1-cross-validation.html#cross-validation"><span class="toc-section-number">6.1</span> Cross Validation</a></li>
@@ -166,13 +166,12 @@ img {
 <li><a href="6-6-test-data.html#test-data"><span class="toc-section-number">6.6</span> Test data</a></li>
 <li><a href="6-7-summary.html#summary"><span class="toc-section-number">6.7</span> Summary</a></li>
 </ul></li>
-<li class="has-sub"><a href="7-bayesian-lasso.html#bayesian-lasso"><span class="toc-section-number">7</span> Bayesian Lasso</a><ul>
+<li class="has-sub"><a href="7-bayesian-interpretation-of-lasso.html#bayesian-interpretation-of-lasso"><span class="toc-section-number">7</span> Bayesian Interpretation of Lasso</a><ul>
 <li><a href="7-1-bayesian-interpretation.html#bayesian-interpretation"><span class="toc-section-number">7.1</span> Bayesian Interpretation</a></li>
 <li><a href="7-2-posterior.html#posterior"><span class="toc-section-number">7.2</span> Posterior</a></li>
 <li><a href="7-3-posterior-mode.html#posterior-mode"><span class="toc-section-number">7.3</span> Posterior Mode</a></li>
-</ul></li>
-<li class="has-sub"><a href="8-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">8</span> Limitations of Ridge and Lasso</a><ul>
-<li><a href="8-1-reference.html#reference"><span class="toc-section-number">8.1</span> Reference</a></li>
+<li><a href="7-4-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">7.4</span> Limitations of Ridge and Lasso</a></li>
+<li><a href="7-5-reference.html#reference"><span class="toc-section-number">7.5</span> Reference</a></li>
 </ul></li>
 </ul>
 </div>
@@ -184,19 +183,18 @@ img {
 <h1><span class="header-section-number">Chapter 4</span> Lasso</h1>
 <p>Least absolute shrinkage and selection operator, aka Lasso, is similar to the ridge regression but its constraint is estimated with the sum of the absolute value of the coefficient:
 <span class="math display">\[
-\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
+\hat{\beta}^{Lasso} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2 + \lambda\sum_{j = 1}^{p}\rvert\beta_j\rvert\} \ \ \ (1)
 \]</span>
 Which is the same as:
 <span class="math display">\[
-\hat{\beta^{Lasso}} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\}\\
-\text{subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
+\hat{\beta}^{Lasso} = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - \beta_0 - \sum_{j = 1}^{p}x_{ij}\beta_j)^2\},\text{ subject to} \sum_{j = 1}^{p}\rvert\beta_j\rvert \leq t
 \]</span>
 Notice that in Lasso, the penalty term now becomes the sum of absolute value of the coefficients instead of sum of squares of the coefficients.</p>
 <div id="standardizing-the-dataset" class="section level3">
 <h3><span class="header-section-number">4.0.1</span> Standardizing the dataset</h3>
 <p>Considering lasso regression (Find x to minimize the following term):</p>
 <p><span class="math display">\[
-\rvert \rvert Ax-b\rvert \rvert^2 +\lambda \rvert \rvert x \rvert \rvert_1
+\rvert \rvert x\beta-y\rvert \rvert^2 +\lambda \rvert \rvert x \rvert \rvert_1
 \]</span></p>
 <p>By standardizing the dataset, the columns of A have zero mean and unit norm and the columns of b have zero mean. By making the means of columns zero, we can get rid of the intercept. Besides, since the norms of the columns in A is one, some column would no longer have smaller coefficients because of their bigger norm, which leads us incorrently conclude that this column can not explain <span class="math inline">\(x\)</span> well. Therefore, by putting all columns into the same scale, we can use the differences in the magnitudes of the elements of <span class="math inline">\(x\)</span> that are directly related to the “wiggliness” of the explanatory function <span class="math inline">\(Ax\)</span>, which is, loosely speaking, what the regularization tries to control.</p>
 

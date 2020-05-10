@@ -13,7 +13,7 @@
 
 
 
-<meta name="date" content="2020-04-30" />
+<meta name="date" content="2020-05-10" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -135,9 +135,9 @@ img {
 <div id="TOC">
 <ul>
 <li class="has-sub"><a href="index.html#motivation"><span class="toc-section-number">1</span> Motivation</a><ul>
-<li><a href="1-1-the-ordinary-least-squared-model.html#the-ordinary-least-squared-model"><span class="toc-section-number">1.1</span> The ordinary least squared model</a></li>
-<li><a href="1-2-several-solutions-proposed-by-statisticians.html#several-solutions-proposed-by-statisticians"><span class="toc-section-number">1.2</span> Several solutions proposed by statisticians</a></li>
-<li><a href="1-3-shrinkage.html#shrinkage"><span class="toc-section-number">1.3</span> Shrinkage</a></li>
+<li><a href="1-1-the-ordinary-least-squares-model.html#the-ordinary-least-squares-model"><span class="toc-section-number">1.1</span> The ordinary least squares model</a></li>
+<li><a href="1-2-several-concepts-for-better-linear-regression-model.html#several-concepts-for-better-linear-regression-model"><span class="toc-section-number">1.2</span> Several concepts for better linear regression model</a></li>
+<li><a href="1-3-shrinkage.html#shrinkage"><span class="toc-section-number">1.3</span> Shrinkage:</a></li>
 <li><a href="1-4-literature-review.html#literature-review"><span class="toc-section-number">1.4</span> Literature Review</a></li>
 <li><a href="1-5-outline.html#outline"><span class="toc-section-number">1.5</span> Outline</a></li>
 </ul></li>
@@ -155,7 +155,7 @@ img {
 </ul></li>
 <li class="has-sub"><a href="5-how-lasso-performs-variable-selection.html#how-lasso-performs-variable-selection"><span class="toc-section-number">5</span> How Lasso performs variable selection</a><ul>
 <li><a href="5-how-lasso-performs-variable-selection.html#univariate-example-1"><span class="toc-section-number">5.0.1</span> univariate example</a></li>
-<li><a href="5-how-lasso-performs-variable-selection.html#shrinkage-explaination-from-geometric-perspective"><span class="toc-section-number">5.0.2</span> Shrinkage explaination from geometric perspective</a></li>
+<li><a href="5-how-lasso-performs-variable-selection.html#shrinkage-explanation-from-geometric-perspective"><span class="toc-section-number">5.0.2</span> Shrinkage explanation from geometric perspective</a></li>
 </ul></li>
 <li class="has-sub"><a href="6-applications-of-ridge-and-lasso.html#applications-of-ridge-and-lasso"><span class="toc-section-number">6</span> Applications of Ridge and Lasso</a><ul>
 <li><a href="6-1-cross-validation.html#cross-validation"><span class="toc-section-number">6.1</span> Cross Validation</a></li>
@@ -166,13 +166,12 @@ img {
 <li><a href="6-6-test-data.html#test-data"><span class="toc-section-number">6.6</span> Test data</a></li>
 <li><a href="6-7-summary.html#summary"><span class="toc-section-number">6.7</span> Summary</a></li>
 </ul></li>
-<li class="has-sub"><a href="7-bayesian-lasso.html#bayesian-lasso"><span class="toc-section-number">7</span> Bayesian Lasso</a><ul>
+<li class="has-sub"><a href="7-bayesian-interpretation-of-lasso.html#bayesian-interpretation-of-lasso"><span class="toc-section-number">7</span> Bayesian Interpretation of Lasso</a><ul>
 <li><a href="7-1-bayesian-interpretation.html#bayesian-interpretation"><span class="toc-section-number">7.1</span> Bayesian Interpretation</a></li>
 <li><a href="7-2-posterior.html#posterior"><span class="toc-section-number">7.2</span> Posterior</a></li>
 <li><a href="7-3-posterior-mode.html#posterior-mode"><span class="toc-section-number">7.3</span> Posterior Mode</a></li>
-</ul></li>
-<li class="has-sub"><a href="8-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">8</span> Limitations of Ridge and Lasso</a><ul>
-<li><a href="8-1-reference.html#reference"><span class="toc-section-number">8.1</span> Reference</a></li>
+<li><a href="7-4-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">7.4</span> Limitations of Ridge and Lasso</a></li>
+<li><a href="7-5-reference.html#reference"><span class="toc-section-number">7.5</span> Reference</a></li>
 </ul></li>
 </ul>
 </div>
@@ -182,20 +181,20 @@ img {
 <div class="col-sm-12">
 <div id="how-ridge-works" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> How Ridge Works</h1>
-<p>Recall from Linear Algebra that if we want to solve for <span class="math inline">\(\boldsymbol{A}x = b\)</span>, we can do:
+<p>Recall from Linear Algebra that if we want to solve for <span class="math inline">\(x \beta =y\)</span>, we can do:
 <span class="math display">\[
-\boldsymbol{A}^T\boldsymbol{A}x = \boldsymbol{A}^Ty
+x^Tx\beta = x^Ty
 \]</span>
-We then take the inverse of <span class="math inline">\(\boldsymbol{A}^T\boldsymbol{A}\)</span> from the LHS, and multiply both sides by the inverse:
+We then take the inverse of <span class="math inline">\(\boldsymbol{x}^T\boldsymbol{x}\)</span> from the LHS, and multiply both sides by the inverse:
 <span class="math display">\[
-x = (\boldsymbol{A}^T\boldsymbol{A})^{-1}\boldsymbol{A}^Ty
+\beta = (x^Tx)^{-1}x^Ty
 \]</span>
-Then we have come up with a least squares solution for x in <span class="math inline">\(Ax = b\)</span>.
+Then we have come up with a least squares solution for x in <span class="math inline">\(x\beta = y\)</span>.
 From here then we derive that: <span class="math inline">\(\hat\beta_{OLS} = (X^T X)^{-1} X^T y\)</span>.
 We will use a very similar approach to show how the shrinkage work for ridge regression.</p>
 <div id="univariate-example" class="section level3">
 <h3><span class="header-section-number">3.0.1</span> Univariate example</h3>
-<p>Let’s consider a very simple model: <span class="math inline">\(y = \beta x + \epsilon\)</span>, with an L2(ridge regression) penalty on <span class="math inline">\(\hat\beta\)</span> and a least-squares loss function on <span class="math inline">\(\hat{\epsilon}\)</span>. We can then expand the expression for sum of squared residuals to be minimized as:
+<p>Let’s consider a very simple model: <span class="math inline">\(y = \beta x + \epsilon\)</span>, with an L2(ridge regression) penalty on <span class="math inline">\(\hat\beta\)</span> and a least-squares loss function on <span class="math inline">\(\hat\epsilon\)</span>, where <span class="math inline">\(\hat\epsilon\)</span> is the estimator for prediction error and <span class="math inline">\(\hat\epsilon = \sum_{i = 1}^{N}(y_i - x_i\beta)\)</span>. We can then expand the expression for sum of squared residuals to be minimized as:
 <span class="math display">\[
 \hat\beta = arg\min_\beta\{\sum_{i = 1}^{N}(y_i - x_i\beta)^2 + \lambda\sum_{j = 1}^{p}\beta_j^2\}
 \]</span>
@@ -245,13 +244,16 @@ Recall that the OLS estimator is:
 <span class="math display">\[
 \hat\beta_{OLS} = (X^T X)^{-1} X^T y
 \]</span>
-We can then rewrite the solution for OLS as:
+We can then rewrite the fitted values from OLS as:
 <span class="math display">\[\begin{align*}
 \boldsymbol{X}\hat\beta_{OLS} &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x(\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
+ &amp;=\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x(\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x)^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
+ &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^{T}_x{\boldsymbol{V}^{T}}^{-1}_x\boldsymbol{D}_x^{-1}\boldsymbol{D}_x^{-1}{\boldsymbol{V}}^{-1}_x\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
+ &amp;= \boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{D}_x^{-1}\boldsymbol{D}_x^{-1}\boldsymbol{D}_x\boldsymbol{U}_x^Ty\\
  &amp;= \boldsymbol{U}_x\boldsymbol{U}^T_xy\\
  &amp;= {\sum_{j = 1}^{p}\boldsymbol{u}_j(1)\boldsymbol{u}_j^T\boldsymbol{y}}
 \end{align*}\]</span>
-We can also rewrite <span class="math inline">\(\hat\beta\)</span> as:
+We can also rewrite <span class="math inline">\(\hat\beta^{ridge}\)</span> as:
 <span class="math display">\[\begin{align*}
 \hat\beta &amp;= {(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}_{pp})}^{-1}\boldsymbol{X}^T\boldsymbol{Y}\\
  &amp;= (\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}_x^T\boldsymbol{U}_x\boldsymbol{D}_x\boldsymbol{V}^T_x + \lambda\boldsymbol{I}_{pp})^{-1}\boldsymbol{V}_x\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
@@ -267,7 +269,7 @@ Then the ridge solutions becomes:
  &amp;= \boldsymbol{U}_x\boldsymbol{D}_x(\boldsymbol{D}_x^2 + \lambda\boldsymbol{I}_{nn})^{-1}\boldsymbol{D}_x\boldsymbol{U}^T_x\boldsymbol{Y}\\
  &amp;= \sum_{j = 1}^{p}\boldsymbol{u}_j\frac{d^2_{j}}{d^2_{j} + \lambda}\boldsymbol{u}_j^T\boldsymbol{y}
 \end{align*}\]</span></p>
-<p>Note that since <span class="math inline">\(\lambda \geq 0\)</span>, we have <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda} \leq 1\)</span>. Ridge regression computes the coordinates of <span class="math inline">\(\boldsymbol{y}\)</span> with respect to the orthonormal basis U. Then it shrinks these coordinates by the factor <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda}\)</span>. This means that variable with smaller singular value is shrunk more than those with larger singular values. Note that variables with smaller singular values explains less of the variation of our sample(less important). This could be proved using the sample covariance matrix.</p>
+<p>Note that since <span class="math inline">\(\lambda \geq 0\)</span>, we have <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda} \leq 1\)</span>. Ridge regression computes the coordinates of <span class="math inline">\(\boldsymbol{y}\)</span> with respect to the orthonormal basis U. Then it shrinks these coordinates by the factor <span class="math inline">\(\frac{d^2_{j}}{d^2_{j} + \lambda}\)</span>. This means that variable with smaller singular value (<span class="math inline">\(d_j\)</span>) is shrunk more than those with larger singular values. Note that variables with smaller singular values explains less of the variation of our sample(less important). This could be proved using the sample covariance matrix.</p>
 
 </div>
 </div>
