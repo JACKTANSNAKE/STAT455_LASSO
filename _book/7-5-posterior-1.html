@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="1.1 The ordinary least squares model | Shrinkage Methods" />
+<meta property="og:title" content="7.5 Posterior | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="1.1 The ordinary least squares model | Shrinkage Methods">
+<meta name="description" content="7.5 Posterior | Shrinkage Methods">
 
-<title>1.1 The ordinary least squares model | Shrinkage Methods</title>
+<title>7.5 Posterior | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -182,20 +182,20 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="the-ordinary-least-squares-model" class="section level2">
-<h2><span class="header-section-number">1.1</span> The ordinary least squares model</h2>
-<p><span class="math display">\[Y = \beta_0+\beta_1X_1+\beta_2X_2+...+\beta_pX_p+\epsilon\]</span>
-is the most commonly used method to describe the relationship between the response variable Y and a set of variables X. However, the OLS model is not perfect and it faces two major criticism and one major drawback:</p>
-<ul>
-<li><p>First, the OLS model could result in low prediction accuracy because it often has large variance and low bias.</p></li>
-<li><p>The second weakness is efficient interpretation. If we have a dataset with large number of predictors, we would usually choose a small subset of predictors which are strongly associated with the response variable; thus, it seems to be a loss that we still include the weak predictors in our model.</p></li>
-<li><p>Also, OLS does not work when there are more predictors than data points. That being said, it does not generate a unique solution(<span class="math inline">\(p &gt; n\)</span>).</p></li>
-</ul>
-<p>However, the linear regression model is easy to regress, interpret, and perform inference; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation.</p>
+<div id="posterior-1" class="section level2">
+<h2><span class="header-section-number">7.5</span> Posterior</h2>
+<p>The posterior distribution for <span class="math inline">\(\boldsymbol\beta\)</span> (assuming <span class="math inline">\(\sigma^2 = 1\)</span> for simplicity):</p>
+<p><span class="math display">\[\begin{aligned}
+g(\boldsymbol\beta \mid y)&amp;\propto f(y \mid \boldsymbol\beta, \sigma^2) f(\boldsymbol\beta)\\
+&amp;= f(y \mid \boldsymbol\beta) \prod_{i=1}^p f(\beta_j)\text{, by independence assumption}\\
+&amp;=(2\pi)^{-n/2}\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \left(\frac{\lambda}{\sqrt{2\pi}} \right)^p\exp(-\frac{\lambda^2}{2}\sum_{j=1}^p\beta_j^2)\\
+&amp;\propto\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta) \right) \exp\left(-\lambda^*\sum_{j=1}^p\beta_j^2\right)\\
+&amp;=\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda^*\sum_{j=1}^p\beta_j^2\right)
+\end{aligned}\]</span></p>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-2-several-concepts-for-better-linear-regression-model.html"><button class="btn btn-default">Next</button></a>
+<a href="7-4-bayesian-interpretation-of-ridge.html"><button class="btn btn-default">Previous</button></a>
+<a href="7-6-posterior-mode-1.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

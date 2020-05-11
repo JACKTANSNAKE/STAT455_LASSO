@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="1.1 The ordinary least squares model | Shrinkage Methods" />
+<meta property="og:title" content="7.7 Limitations of Ridge and Lasso | Shrinkage Methods" />
 <meta property="og:type" content="book" />
 
 
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<meta name="description" content="1.1 The ordinary least squares model | Shrinkage Methods">
+<meta name="description" content="7.7 Limitations of Ridge and Lasso | Shrinkage Methods">
 
-<title>1.1 The ordinary least squares model | Shrinkage Methods</title>
+<title>7.7 Limitations of Ridge and Lasso | Shrinkage Methods</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -182,20 +182,19 @@ img {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="the-ordinary-least-squares-model" class="section level2">
-<h2><span class="header-section-number">1.1</span> The ordinary least squares model</h2>
-<p><span class="math display">\[Y = \beta_0+\beta_1X_1+\beta_2X_2+...+\beta_pX_p+\epsilon\]</span>
-is the most commonly used method to describe the relationship between the response variable Y and a set of variables X. However, the OLS model is not perfect and it faces two major criticism and one major drawback:</p>
+<div id="limitations-of-ridge-and-lasso" class="section level2">
+<h2><span class="header-section-number">7.7</span> Limitations of Ridge and Lasso</h2>
 <ul>
-<li><p>First, the OLS model could result in low prediction accuracy because it often has large variance and low bias.</p></li>
-<li><p>The second weakness is efficient interpretation. If we have a dataset with large number of predictors, we would usually choose a small subset of predictors which are strongly associated with the response variable; thus, it seems to be a loss that we still include the weak predictors in our model.</p></li>
-<li><p>Also, OLS does not work when there are more predictors than data points. That being said, it does not generate a unique solution(<span class="math inline">\(p &gt; n\)</span>).</p></li>
+<li><p>According to our empirical results, we find that both ridge and lasso are better at making predictions than the OLS model.</p></li>
+<li><p>The coefficients in Lasso can reach zero while those in ridge can never be zero. If we want to perform variable selection, lasso might be a better choice.</p></li>
+<li><p>One important drawback of Lasso and ridge is that it’s very hard/impossible to do proper inference (i.e., get confidence intervals and p-values)—you really just get estimates and that’s it.</p></li>
+<li><p>The other thing is that we usually cannot give a good explanation for the coefficients and the entire model, because the coefficients are shrunk. Some might say we could use Lasso simply as a variable selection tool and we can use the Lasso result to generate an OLS which is easier to explain. But note that there is possibility that Lasso would give us wrong information, based on assumptions we have made about the data.</p></li>
+<li><p>In real examples, when dealing with categorical variables(those with more than 10 sub-categories), Lasso often does weird thing as it treats each of the sub-category as an individual variable, that is, it selects some of the sub-categories while think others to be irrelevant. This also makes it hard to interpret.</p></li>
 </ul>
-<p>However, the linear regression model is easy to regress, interpret, and perform inference; therefore, we would still use linear regression method but we want to modify it in a way such that we could have higher prediction accuracy and stronger interpretation.</p>
 </div>
 <p style="text-align: center;">
-<a href="index.html"><button class="btn btn-default">Previous</button></a>
-<a href="1-2-several-concepts-for-better-linear-regression-model.html"><button class="btn btn-default">Next</button></a>
+<a href="7-6-posterior-mode-1.html"><button class="btn btn-default">Previous</button></a>
+<a href="7-8-reference.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

@@ -13,7 +13,7 @@
 
 
 
-<meta name="date" content="2020-05-10" />
+<meta name="date" content="2020-05-11" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -166,12 +166,15 @@ img {
 <li><a href="6-6-test-data.html#test-data"><span class="toc-section-number">6.6</span> Test data</a></li>
 <li><a href="6-7-summary.html#summary"><span class="toc-section-number">6.7</span> Summary</a></li>
 </ul></li>
-<li class="has-sub"><a href="7-bayesian-interpretation-of-lasso.html#bayesian-interpretation-of-lasso"><span class="toc-section-number">7</span> Bayesian Interpretation of Lasso</a><ul>
-<li><a href="7-1-bayesian-interpretation.html#bayesian-interpretation"><span class="toc-section-number">7.1</span> Bayesian Interpretation</a></li>
+<li class="has-sub"><a href="7-bayesian-interpretation.html#bayesian-interpretation"><span class="toc-section-number">7</span> Bayesian Interpretation</a><ul>
+<li><a href="7-1-bayesian-interpretation-of-lasso.html#bayesian-interpretation-of-lasso"><span class="toc-section-number">7.1</span> Bayesian Interpretation of Lasso</a></li>
 <li><a href="7-2-posterior.html#posterior"><span class="toc-section-number">7.2</span> Posterior</a></li>
 <li><a href="7-3-posterior-mode.html#posterior-mode"><span class="toc-section-number">7.3</span> Posterior Mode</a></li>
-<li><a href="7-4-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">7.4</span> Limitations of Ridge and Lasso</a></li>
-<li><a href="7-5-reference.html#reference"><span class="toc-section-number">7.5</span> Reference</a></li>
+<li><a href="7-4-bayesian-interpretation-of-ridge.html#bayesian-interpretation-of-ridge"><span class="toc-section-number">7.4</span> Bayesian Interpretation of Ridge</a></li>
+<li><a href="7-5-posterior-1.html#posterior-1"><span class="toc-section-number">7.5</span> Posterior</a></li>
+<li><a href="7-6-posterior-mode-1.html#posterior-mode-1"><span class="toc-section-number">7.6</span> Posterior Mode</a></li>
+<li><a href="7-7-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">7.7</span> Limitations of Ridge and Lasso</a></li>
+<li><a href="7-8-reference.html#reference"><span class="toc-section-number">7.8</span> Reference</a></li>
 </ul></li>
 </ul>
 </div>
@@ -186,7 +189,7 @@ img {
 <ul>
 <li><p>Best subset selection algorithm: This is a sort of brute force technique because it is computationally expensive. In order to perform best subset selection, we generate the all possible subsets of <span class="math inline">\(p\)</span> variables in a dataset, and then we can select the one with the least error.</p></li>
 <li><p>backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.</p></li>
-<li><p>More stepwise selection: forward stepwise selection, bidirectional elimination and so on (Tibshirani el at., 2001).</p></li>
+<li><p>More stepwise selection: forward stepwise selection, bidirectional elimination and so on (Tibshirani et al., 2001).</p></li>
 </ul>
 <p>Problems with subset selection algorithms:</p>
 <ul>

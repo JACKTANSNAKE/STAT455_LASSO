@@ -13,7 +13,7 @@
 
 
 
-<meta name="date" content="2020-05-10" />
+<meta name="date" content="2020-05-11" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -166,12 +166,15 @@ img {
 <li><a href="6-6-test-data.html#test-data"><span class="toc-section-number">6.6</span> Test data</a></li>
 <li><a href="6-7-summary.html#summary"><span class="toc-section-number">6.7</span> Summary</a></li>
 </ul></li>
-<li class="has-sub"><a href="7-bayesian-interpretation-of-lasso.html#bayesian-interpretation-of-lasso"><span class="toc-section-number">7</span> Bayesian Interpretation of Lasso</a><ul>
-<li><a href="7-1-bayesian-interpretation.html#bayesian-interpretation"><span class="toc-section-number">7.1</span> Bayesian Interpretation</a></li>
+<li class="has-sub"><a href="7-bayesian-interpretation.html#bayesian-interpretation"><span class="toc-section-number">7</span> Bayesian Interpretation</a><ul>
+<li><a href="7-1-bayesian-interpretation-of-lasso.html#bayesian-interpretation-of-lasso"><span class="toc-section-number">7.1</span> Bayesian Interpretation of Lasso</a></li>
 <li><a href="7-2-posterior.html#posterior"><span class="toc-section-number">7.2</span> Posterior</a></li>
 <li><a href="7-3-posterior-mode.html#posterior-mode"><span class="toc-section-number">7.3</span> Posterior Mode</a></li>
-<li><a href="7-4-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">7.4</span> Limitations of Ridge and Lasso</a></li>
-<li><a href="7-5-reference.html#reference"><span class="toc-section-number">7.5</span> Reference</a></li>
+<li><a href="7-4-bayesian-interpretation-of-ridge.html#bayesian-interpretation-of-ridge"><span class="toc-section-number">7.4</span> Bayesian Interpretation of Ridge</a></li>
+<li><a href="7-5-posterior-1.html#posterior-1"><span class="toc-section-number">7.5</span> Posterior</a></li>
+<li><a href="7-6-posterior-mode-1.html#posterior-mode-1"><span class="toc-section-number">7.6</span> Posterior Mode</a></li>
+<li><a href="7-7-limitations-of-ridge-and-lasso.html#limitations-of-ridge-and-lasso"><span class="toc-section-number">7.7</span> Limitations of Ridge and Lasso</a></li>
+<li><a href="7-8-reference.html#reference"><span class="toc-section-number">7.8</span> Reference</a></li>
 </ul></li>
 </ul>
 </div>
@@ -181,7 +184,7 @@ img {
 <div class="col-sm-12">
 <div id="posterior-mode" class="section level2">
 <h2><span class="header-section-number">7.3</span> Posterior Mode</h2>
-<p>Maximizing the posterior distribution, or minimizing the <span class="math inline">\(-\log\)</span> posterior, leads to <span class="math inline">\(\beta_{LASSO}\)</span>.</p>
+<p>Maximizing the posterior distribution, or minimizing the <span class="math inline">\(-\log\)</span> posterior, leads to <span class="math inline">\(\hat\beta_{LASSO}\)</span>.</p>
 <p><span class="math display">\[\begin{aligned}\\
 &amp;\arg\max\text{ }\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
 =\text{ }&amp;\arg\max\text{ }-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|\\
@@ -193,13 +196,12 @@ img {
 &amp;=\arg\min-\log(\exp\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right))\\
 &amp;=\arg\min-\left(-\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)-\lambda\sum_{j=1}^p |\beta_j|)\right)\\
 &amp;=\arg\min\frac{1}{2}(\mathbf{y} - \mathbf{X}\boldsymbol\beta)^\top (\mathbf{y} - \mathbf{X}\boldsymbol\beta)+\lambda\sum_{j=1}^p |\beta_j|\\
-&amp;=\beta_{LASSO}\text{, by definition}
+&amp;=\hat\beta_{LASSO}\text{, by definition}
 \end{aligned}\]</span></p>
-
 </div>
 <p style="text-align: center;">
 <a href="7-2-posterior.html"><button class="btn btn-default">Previous</button></a>
-<a href="7-4-limitations-of-ridge-and-lasso.html"><button class="btn btn-default">Next</button></a>
+<a href="7-4-bayesian-interpretation-of-ridge.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>

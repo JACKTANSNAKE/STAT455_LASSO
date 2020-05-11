@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-05-10" />
+<meta name="date" content="2020-05-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -158,12 +158,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.6" data-path="applications-of-ridge-and-lasso.html"><a href="applications-of-ridge-and-lasso.html#test-data"><i class="fa fa-check"></i><b>6.6</b> Test data</a></li>
 <li class="chapter" data-level="6.7" data-path="applications-of-ridge-and-lasso.html"><a href="applications-of-ridge-and-lasso.html#summary"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html"><i class="fa fa-check"></i><b>7</b> Bayesian Interpretation of Lasso</a><ul>
-<li class="chapter" data-level="7.1" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#bayesian-interpretation"><i class="fa fa-check"></i><b>7.1</b> Bayesian Interpretation</a></li>
-<li class="chapter" data-level="7.2" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#posterior"><i class="fa fa-check"></i><b>7.2</b> Posterior</a></li>
-<li class="chapter" data-level="7.3" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#posterior-mode"><i class="fa fa-check"></i><b>7.3</b> Posterior Mode</a></li>
-<li class="chapter" data-level="7.4" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#limitations-of-ridge-and-lasso"><i class="fa fa-check"></i><b>7.4</b> Limitations of Ridge and Lasso</a></li>
-<li class="chapter" data-level="7.5" data-path="bayesian-interpretation-of-lasso.html"><a href="bayesian-interpretation-of-lasso.html#reference"><i class="fa fa-check"></i><b>7.5</b> Reference</a></li>
+<li class="chapter" data-level="7" data-path="bayesian-interpretation.html"><a href="bayesian-interpretation.html"><i class="fa fa-check"></i><b>7</b> Bayesian Interpretation</a><ul>
+<li class="chapter" data-level="7.1" data-path="bayesian-interpretation.html"><a href="bayesian-interpretation.html#bayesian-interpretation-of-lasso"><i class="fa fa-check"></i><b>7.1</b> Bayesian Interpretation of Lasso</a></li>
+<li class="chapter" data-level="7.2" data-path="bayesian-interpretation.html"><a href="bayesian-interpretation.html#posterior"><i class="fa fa-check"></i><b>7.2</b> Posterior</a></li>
+<li class="chapter" data-level="7.3" data-path="bayesian-interpretation.html"><a href="bayesian-interpretation.html#posterior-mode"><i class="fa fa-check"></i><b>7.3</b> Posterior Mode</a></li>
+<li class="chapter" data-level="7.4" data-path="bayesian-interpretation.html"><a href="bayesian-interpretation.html#bayesian-interpretation-of-ridge"><i class="fa fa-check"></i><b>7.4</b> Bayesian Interpretation of Ridge</a></li>
+<li class="chapter" data-level="7.5" data-path="bayesian-interpretation.html"><a href="bayesian-interpretation.html#posterior-1"><i class="fa fa-check"></i><b>7.5</b> Posterior</a></li>
+<li class="chapter" data-level="7.6" data-path="bayesian-interpretation.html"><a href="bayesian-interpretation.html#posterior-mode-1"><i class="fa fa-check"></i><b>7.6</b> Posterior Mode</a></li>
+<li class="chapter" data-level="7.7" data-path="bayesian-interpretation.html"><a href="bayesian-interpretation.html#limitations-of-ridge-and-lasso"><i class="fa fa-check"></i><b>7.7</b> Limitations of Ridge and Lasso</a></li>
+<li class="chapter" data-level="7.8" data-path="bayesian-interpretation.html"><a href="bayesian-interpretation.html#reference"><i class="fa fa-check"></i><b>7.8</b> Reference</a></li>
 </ul></li>
 </ul>
 
@@ -184,7 +187,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">Shrinkage Methods</h1>
-<p class="date"><em>2020-05-10</em></p>
+<p class="date"><em>2020-05-11</em></p>
 </div>
 <div id="motivation" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Motivation</h1>
@@ -206,7 +209,7 @@ is the most commonly used method to describe the relationship between the respon
 <ul>
 <li><p>Best subset selection algorithm: This is a sort of brute force technique because it is computationally expensive. In order to perform best subset selection, we generate the all possible subsets of <span class="math inline">\(p\)</span> variables in a dataset, and then we can select the one with the least error.</p></li>
 <li><p>backward stepwise selection: This is a more feasible version of subset selection. We first generate the full model of the dataset. Then among all the features, we test the deletion of each variable using a chosen model fit criterion, deleting the variable (if any) whose loss gives the most statistically insignificant deterioration of the model fit, and repeating this process until no further variables can be deleted without a statistically insignificant loss of fit.</p></li>
-<li><p>More stepwise selection: forward stepwise selection, bidirectional elimination and so on (Tibshirani el at., 2001).</p></li>
+<li><p>More stepwise selection: forward stepwise selection, bidirectional elimination and so on (Tibshirani et al., 2001).</p></li>
 </ul>
 <p>Problems with subset selection algorithms:</p>
 <ul>
